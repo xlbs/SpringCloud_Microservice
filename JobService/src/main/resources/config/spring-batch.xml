@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:batch="http://www.springframework.org/schema/batch"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/batch
+	   http://www.springframework.org/schema/batch/spring-batch.xsd
+	   http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context
+	   http://www.springframework.org/schema/context/spring-context.xsd ">
+
+	<context:component-scan base-package="com.xlbs.jobservice"/>
+	<context:property-placeholder location="classpath:/app.properties" />
+
+	<batch:job id="simpleJob" job-repository="jobRepository">
+		<batch:listeners>
+			<batch:listener>
+				<bean class="com.xlbs.jobservice.listener.JobListener"/>
+			</batch:listener>
+		</batch:listeners>
+
+		<batch:step id="simpleJobStep">
+			<batch:tasklet>
+				<batch:chunk reader="simpleJobReader" processor="simpleJobProcessor" writer="simpleJobWriter" commit-interval="${job.commit-interval}"/>
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+	<bean id="simpleJobReader" class="com.xlbs.jobservice.jobsample.simplejob.reader.SimpleReader"/>
+	<bean id="simpleJobProcessor" class="com.xlbs.jobservice.jobsample.simplejob.processor.SimpleProcessor"/>
+	<bean id="simpleJobWriter"  class="com.xlbs.jobservice.jobsample.simplejob.writer.SimpleWriter"/>
+
+
+	<!--<batch:job id="branchJob" job-repository="jobRepository">-->
+		<!--<batch:listeners>-->
+			<!--<batch:listener>-->
+				<!--<bean class="com.xlbs.jobservice.listener.JobListener"/>-->
+			<!--</batch:listener>-->
+		<!--</batch:listeners>-->
+
+		<!--<batch:step id="branchJobStep1" next="branchJobStep2">-->
+			<!--<batch:tasklet>-->
+				<!--<batch:chunk reader="branchJobStep1Reader" processor="branchJobStep1Processor" writer="branchJobStep1Writer" commit-interval="${job.commit-interval}"/>-->
+			<!--</batch:tasklet>-->
+		<!--</batch:step>-->
+		<!--<batch:step id="branchJobStep2" next="decision">-->
+			<!--<batch:tasklet>-->
+				<!--<batch:chunk reader="branchJobStep2Reader" processor="branchJobStep2Processor" writer="branchJobStep2Writer" commit-interval="${job.commit-interval}"/>-->
+			<!--</batch:tasklet>-->
+		<!--</batch:step>-->
+
+		<!--<batch:decision id="decision" decider="decider">-->
+			<!--<batch:next on="COMPLETED" to="branchCompleted"/>-->
+			<!--<batch:next on="FAILED" to="branchFailed"/>-->
+		<!--</batch:decision>-->
+
+		<!--<batch:step id="branchCompleted">-->
+			<!--<batch:tasklet>-->
+				<!--<batch:chunk reader="branchJobStep1Reader" processor="branchJobStep1Processor" writer="branchJobStep1Writer" commit-interval="${job.commit-interval}"/>-->
+			<!--</batch:tasklet>-->
+		<!--</batch:step>-->
+		<!--<batch:step id="branchFailed">-->
+			<!--<batch:tasklet>-->
+				<!--<batch:chunk reader="branchJobStep2Reader" processor="branchJobStep2Processor" writer="branchJobStep2Writer" commit-interval="${job.commit-interval}"/>-->
+			<!--</batch:tasklet>-->
+		<!--</batch:step>-->
+	<!--</batch:job>-->
+	<!--<bean id="branchJobStep1Reader" class="com.xlbs.jobservice.jobsample.branchjob.reader.Step1Reader"/>-->
+	<!--<bean id="branchJobStep1Processor" class="com.xlbs.jobservice.jobsample.branchjob.processor.Step1Processor"/>-->
+	<!--<bean id="branchJobStep1Writer"  class="com.xlbs.jobservice.jobsample.branchjob.writer.Step1Writer"/>-->
+	<!--<bean id="branchJobStep2Reader" class="com.xlbs.jobservice.jobsample.branchjob.reader.Step2Reader"/>-->
+	<!--<bean id="branchJobStep2Processor" class="com.xlbs.jobservice.jobsample.branchjob.processor.Step2Processor"/>-->
+	<!--<bean id="branchJobStep2Writer"  class="com.xlbs.jobservice.jobsample.branchjob.writer.Step2Writer"/>-->
+	<!--<bean id="decider" class="com.xlbs.jobservice.jobsample.branchjob.decision.Decider"/>-->
+
+
+
+
+	<batch:job id="billingJob" restartable="true">
+		<!-- job listener -->
+		<!--<batch:listeners>-->
+			<!--<batch:listener>-->
+				<!--<bean class="com.xlbs.jobservice.listener.JobListener"/>-->
+			<!--</batch:listener>-->
+		<!--</batch:listeners>-->
+		<!-- step -->
+		<batch:step id="billingStep" next="payStep">
+			<batch:tasklet>
+				<batch:chunk reader="userDbReader" processor="billingProcessor" writer="billDbWriter" commit-interval="1" />
+			</batch:tasklet>
+			<batch:listeners>
+				<batch:listener>
+					<bean class="com.xlbs.jobservice.jobsample.billingjob.listener.StepExecutionListener"/>
+				</batch:listener>
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="payStep">
+			<batch:tasklet>
+				<batch:chunk reader="billDbReader" processor="payProcessor" writer="payDbWriter" commit-interval="1" skip-limit="100" >
+					<batch:skippable-exception-classes>
+						<batch:include class="com.xlbs.jobservice.jobsample.billingjob.exception.MoneyNotEnoughException"/>
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED WITH SKIPS" to="messageStep"/>
+			<batch:listeners>
+				<batch:listener>
+					<bean class="com.xlbs.jobservice.jobsample.billingjob.listener.PayStepCheckingListener"/>
+				</batch:listener>
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="messageStep">
+			<batch:tasklet>
+				<batch:chunk reader="billArrearsDbReader" processor="messageProcessor" writer="messageDbWriter" commit-interval="1" />
+			</batch:tasklet>
+			<batch:listeners>
+				<batch:listener>
+					<bean class="com.xlbs.jobservice.jobsample.billingjob.listener.StepExecutionListener"/>
+				</batch:listener>
+			</batch:listeners>
+		</batch:step>
+	</batch:job>
+
+	<!-- readers -->
+	<bean id="userDbReader" class="org.springframework.batch.item.database.JdbcPagingItemReader">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="rowMapper" ref="userDbMapper"/>
+		<property name="queryProvider" ref="userQueryProvider"/>
+	</bean>
+	<bean id="userDbMapper" class="org.springframework.jdbc.core.BeanPropertyRowMapper">
+		<constructor-arg name="mappedClass" value="com.xlbs.jobservice.jobsample.billingjob.entity.User"/>
+	</bean>
+	<bean id="userQueryProvider" class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="selectClause" value="u.id,u.name,u.age,u.balance"/>
+		<property name="fromClause" value="t_users u"/>
+		<property name="sortKey" value="u.id"/>
+	</bean>
+	<!-- -->
+	<bean id="billDbReader" class="org.springframework.batch.item.database.JdbcPagingItemReader">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="rowMapper" ref="billDbMapper"/>
+		<property name="queryProvider" ref="billQueryProvider"/>
+	</bean>
+	<bean id="billDbMapper" class="com.xlbs.jobservice.jobsample.billingjob.mapper.BillDbMapper"/>
+	<bean id="billQueryProvider" class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="selectClause" value="b.id,b.user_id,b.fees,b.paid_fees,b.unpaid_fees,b.pay_status,u.name,u.age,u.balance"/>
+		<property name="fromClause" value="t_users u,t_bills b"/>
+		<property name="whereClause" value="b.user_id=u.id"/>
+		<property name="sortKey" value="b.id"/>
+	</bean>
+	<!-- -->
+	<bean id="billArrearsDbReader" class="org.springframework.batch.item.database.JdbcPagingItemReader">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="rowMapper" ref="billDbMapper"/>
+		<property name="queryProvider" ref="billArrearsQueryProvider"/>
+	</bean>
+	<bean id="billArrearsQueryProvider" class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="selectClause" value="b.id,b.user_id,b.fees,b.paid_fees,b.unpaid_fees,b.pay_status,u.name,u.age,u.balance"/>
+		<property name="fromClause" value="t_users u,t_bills b"/>
+		<property name="whereClause" value="b.user_id=u.id and b.pay_status=0"/>
+		<property name="sortKey" value="b.id"/>
+	</bean>
+
+	<!-- processors -->
+	<bean id="billingProcessor" class="com.xlbs.jobservice.jobsample.billingjob.processor.BillingItemProcessor"/>
+	<bean id="payProcessor" class="com.xlbs.jobservice.jobsample.billingjob.processor.PaymentItemProcessor"/>
+	<bean id="messageProcessor" class="com.xlbs.jobservice.jobsample.billingjob.processor.MessagesItemProcessor"/>
+
+	<!-- writers -->
+	<bean id="billDbWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="sql" value="insert into t_bills(id,user_id,fees,paid_fees,unpaid_fees,pay_status) values(:id,:user.id,:fees,:paidFees,:unpaidFees,:payStatus)"/>
+		<property name="itemSqlParameterSourceProvider" ref="itemSqlParameterSourceProvider"/>
+	</bean>
+	<!-- -->
+	<bean id="payDbWriter" class="org.springframework.batch.item.support.CompositeItemWriter">
+		<property name="delegates">
+			<list>
+				<ref bean="payRecordDbWriter"/>
+				<ref bean="payBillsDbUpdateWriter"/>
+				<ref bean="payUsersDbUpdateWriter"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="payRecordDbWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="sql" value="insert into t_payrecords(id,bill_id,paid_fees) values(:id,:bill.id,:paidFees)"/>
+		<property name="itemSqlParameterSourceProvider" ref="itemSqlParameterSourceProvider"/>
+	</bean>
+	<bean id="payBillsDbUpdateWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="sql" value="update t_bills b set b.paid_fees=:bill.paidFees,b.unpaid_fees=:bill.unpaidFees,b.pay_status=:bill.payStatus where b.id=:bill.id"/>
+		<property name="itemSqlParameterSourceProvider" ref="itemSqlParameterSourceProvider"/>
+	</bean>
+	<bean id="payUsersDbUpdateWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="sql" value="update t_users u set u.balance=:bill.user.balance where u.id=:bill.user.id"/>
+		<property name="itemSqlParameterSourceProvider" ref="itemSqlParameterSourceProvider"/>
+	</bean>
+	<!-- -->
+	<bean id="messageDbWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSourceConfig"/>
+		<property name="sql" value="insert into t_messages(id,user_id,content) values(:id,:user.id,:content)"/>
+		<property name="itemSqlParameterSourceProvider" ref="itemSqlParameterSourceProvider"/>
+	</bean>
+	<!-- -->
+	<bean id="itemSqlParameterSourceProvider" class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider"/>
+
+
+
+
+
+	<!-- 任务加载器 -->
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository"/>
+	</bean>
+	<!-- 任务仓库 -->
+	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+		<!--<property name="dataSource" ref="dataSourceConfig"/>-->
+		<property name="transactionManager" ref="transactionManager"/>
+	</bean>
+	<!-- 事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSourceConfig"/>
+	</bean>
+	<!-- 数据源配置 -->
+	<bean id="dataSourceConfig" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${r_jdbc.driverClass}"/>
+		<property name="url" value="${r_jdbc.url}"/>
+		<property name="username" value="${r_jdbc.username}"/>
+		<property name="password" value="${r_jdbc.password}"/>
+	</bean>
+
+</beans>
