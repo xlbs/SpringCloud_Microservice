@@ -4,28 +4,33 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.xlbs</groupId>
     <artifactId>jobservice</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <latest.release.version>2.1.5</latest.release.version>
-        <spring.release.version>4.3.10.RELEASE</spring.release.version>
-    </properties>
+    <parent>
+        <groupId>com.xlbs</groupId>
+        <artifactId>SpringCloud_Microservice</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <!--<properties>-->
+        <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+        <!--<latest.release.version>2.1.5</latest.release.version>-->
+        <!--<spring.release.version>4.3.10.RELEASE</spring.release.version>-->
+    <!--</properties>-->
 
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring.release.version}</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!-- 添加spring-batch -->
         <dependency>
             <groupId>org.springframework.batch</groupId>
             <artifactId>spring-batch-core</artifactId>
-            <version>3.0.8.RELEASE</version>
+            <version>${spring.batch.version}</version>
         </dependency>
 
         <!-- 添加elastic-job -->
@@ -43,18 +48,18 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.46</version>
+            <version>${mysql.connector.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>${spring.release.version}</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.6</version>
+            <version>${http.version}</version>
         </dependency>
         <!--<dependency>-->
             <!--<groupId>org.apache.httpcomponents</groupId>-->
@@ -65,6 +70,20 @@
 
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compile.source}</source>
+                    <target>${maven.compile.target}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     
 </project>

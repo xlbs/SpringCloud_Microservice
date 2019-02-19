@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.xlbs</groupId>
+    <artifactId>SpringCloud_Microservice</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.16.RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>commutils</module>
+        <module>constantjar</module>
+        <module>jobservice</module>
+        <module>SpringCloud</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring.version>4.3.19.RELEASE</spring.version>
+        <spring.cloud.version>Edgware.SR4</spring.cloud.version>
+        <spring.batch.version>3.0.8.RELEASE</spring.batch.version>
+        <http.version>4.5.6</http.version>
+        <java.version>1.8</java.version>
+        <maven.compile.source>1.8</maven.compile.source>
+        <maven.compile.target>1.8</maven.compile.target>
+        <maven.compiler.plugin>3.3</maven.compiler.plugin>
+        <mybatis.version>1.3.0</mybatis.version>
+        <alibaba.druid.version>1.1.1</alibaba.druid.version>
+        <mysql.connector.version>5.1.46</mysql.connector.version>
+        <aspectj.version>1.6.11</aspectj.version>
+        <jackson.version>2.9.0</jackson.version>
+        <lombok.version>1.16.8</lombok.version>
+        <gson.version>2.3.1</gson.version>
+        <latest.release.version>2.1.5</latest.release.version>
+        <!--<spring.release.version>4.3.10.RELEASE</spring.release.version>-->
+    </properties>
+
+    
+</project>
