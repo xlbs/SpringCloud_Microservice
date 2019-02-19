@@ -22,7 +22,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zuul</artifactId>
-            <version>1.4.5.RELEASE</version>
+            <version>${spring.cloud.zuul.version}</version>
         </dependency>
         <!-- spring cloud feign -->
         <dependency>

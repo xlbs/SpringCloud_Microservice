@@ -1,4 +1,4 @@
-package xlbs.com.constantjar;
+package com.xlbs.constantjar;
 
 public class ServiceName {
 
