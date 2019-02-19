@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 @Component
-public class UserInfoExportServicer extends AbstractExport {
+public class UserInfoExport extends AbstractExport {
 
     @Autowired
     private I_UserExportDao userExportDao;
