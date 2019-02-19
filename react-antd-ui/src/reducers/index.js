@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
-import loginReducer from "../probusiness/login/LoginReducer";
-import mainReducer from "../probusiness/main/MainReducer";
-import homeReducer from "../probusiness/home/homeReducer";
+import login from "../probusiness/login/LoginReducer";
+import main from "../probusiness/main/MainReducer";
+import home from "../probusiness/home/homeReducer";
+import personCenter from "../probusiness/system/personcenter/PersonCenterReducer";
 
 const reducers = combineReducers({
-    loginReducer,
-    mainReducer,
-    homeReducer
+    login,
+    main,
+    home,
+    personCenter
 })
 
 export default reducers;

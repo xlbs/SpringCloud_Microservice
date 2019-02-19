@@ -1,9 +1,9 @@
 import handleHome from "../probusiness/home/index";
-import ChangePassword from "../probusiness/system/components/ChangePassword";
-import PersonCenter from "../probusiness/system/components/PersonCenter";
-import handleReimbursement from "../probusiness/process/reimbursement/index";
-import handleLeave from "../probusiness/process/leave/index";
 import handleBlogHome from "../probusiness/blog/home/index";
+import handleLeave from "../probusiness/process/leave/index";
+import handleReimbursement from "../probusiness/process/reimbursement/index";
+import ChangePassword from "../probusiness/system/changepassword/ChangePassword";
+import handlePersonCenter from "../probusiness/system/personcenter/index";
 
 export default {
     menus: [ // 菜单相关路由
@@ -25,7 +25,7 @@ export default {
             key: '/system', title: '系统设置', icon: 'setting',
             subs: [
                 { key: '/changepassword', title: '修改密码', icon:'edit', component: ChangePassword },
-                { key: '/personcenter', title: '个人中心', icon: 'user', component: PersonCenter },
+                { key: '/personcenter', title: '个人中心', icon: 'user', component: handlePersonCenter },
             ],
         },
     ],

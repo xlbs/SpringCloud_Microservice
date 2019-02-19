@@ -20,9 +20,9 @@ class handleLogin extends React.Component{
 }
 
 const mapStateToProps = state =>({
-    userNameDisabled: state.loginReducer.userNameDisabled,
-    passwordDisabled: state.loginReducer.passwordDisabled,
-    errorMsg: state.loginReducer.errorMsg
+    userNameDisabled: state.login.userNameDisabled,
+    passwordDisabled: state.login.passwordDisabled,
+    errorMsg: state.login.errorMsg
 })
 
 const mapDispatchToProps = dispatch =>({

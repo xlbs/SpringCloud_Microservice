@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {actions} from "./MainAction";
-import MainConponent from "./MainConponent";
+import MainComponent from "./MainComponent";
 
 
 class handleMain extends React.Component{
@@ -14,17 +14,17 @@ class handleMain extends React.Component{
     render(){
         const main = this.props;
         return(
-            <MainConponent main={main}/>
+            <MainComponent main={main}/>
         )
     }
 }
 
 const mapStateToProps = state =>({
-    username: state.mainReducer.username,
-    userNameDisabled: state.mainReducer.userNameDisabled,
-    passwordDisabled: state.mainReducer.passwordDisabled,
-    errorMsg: state.mainReducer.errorMsg,
-    isTimeOut: state.mainReducer.isTimeOut
+    username: state.main.username,
+    userNameDisabled: state.main.userNameDisabled,
+    passwordDisabled: state.main.passwordDisabled,
+    errorMsg: state.main.errorMsg,
+    isTimeOut: state.main.isTimeOut
 })
 
 const mapDispatchToProps = dispatch =>({

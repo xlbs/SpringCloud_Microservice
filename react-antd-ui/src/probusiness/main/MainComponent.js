@@ -7,7 +7,7 @@ import RouteConfigFile from '../../routes/RouteConfigFile';
 import {CurrentUser} from "../../commutils/utils/CurrentUser";
 import LoginBox from "../../commutils/components/login/LoginBox";
 
-class MainConponent extends React.Component {
+class MainComponent extends React.Component {
 
     constructor(props) {
         super(props);
@@ -104,4 +104,4 @@ class MainConponent extends React.Component {
 
 }
 
-export default MainConponent;
+export default MainComponent;

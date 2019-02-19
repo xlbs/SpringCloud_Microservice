@@ -1,21 +1,21 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {actions} from "./HomeAction";
-import HomeComponent from "./HomeComponent";
+import {actions} from "./PersonCenterAction";
+import PersonCenterComponent from "./PersonCenterComponent";
 
-class handleHome extends React.Component{
+class handlePersonCenter extends React.Component{
+
     constructor(props) {
         super(props);
     }
 
     render(){
-        const home = this.props;
+        const personCenter = this.props;
         return(
-            <HomeComponent home={home} />
+            <PersonCenterComponent personCenter={personCenter}/>
         )
     }
-
 }
 
 const mapStateToProps = state =>({
@@ -26,4 +26,4 @@ const mapDispatchToProps = dispatch =>({
     actions: bindActionCreators(actions, dispatch)
 })
 
-export default connect(mapStateToProps,mapDispatchToProps)(handleHome);
+export default connect(mapStateToProps,mapDispatchToProps)(handlePersonCenter);
