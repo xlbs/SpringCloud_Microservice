@@ -21,12 +21,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
                 String uri = request.getRequestURI();
                 System.out.println("==>WebMvcConfig中的拦截器URI: "+uri );
-                if(!uri.contains("/sysUser")){
-                    Long userId = new Long(request.getHeader(SessionConstant.USER_ID));
-                    String userName = request.getHeader(SessionConstant.USER_NAME);
-                    String userNo = request.getHeader(SessionConstant.USER_NO);
-                    RequestContextUtils.set(userId, userName, userNo);
-                }
+//                if(!uri.contains("/sysUser")){
+//                    Long userId = new Long(request.getHeader(SessionConstant.USER_ID));
+//                    String userName = request.getHeader(SessionConstant.USER_NAME);
+//                    String userNo = request.getHeader(SessionConstant.USER_NO);
+//                    RequestContextUtils.set(userId, userName, userNo);
+//                }
                 return true;
             }
 
