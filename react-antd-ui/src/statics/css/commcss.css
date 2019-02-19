@@ -1,0 +1,85 @@
+.global{
+    width: 100%;
+    height: 100%;
+}
+.content{
+    overflow: auto;
+}
+.header {
+    padding: 0px !important;
+    height: 80px !important;
+    display: flex;
+    align-items:center;/*y轴对滴方式*/
+}
+.logo {
+    width: 260px;
+    height: 65px;
+    margin-left: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("../images/logo.png");
+}
+.left-div {
+    text-align: center;
+    flex: 1;
+}
+.right-div {
+    margin-right: 20px;
+}
+.text{
+    font-size: 30px;
+    color: #54FF9F;
+}
+.right-text{
+    font-size: 20px;
+    color: #54FF9F;
+}
+.exit{
+    color: red;
+    font-size: 22px;
+}
+.menu {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+}
+
+.footer {
+    background-color: #e2e2e2 !important;
+    height: 50px;
+    text-align: center;
+    font-size: 16px !important;
+    line-height: 1px;
+}
+
+.cover{
+    position:absolute;left:0px;top:0px;
+    background:rgba(0, 0, 0, 0.4);
+    width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+    height:100%;
+    filter:alpha(opacity=60);  /*设置透明度为60%*/
+    opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
+    display:block;
+    z-Index:999;
+}
+.location{
+    background: #D3D3D3;
+    height: 40px;
+    display: flex;           /*设置为flex布局*/
+    /*justify-content: center; !*水平居中*!*/
+    align-items: center;     /*垂直居中*/
+}
+.locationText{
+    color: #00b2f9;
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 10px;
+}
+.locationText2{
+    font-size: 16px;
+}
+.locationIcon{
+    color: #00E5EE;
+    font-size: 16px;
+}
+

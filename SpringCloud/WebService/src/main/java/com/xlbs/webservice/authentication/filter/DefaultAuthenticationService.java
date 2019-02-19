@@ -1,0 +1,35 @@
+package com.xlbs.webservice.authentication.filter;
+
+import com.netflix.zuul.context.RequestContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import xlbs.com.constantjar.SessionConstant;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+@Service
+public class DefaultAuthenticationService implements I_AuthenticationService {
+
+    @Override
+    public boolean authenticate() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<String> userAuthentication = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        if(userAuthentication.stream().anyMatch(authority -> Objects.equals(authority, "ROLE_ANONYMOUS"))){
+            return false;
+        }else{
+            RequestContext requestContext = RequestContext.getCurrentContext();
+            HttpSession session = requestContext.getRequest().getSession();
+            requestContext.addZuulRequestHeader(SessionConstant.USER_ID, session.getAttribute(SessionConstant.USER_ID).toString());
+            requestContext.addZuulRequestHeader(SessionConstant.USER_NAME, session.getAttribute(SessionConstant.USER_NAME).toString());
+            requestContext.addZuulRequestHeader(SessionConstant.USER_NO, session.getAttribute(SessionConstant.USER_NO).toString());
+            return true;
+        }
+    }
+
+
+}

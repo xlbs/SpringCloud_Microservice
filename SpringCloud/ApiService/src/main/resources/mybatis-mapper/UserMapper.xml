@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xlbs.apiservice.dao.imp.UserDao">
+
+    <!--查询所有用户信息-->
+    <select id="findAllUser" resultType="java.util.Map">
+         select
+            USER_ID AS userId,
+            USER_NO AS userNo,
+            USER_NAME AS userName,
+            PASSWORD AS password,
+            DESCRIPTION AS description
+         from t_user
+    </select>
+
+    <!--通过userId查询用户信息-->
+    <select id="findUserByUserId" resultType="com.xlbs.commutils.obj.User">
+         select
+            USER_ID AS userId,
+            USER_NO AS userNo,
+            USER_NAME AS userName,
+            PASSWORD AS password,
+            DESCRIPTION AS description
+         from
+            t_user
+         where
+            USER_ID = ${userId}
+    </select>
+
+    <!--通过userNo查询用户信息-->
+    <select id="findUserByUserNo" resultType="com.xlbs.commutils.obj.User">
+         select
+            USER_ID AS userId,
+            USER_NO AS userNo,
+            USER_NAME AS userName,
+            PASSWORD AS password,
+            DESCRIPTION AS description
+         from
+            t_user
+         where
+            USER_NO = #{userNo}
+    </select>
+
+    <!--通过userName查询用户信息-->
+    <select id="findUserByUserName" resultType="com.xlbs.commutils.obj.User">
+         select
+            USER_ID AS userId,
+            USER_NO AS userNo,
+            USER_NAME AS userName,
+            PASSWORD AS password,
+            DESCRIPTION AS description
+         from
+            t_user
+         where
+            USER_NAME = #{userName}
+    </select>
+
+</mapper>
