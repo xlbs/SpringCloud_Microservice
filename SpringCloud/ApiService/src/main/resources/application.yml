@@ -26,5 +26,4 @@ mysql:
     username: root
     password: xlbs.com
 
-
 app.disk-path: C:/storage
