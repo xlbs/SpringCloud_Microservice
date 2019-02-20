@@ -18,7 +18,7 @@ public interface I_UserService {
      * @param userId 用户Id
      * @return
      */
-    public User findUserByUserId(Integer userId);
+    public User findUserByUserId(Long userId);
 
     /**
      * 通过userNo查询用户信息

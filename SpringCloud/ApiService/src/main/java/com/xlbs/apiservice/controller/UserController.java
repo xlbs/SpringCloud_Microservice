@@ -38,7 +38,7 @@ public class UserController {
     @ApiOperation(value="获取用户详细信息", notes="根据userId来获取用户详细信息")
 //    @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "Integer")
     @RequestMapping(value = "/findUserByUserId", method={RequestMethod.GET, RequestMethod.POST})
-    public User findUserByUserId(@RequestParam Integer userId){
+    public User findUserByUserId(@RequestParam Long userId){
         return userService.findUserByUserId(userId);
     }
 

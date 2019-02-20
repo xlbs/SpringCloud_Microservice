@@ -30,7 +30,7 @@ public class UserService implements I_UserService {
      * @return
      */
     @Override
-    public User findUserByUserId(Integer userId) {
+    public User findUserByUserId(Long userId) {
         return userDao.findUserByUserId(userId);
     }
 

@@ -31,7 +31,7 @@ public class UserDao implements I_UserDao {
      * @return
      */
     @Override
-    public User findUserByUserId(Integer userId) {
+    public User findUserByUserId(Long userId) {
         return sqlSession.selectOne("findUserByUserId", userId);
     }
 

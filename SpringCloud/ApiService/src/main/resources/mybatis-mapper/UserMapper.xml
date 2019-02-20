@@ -26,7 +26,7 @@
          from
             t_user
          where
-            USER_ID = ${userId}
+            USER_ID = #{userId}
     </select>
 
     <!--通过userNo查询用户信息-->
