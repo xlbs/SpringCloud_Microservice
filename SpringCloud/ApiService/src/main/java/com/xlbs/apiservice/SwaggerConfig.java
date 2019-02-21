@@ -26,10 +26,13 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
+                //页面标题
                 .title("ApiService 中的 APIs")
-                .description("更多相关文章请关注：http://blog.didispace.com/")
-//                .termsOfServiceUrl("http://blog.didispace.com/")
+                //描述
+                .description("更多相关文章请关注：http://www.baidu.com/")
+                //创建人
                 .contact("谢李宝生")
+                //版本号
                 .version("1.0")
                 .build();
     }
