@@ -12,6 +12,6 @@ import com.xlbs.constantjar.ServiceName;
 public interface UserFeignClient {
 
     @RequestMapping(value = "/findUserByUsername",method={RequestMethod.POST})
-    UserInfo findUserByUsername(@RequestParam("userName") String userName);
+    UserInfo findUserByUsername(@RequestParam("username") String username);
 
 }
