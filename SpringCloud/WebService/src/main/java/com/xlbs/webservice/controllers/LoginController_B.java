@@ -33,11 +33,11 @@ public class LoginController_B {
     public HttpEntity login(@ModelAttribute User user, HttpSession session) {
         UserInfo userInfo = null;
         try {
-            userInfo = userFeignClient.findUserByUserNo(user.getUserNo());
+            userInfo = userFeignClient.findUserByUserName(user.getUserName());
             if(Objects.isNull(userInfo)){
                 return ResponseEntity.ok().body(ImmutableMap.of( "status","error","message","用户不存在"));
             }
-            Authentication token = new UsernamePasswordAuthenticationToken(user.getUserNo(), user.getPassword());//第一步，使用name和password封装成为的token
+            Authentication token = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());//第一步，使用name和password封装成为的token
             Authentication result = authenticationManager.authenticate(token); //将token传递给Authentication进行验证
             SecurityContextHolder.getContext().setAuthentication(result);
         }catch (Exception e){
@@ -52,9 +52,9 @@ public class LoginController_B {
 
         session.setAttribute(SessionConstant.USER_ID, userInfo.getUserId());
         session.setAttribute(SessionConstant.USER_NAME, userInfo.getUsername());
-        session.setAttribute(SessionConstant.USER_NO, userInfo.getUserNo());
+        session.setAttribute(SessionConstant.NAME, userInfo.getName());
 
-        UserResponse userResponse = new UserResponse(userInfo.getUserId(),userInfo.getUserNo(),userInfo.getUserName(),userInfo.getDescription());
+        UserResponse userResponse = new UserResponse(userInfo.getUserId(),userInfo.getUserName(),userInfo.getName(),userInfo.getDescription());
         return ResponseEntity.ok().body(ImmutableMap.of("status","success","data",userResponse,"message","登入成功"));
     }
 

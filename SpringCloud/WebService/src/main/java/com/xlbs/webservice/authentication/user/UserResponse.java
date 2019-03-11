@@ -4,9 +4,9 @@ public class UserResponse {
 
     private Long userId;
 
-    private String userNo;
-
     private String userName;
+
+    private String name;
 
     private String description;
 
@@ -18,13 +18,6 @@ public class UserResponse {
         this.userId = userId;
     }
 
-    public String getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(String userNo) {
-        this.userNo = userNo;
-    }
 
     public String getUserName() {
         return userName;
@@ -32,6 +25,14 @@ public class UserResponse {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -42,10 +43,10 @@ public class UserResponse {
         this.description = description;
     }
 
-    public UserResponse(Long userId, String userNo, String userName, String description) {
+    public UserResponse(Long userId, String userName, String name, String description) {
         this.userId = userId;
-        this.userNo = userNo;
         this.userName = userName;
+        this.name = name;
         this.description = description;
     }
 }

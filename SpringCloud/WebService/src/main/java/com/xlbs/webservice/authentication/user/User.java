@@ -4,11 +4,11 @@ public class User {
 
     private Long userId;
 
-    private String userNo;
-
     private String password;
 
     private String userName;
+
+    private String name;
 
     private String description;
 
@@ -18,14 +18,6 @@ public class User {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(String userNo) {
-        this.userNo = userNo;
     }
 
     public String getPassword() {
@@ -44,6 +36,14 @@ public class User {
         this.userName = userName;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -51,7 +51,6 @@ public class User {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 
 
