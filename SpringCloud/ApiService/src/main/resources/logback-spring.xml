@@ -36,9 +36,9 @@
 
     <!--2. 输出到文档-->
     <!-- 2.1 level为 DEBUG 日志，时间滚动输出  -->
-    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="SQL_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 正在记录的日志文档的路径及文档名 -->
-        <file>${log.path}/${log.appName}/debug/debug.log</file>
+        <file>${log.path}/${log.appName}/sql/sql.log</file>
         <!--日志文档输出格式-->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
@@ -47,7 +47,7 @@
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 日志归档 -->
-            <fileNamePattern>${log.path}/${log.appName}/debug/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${log.path}/${log.appName}/sql/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -157,13 +157,13 @@
     <springProfile name="dev">
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
+            <appender-ref ref="SQL_FILE" />
         </root>
     </springProfile>
     <!-- 4.2 生产环境:输出到文档 -->
     <springProfile name="pro">
         <root level="INFO">
-            <appender-ref ref="CONSOLE" />
-            <appender-ref ref="DEBUG_FILE" />
+            <!--<appender-ref ref="CONSOLE" />-->
             <appender-ref ref="INFO_FILE" />
             <appender-ref ref="ERROR_FILE" />
             <appender-ref ref="WARN_FILE" />

@@ -4,57 +4,50 @@
 
 <mapper namespace="com.xlbs.apiservice.dao.imp.UserDao">
 
+    <sql id="userField">
+        USER_ID AS userId,
+        USER_NAME AS userName,
+        PASSWORD AS password,
+        NAME AS name,
+        DESCRIPTION AS description
+    </sql>
+
     <!--查询所有用户信息-->
     <select id="findAllUser" resultType="java.util.Map">
-         select
-            USER_ID AS userId,
-            USER_NO AS userNo,
-            USER_NAME AS userName,
-            PASSWORD AS password,
-            DESCRIPTION AS description
-         from t_user
+        select
+          <include refid="userField"/>
+        from
+          t_user
     </select>
 
     <!--通过userId查询用户信息-->
-    <select id="findUserByUserId" resultType="com.xlbs.commutils.obj.User">
-         select
-            USER_ID AS userId,
-            USER_NO AS userNo,
-            USER_NAME AS userName,
-            PASSWORD AS password,
-            DESCRIPTION AS description
-         from
-            t_user
-         where
-            USER_ID = #{userId}
-    </select>
-
-    <!--通过userNo查询用户信息-->
-    <select id="findUserByUserNo" resultType="com.xlbs.commutils.obj.User">
-         select
-            USER_ID AS userId,
-            USER_NO AS userNo,
-            USER_NAME AS userName,
-            PASSWORD AS password,
-            DESCRIPTION AS description
-         from
-            t_user
-         where
-            USER_NO = #{userNo}
+    <select id="findUserByUserId" resultType="com.xlbs.constantjar.obj.User">
+        select
+          <include refid="userField"/>
+        from
+          t_user
+        where
+          USER_ID = #{userId}
     </select>
 
     <!--通过userName查询用户信息-->
-    <select id="findUserByUserName" resultType="com.xlbs.commutils.obj.User">
-         select
-            USER_ID AS userId,
-            USER_NO AS userNo,
-            USER_NAME AS userName,
-            PASSWORD AS password,
-            DESCRIPTION AS description
-         from
-            t_user
-         where
-            USER_NAME = #{userName}
+    <select id="findUserByUserName" resultType="com.xlbs.constantjar.obj.User">
+        select
+          <include refid="userField"/>
+        from
+          t_user
+        where
+        USER_NAME = #{userName}
+    </select>
+
+    <!--通过name查询用户信息-->
+    <select id="findUserByName" resultType="com.xlbs.constantjar.obj.User">
+        select
+          <include refid="userField"/>
+        from
+          t_user
+        where
+          NAME = #{name}
     </select>
 
 </mapper>

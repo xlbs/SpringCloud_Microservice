@@ -2,7 +2,7 @@ package com.xlbs.apiservice.dao.imp;
 
 import com.google.common.collect.ImmutableMap;
 import com.xlbs.apiservice.dao.intf.I_UserDao;
-import com.xlbs.commutils.obj.User;
+import com.xlbs.constantjar.obj.User;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,23 +36,23 @@ public class UserDao implements I_UserDao {
     }
 
     /**
-     * 通过userNo查询用户信息
-     * @param userNo 用户编号
-     * @return
-     */
-    @Override
-    public User findUserByUserNo(String userNo) {
-        return sqlSession.selectOne("findUserByUserNo", ImmutableMap.of("userNo",userNo));
-    }
-
-    /**
      * 通过userName查询用户信息
-     * @param userName 用户名
+     * @param userName 用户编号
      * @return
      */
     @Override
     public User findUserByUserName(String userName) {
         return sqlSession.selectOne("findUserByUserName", ImmutableMap.of("userName",userName));
+    }
+
+    /**
+     * 通过name查询用户信息
+     * @param name 用户名
+     * @return
+     */
+    @Override
+    public User findUserByName(String name) {
+        return sqlSession.selectOne("findUserByName", ImmutableMap.of("name",name));
     }
 
 

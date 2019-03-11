@@ -1,8 +1,7 @@
 package com.xlbs.apiservice.controller;
 
 import com.xlbs.apiservice.service.intf.I_UserService;
-import com.xlbs.commutils.obj.User;
-import io.swagger.annotations.ApiImplicitParam;
+import com.xlbs.constantjar.obj.User;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,17 +42,6 @@ public class UserController {
     }
 
     /**
-     * 通过userNo查询用户信息
-     * @param userNo 用户编号
-     * @return
-     */
-    @ApiOperation(value="获取用户详细信息", notes="根据userNo来获取用户详细信息")
-    @RequestMapping(value = "/findUserByUserNo", method={RequestMethod.GET, RequestMethod.POST})
-    public User findUserByUserNo(@RequestParam String userNo){
-        return userService.findUserByUserNo(userNo);
-    }
-
-    /**
      * 通过userName查询用户信息
      * @param userName 用户名
      * @return
@@ -62,6 +50,17 @@ public class UserController {
     @RequestMapping(value = "/findUserByUserName", method={RequestMethod.GET, RequestMethod.POST})
     public User findUserByUserName(@RequestParam String userName){
         return userService.findUserByUserName(userName);
+    }
+
+    /**
+     * 通过name查询用户信息
+     * @param name 姓名
+     * @return
+     */
+    @ApiOperation(value="获取用户详细信息", notes="根据name来获取用户详细信息")
+    @RequestMapping(value = "/findUserByName", method={RequestMethod.GET, RequestMethod.POST})
+    public User findUserByName(@RequestParam String name){
+        return userService.findUserByName(name);
     }
 
 
