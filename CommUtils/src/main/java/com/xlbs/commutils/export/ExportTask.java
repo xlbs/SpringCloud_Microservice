@@ -1,7 +1,6 @@
-package com.xlbs.importexportservice.export;
+package com.xlbs.commutils.export;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.xlbs.commutils.obj.Entity;
 import com.xlbs.commutils.utils.RequestContextUtils;
 import com.xlbs.commutils.utils.SpringUtils;
 import lombok.Getter;
@@ -11,7 +10,9 @@ import lombok.Setter;
 import java.util.Date;
 
 @Getter @Setter @NoArgsConstructor
-public class ExportTask<T> extends Entity {
+public class ExportTask<T> {
+
+    private Long id;
 
     private String name; //文件名
 
@@ -26,6 +27,14 @@ public class ExportTask<T> extends Entity {
     private String filePath; //文件物理位置相对路径
 
     private String contentType; //媒体类型信息
+
+    private Long createdBy;
+
+    private Date creationDate;
+
+    private Long lastModifyBy;
+
+    private Date lastModifyDate;
 
     @JsonIgnore
     private T argument;

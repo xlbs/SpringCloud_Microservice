@@ -1,4 +1,4 @@
-package com.xlbs.importexportservice.export;
+package com.xlbs.commutils.export;
 
 import com.xlbs.commutils.task.async.AsyncTaskHandler;
 import org.springframework.stereotype.Component;

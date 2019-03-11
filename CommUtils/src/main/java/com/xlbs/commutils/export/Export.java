@@ -1,4 +1,4 @@
-package com.xlbs.importexportservice.export;
+package com.xlbs.commutils.export;
 
 
 public interface Export<T> {

@@ -14,16 +14,22 @@
     </parent>
 
     <dependencies>
-        <dependency>
-            <groupId>com.xlbs</groupId>
-            <artifactId>constantjar</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.xlbs</groupId>-->
+            <!--<artifactId>constantjar</artifactId>-->
+            <!--<version>1.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
         <!--spring上下文包，在加载spring配置文件时用到-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <!--servlet依赖-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
         </dependency>
         <!--使用AspectJ方式注解需要相应的包-->
         <dependency>
@@ -35,6 +41,12 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectj.version}</version>
+        </dependency>
+        <!--Excel依赖-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
         </dependency>
         <!--使用lombok需要相应的包-->
         <dependency>
