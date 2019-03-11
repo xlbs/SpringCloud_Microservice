@@ -4,7 +4,7 @@ public class SessionConstant {
 
     public static final String USER_ID = "userId";
 
-    public static final String USER_NAME = "userName";
+    public static final String USERNAME = "username";
 
     public static final String NAME = "name";
 

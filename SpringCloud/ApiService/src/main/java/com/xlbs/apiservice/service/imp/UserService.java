@@ -35,13 +35,13 @@ public class UserService implements I_UserService {
     }
 
     /**
-     * 通过userName查询用户信息
-     * @param userName 用户编号
+     * 通过username查询用户信息
+     * @param username 用户编号
      * @return
      */
     @Override
-    public User findUserByUserName(String userName) {
-        return userDao.findUserByUserName(userName);
+    public User findUserByUsername(String username) {
+        return userDao.findUserByUsername(username);
     }
 
     /**

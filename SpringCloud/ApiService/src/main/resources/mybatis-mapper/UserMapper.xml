@@ -6,7 +6,7 @@
 
     <sql id="userField">
         USER_ID AS userId,
-        USER_NAME AS userName,
+        USER_NAME AS username,
         PASSWORD AS password,
         NAME AS name,
         DESCRIPTION AS description
@@ -30,14 +30,14 @@
           USER_ID = #{userId}
     </select>
 
-    <!--通过userName查询用户信息-->
-    <select id="findUserByUserName" resultType="com.xlbs.constantjar.obj.User">
+    <!--通过username查询用户信息-->
+    <select id="findUserByUsername" resultType="com.xlbs.constantjar.obj.User">
         select
           <include refid="userField"/>
         from
           t_user
         where
-        USER_NAME = #{userName}
+        USER_NAME = #{username}
     </select>
 
     <!--通过name查询用户信息-->

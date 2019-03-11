@@ -22,9 +22,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 String uri = request.getRequestURI();
                 System.out.println("==>WebMvcConfig中的拦截器URI: "+uri );
                 Long userId = new Long(request.getHeader(SessionConstant.USER_ID));
-                String userName = request.getHeader(SessionConstant.USER_NAME);
+                String username = request.getHeader(SessionConstant.USERNAME);
                 String name = request.getHeader(SessionConstant.NAME);
-                RequestContextUtils.set(userId, userName, name);
+                RequestContextUtils.set(userId, username, name);
                 return true;
             }
 

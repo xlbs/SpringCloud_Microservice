@@ -25,7 +25,7 @@ public class DefaultAuthenticationService implements I_AuthenticationService {
             RequestContext requestContext = RequestContext.getCurrentContext();
             HttpSession session = requestContext.getRequest().getSession();
             requestContext.addZuulRequestHeader(SessionConstant.USER_ID, session.getAttribute(SessionConstant.USER_ID).toString());
-            requestContext.addZuulRequestHeader(SessionConstant.USER_NAME, session.getAttribute(SessionConstant.USER_NAME).toString());
+            requestContext.addZuulRequestHeader(SessionConstant.USERNAME, session.getAttribute(SessionConstant.USERNAME).toString());
             requestContext.addZuulRequestHeader(SessionConstant.NAME, session.getAttribute(SessionConstant.NAME).toString());
             return true;
         }

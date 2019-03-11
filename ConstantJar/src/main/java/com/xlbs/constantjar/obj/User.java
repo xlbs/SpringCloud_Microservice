@@ -8,7 +8,7 @@ public class User extends Entity {
 
     private Long userId;
 
-    private String userName;
+    private String username;
 
     private String password;
 

@@ -14,7 +14,7 @@ function login(user) {
     const config = {};
     config.method = 'POST';
     config.params = {
-        userNo: user.username,
+        username: user.username,
         password: user.password
     }
     return (dispatch) => AjaxPromise(url,config).then(res => {

@@ -21,11 +21,11 @@ public interface I_UserService {
     public User findUserByUserId(Long userId);
 
     /**
-     * 通过userName查询用户信息
-     * @param userName 用户编号
+     * 通过username查询用户信息
+     * @param username 用户编号
      * @return
      */
-    public User findUserByUserName(String userName);
+    public User findUserByUsername(String username);
 
     /**
      * 通过name查询用户信息

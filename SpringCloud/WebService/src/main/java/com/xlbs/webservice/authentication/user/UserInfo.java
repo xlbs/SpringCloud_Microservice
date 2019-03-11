@@ -25,7 +25,7 @@ public class UserInfo extends User implements UserDetails, Serializable {
 
     @Override
     public String getUsername() {
-        return super.getUserName();
+        return super.getUsername();
     }
 
     @Override

@@ -36,13 +36,13 @@ public class UserDao implements I_UserDao {
     }
 
     /**
-     * 通过userName查询用户信息
-     * @param userName 用户编号
+     * 通过username查询用户信息
+     * @param username 用户编号
      * @return
      */
     @Override
-    public User findUserByUserName(String userName) {
-        return sqlSession.selectOne("findUserByUserName", ImmutableMap.of("userName",userName));
+    public User findUserByUsername(String username) {
+        return sqlSession.selectOne("findUserByUsername", ImmutableMap.of("username",username));
     }
 
     /**

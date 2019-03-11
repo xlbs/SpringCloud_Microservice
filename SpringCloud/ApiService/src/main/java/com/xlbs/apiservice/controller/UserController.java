@@ -42,14 +42,14 @@ public class UserController {
     }
 
     /**
-     * 通过userName查询用户信息
-     * @param userName 用户名
+     * 通过username查询用户信息
+     * @param username 用户名
      * @return
      */
     @ApiOperation(value="获取用户详细信息", notes="根据userName来获取用户详细信息")
-    @RequestMapping(value = "/findUserByUserName", method={RequestMethod.GET, RequestMethod.POST})
-    public User findUserByUserName(@RequestParam String userName){
-        return userService.findUserByUserName(userName);
+    @RequestMapping(value = "/findUserByUsername", method={RequestMethod.GET, RequestMethod.POST})
+    public User findUserByUsername(@RequestParam String username){
+        return userService.findUserByUsername(username);
     }
 
     /**

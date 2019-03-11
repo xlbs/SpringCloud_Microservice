@@ -23,7 +23,7 @@ export function showLoginBox(){
         type: TIME_OUT,
         isTimeOut: true,
         errorMsg: '会话已超时，请重新登入',
-        username: CurrentUser.get().data.userNo,
+        username: CurrentUser.get().data.username,
         userNameDisabled: true
     }
 }
