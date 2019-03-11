@@ -13,6 +13,15 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <dependencies>
+        <!--使用lombok需要相应的包-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

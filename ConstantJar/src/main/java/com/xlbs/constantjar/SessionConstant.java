@@ -6,7 +6,7 @@ public class SessionConstant {
 
     public static final String USER_NAME = "userName";
 
-    public static final String USER_NO = "userNo";
+    public static final String NAME = "name";
 
 
 }
