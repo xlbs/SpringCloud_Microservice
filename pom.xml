@@ -26,6 +26,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring.version>4.3.19.RELEASE</spring.version>
+        <servlet.version>3.1.0</servlet.version>
         <spring.cloud.version>Edgware.SR4</spring.cloud.version>
         <spring.cloud.zuul.version>1.4.5.RELEASE</spring.cloud.zuul.version>
         <spring.batch.version>3.0.8.RELEASE</spring.batch.version>
