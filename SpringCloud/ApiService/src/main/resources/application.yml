@@ -25,5 +25,3 @@ mysql:
     url: jdbc:mysql://localhost:3306/xlbs_dev?useAffectedRows=true&useSSL=false
     username: root
     password: xlbs.com
-
-app.disk-path: C:/storage
