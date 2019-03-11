@@ -8,8 +8,8 @@
     <!--设置上下文名称，这个属性可有可无-->
     <contextName>webservice</contextName>
     <!-- name的值是变量的名称，value的值时变量定义的值。通过定义的值会被插入到logger上下文中。定义后，可以使“${}”来使用变量。 -->
-    <property name="log.path" value="C:/xlbs/Project/SpringCloudMicroservice/logs"/>
-    <property name="log.appName" value="activityprocessservicer"/>
+    <property name="log.path" value="C:/xlbs/Project/SpringCloud_Microservice/logs"/>
+    <property name="log.appName" value="process-service"/>
 
 
     <!--0. 日志格式和颜色渲染 -->
@@ -38,9 +38,9 @@
 
     <!--2. 输出到文档-->
     <!-- 2.1 level为 DEBUG 日志，时间滚动输出  -->
-    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="SQL_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 正在记录的日志文档的路径及文档名 -->
-        <file>${log.path}/${log.appName}/debug/debug.log</file>
+        <file>${log.path}/${log.appName}/sql/sql.log</file>
         <!--日志文档输出格式-->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
@@ -49,7 +49,7 @@
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 日志归档 -->
-            <fileNamePattern>${log.path}/${log.appName}/debug/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${log.path}/${log.appName}/sql/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -151,19 +151,21 @@
         </filter>
     </appender>
 
+    <!--打印sql-->
+    <logger name="com.xlbs.processservice.dao" level="DEBUG" />
 
     <!-- 4. 最终的策略 -->
     <!-- 4.1 开发环境:打印控制台-->
     <springProfile name="dev">
-        <root level="info">
+        <root level="INFO">
             <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="SQL_FILE"/>
         </root>
     </springProfile>
     <!-- 4.2 生产环境:输出到文档 -->
     <springProfile name="pro">
-        <root level="info">
+        <root level="INFO">
             <appender-ref ref="CONSOLE"/>
-            <appender-ref ref="DEBUG_FILE"/>
             <appender-ref ref="INFO_FILE"/>
             <appender-ref ref="ERROR_FILE"/>
             <appender-ref ref="WARN_FILE"/>
