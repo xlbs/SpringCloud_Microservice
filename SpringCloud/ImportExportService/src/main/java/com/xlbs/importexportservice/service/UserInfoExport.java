@@ -1,8 +1,8 @@
 package com.xlbs.importexportservice.service;
 
 import com.xlbs.importexportservice.dao.intf.I_UserExportDao;
-import com.xlbs.importexportservice.export.AbstractExport;
-import com.xlbs.importexportservice.export.ExcelExporter;
+import com.xlbs.commutils.export.AbstractExport;
+import com.xlbs.commutils.export.ExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +19,9 @@ public class UserInfoExport extends AbstractExport {
     protected void doExport(OutputStream out, Object argument) {
         ExcelExporter excelExporter = null;
         int[] columnWidths = {1000,4000,4000,4000,4000};
-        String[] headers = {"ID","编号","密码","姓名","描述"};
+        String[] headers = {"ID","用户名","密码","姓名","描述"};
         excelExporter = new ExcelExporter("用户表", columnWidths, headers);
-        String[] dataKeys = {"userId","userNo","userName","password","description"};
+        String[] dataKeys = {"userId","userName","password","name","description"};
         excelExporter.fillData(dataKeys,userExportDao.findAllUser());
         try {
             excelExporter.write(out);

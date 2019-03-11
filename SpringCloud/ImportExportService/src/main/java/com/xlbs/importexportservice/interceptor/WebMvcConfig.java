@@ -1,12 +1,12 @@
 package com.xlbs.importexportservice.interceptor;
 
 import com.xlbs.commutils.utils.RequestContextUtils;
+import com.xlbs.constantjar.SessionConstant;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import com.xlbs.constantjar.SessionConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,8 +23,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 System.out.println("==>WebMvcConfig中的拦截器URI: "+uri );
                 Long userId = new Long(request.getHeader(SessionConstant.USER_ID));
                 String userName = request.getHeader(SessionConstant.USER_NAME);
-                String userNo = request.getHeader(SessionConstant.USER_NO);
-                RequestContextUtils.set(userId, userName, userNo);
+                String name = request.getHeader(SessionConstant.NAME);
+                RequestContextUtils.set(userId, userName, name);
                 return true;
             }
 

@@ -1,7 +1,5 @@
 package com.xlbs.importexportservice.dao.imp;
 
-import com.google.common.collect.ImmutableMap;
-import com.xlbs.commutils.obj.User;
 import com.xlbs.importexportservice.dao.intf.I_UserExportDao;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;

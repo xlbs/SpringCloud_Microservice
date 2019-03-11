@@ -1,8 +1,5 @@
 package com.xlbs.importexportservice.dao.intf;
 
-
-import com.xlbs.commutils.obj.User;
-
 import java.util.List;
 import java.util.Map;
 

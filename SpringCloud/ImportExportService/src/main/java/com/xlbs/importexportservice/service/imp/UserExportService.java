@@ -2,7 +2,7 @@ package com.xlbs.importexportservice.service.imp;
 
 import com.xlbs.commutils.constant.ExportMediaType;
 import com.xlbs.commutils.task.async.AsynchronousTask;
-import com.xlbs.importexportservice.export.ExportService;
+import com.xlbs.commutils.export.ExportService;
 import com.xlbs.importexportservice.service.UserInfoExport;
 import com.xlbs.importexportservice.service.intf.I_UserExportService;
 import org.springframework.beans.factory.annotation.Autowired;

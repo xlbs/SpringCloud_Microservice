@@ -19,7 +19,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:8888/eureka/
 
-#数据库配置，阿里druid连接池
+#数据库配置，阿里druid连接池disk-path
 mysql:
   datasource:
     url: jdbc:mysql://localhost:3306/xlbs_dev?useAffectedRows=true&useSSL=false
@@ -27,4 +27,4 @@ mysql:
     password: xlbs.com
 
 
-app.disk-path: C:/storage/export
+app.disk-path: C:/storage

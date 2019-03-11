@@ -7,12 +7,13 @@
     <!--查询所有用户信息-->
     <select id="findAllUser" resultType="java.util.Map">
          select
-            USER_ID AS userId,
-            USER_NO AS userNo,
-            USER_NAME AS userName,
-            PASSWORD AS password,
-            DESCRIPTION AS description
-         from t_user
+          USER_ID AS userId,
+          USER_NAME AS userName,
+          PASSWORD AS password,
+          NAME AS name,
+          DESCRIPTION AS description
+         from
+          t_user
     </select>
 
 </mapper>
