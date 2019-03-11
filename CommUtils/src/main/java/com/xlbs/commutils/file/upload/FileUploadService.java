@@ -1,5 +1,6 @@
 package com.xlbs.commutils.file.upload;
 
+import com.xlbs.commutils.constant.FilePath;
 import com.xlbs.commutils.utils.RandomCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,12 +16,12 @@ import java.time.LocalDate;
 @Component
 public class FileUploadService {
 
-    private final String uploadPath;
+//    private final String uploadPath;
 
-    @Autowired
-    public FileUploadService(@Value("${app.disk-path}") String path){
-        this.uploadPath = String.format("%s/attachment", path);
-    }
+//    @Autowired
+//    public FileUploadService(@Value("${app.disk-path}") String path){
+//        this.uploadPath = String.format("%s/attachment", path);
+//    }
 
     public void upload(Part source) throws IOException{
         LocalDate now = LocalDate.now();
@@ -28,7 +29,7 @@ public class FileUploadService {
         String rawName = source.getSubmittedFileName();
         String extension = rawName.substring(rawName.lastIndexOf("."+1));
         String path = String.format("%d%d%d%d.%s",now.getYear(),now.getMonthValue(),now.getDayOfMonth(),id,extension);
-        Path targer = Paths.get(uploadPath, path);
+        Path targer = Paths.get(FilePath.getAttachmentPath(), path);
         if(Files.notExists(targer.getParent())){
             Files.createDirectories(targer.getParent());
         }

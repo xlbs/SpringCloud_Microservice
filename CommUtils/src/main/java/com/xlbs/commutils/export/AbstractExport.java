@@ -1,23 +1,12 @@
 package com.xlbs.commutils.export;
 
 import com.xlbs.commutils.constant.ExportStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.xlbs.commutils.constant.FilePath;
 
 import java.io.*;
 
 public abstract class AbstractExport<T> implements Export<T> {
 
-    private final String exportPath;
-
-    @Autowired
-    public AbstractExport(@Value("${app.disk-path}") String path){
-        this.exportPath = String.format("%s/export", path);
-    }
-
-//    @Value("${app.disk-path}")
-//    private String rootPath;
-    
     @Override
     public void export(ExportTask<T> exportTask) {
         File file;
@@ -26,7 +15,7 @@ public abstract class AbstractExport<T> implements Export<T> {
         }catch (IOException e){
             throw new RuntimeException("Create File Failed: ", e);
         }
-        exportTask.setFilePath(exportPath);
+        exportTask.setFilePath(FilePath.getExportPath());
         try {
             OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
             doExport(out, exportTask.getArgument());
@@ -42,7 +31,7 @@ public abstract class AbstractExport<T> implements Export<T> {
     }
 
     private File createFile(String fileName) throws IOException{
-        File file = new File(exportPath, fileName);
+        File file = new File(FilePath.getExportPath(), fileName);
         if(!file.getParentFile().exists()){
             file.getParentFile().mkdirs();
         }
