@@ -20,7 +20,7 @@
         <module>processservice</module>
         <module>blogservice</module>
         <module>importexportservice</module>
-        <module>dataoperatservice</module>
+        <!--<module>dataoperatservice</module>-->
     </modules>
 
     <properties>
