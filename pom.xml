@@ -30,7 +30,7 @@
         <spring.cloud.version>Edgware.SR4</spring.cloud.version>
         <spring.cloud.zuul.version>1.4.5.RELEASE</spring.cloud.zuul.version>
         <spring.batch.version>3.0.8.RELEASE</spring.batch.version>
-        <http.version>4.5.6</http.version>
+        <http.httpclient.version>4.5.6</http.httpclient.version>
         <java.version>1.8</java.version>
         <maven.compile.source>1.8</maven.compile.source>
         <maven.compile.target>1.8</maven.compile.target>
