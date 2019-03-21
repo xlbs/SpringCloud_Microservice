@@ -14,11 +14,6 @@
     </parent>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>com.xlbs</groupId>-->
-            <!--<artifactId>constantjar</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
-        <!--</dependency>-->
         <!--spring上下文包，在加载spring配置文件时用到-->
         <dependency>
             <groupId>org.springframework</groupId>

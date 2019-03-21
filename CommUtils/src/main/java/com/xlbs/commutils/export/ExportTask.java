@@ -1,6 +1,7 @@
 package com.xlbs.commutils.export;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xlbs.commutils.utils.Entity;
 import com.xlbs.commutils.utils.RequestContextUtils;
 import com.xlbs.commutils.utils.SpringUtils;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 import java.util.Date;
 
 @Getter @Setter @NoArgsConstructor
-public class ExportTask<T> {
+public class ExportTask<T> extends Entity {
 
     private Long id;
 
@@ -28,14 +29,6 @@ public class ExportTask<T> {
 
     private String contentType; //媒体类型信息
 
-    private Long createdBy;
-
-    private Date creationDate;
-
-    private Long lastModifyBy;
-
-    private Date lastModifyDate;
-
     @JsonIgnore
     private T argument;
 
@@ -52,6 +45,7 @@ public class ExportTask<T> {
         this.argument = argument;
         this.export = export;
         this.setCreatedBy(RequestContextUtils.getUserId());
+        this.setCreatedDate(new Date());
     }
 
     void export(){
