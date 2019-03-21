@@ -2,13 +2,12 @@ package com.xlbs.apiservice.dao.imp;
 
 import com.google.common.collect.ImmutableMap;
 import com.xlbs.apiservice.dao.intf.I_UserDao;
-import com.xlbs.constantjar.obj.User;
+import com.xlbs.apiservice.entity.User;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class UserDao implements I_UserDao {
@@ -21,7 +20,7 @@ public class UserDao implements I_UserDao {
      * @return
      */
     @Override
-    public List<Map<Object,Object>> findAllUser() {
+    public List<User> findAllUser() {
         return sqlSession.selectList("findAllUser");
     }
 

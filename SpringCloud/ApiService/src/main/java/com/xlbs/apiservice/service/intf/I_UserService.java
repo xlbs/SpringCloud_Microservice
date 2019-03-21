@@ -1,9 +1,8 @@
 package com.xlbs.apiservice.service.intf;
 
-import com.xlbs.constantjar.obj.User;
+import com.xlbs.apiservice.entity.User;
 
 import java.util.List;
-import java.util.Map;
 
 public interface I_UserService {
 
@@ -11,7 +10,7 @@ public interface I_UserService {
      * 查询所有用户信息
      * @return
      */
-    public List<Map<Object,Object>> findAllUser();
+    public List<User> findAllUser();
 
     /**
      * 通过userId查询用户信息

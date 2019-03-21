@@ -1,8 +1,8 @@
 package com.xlbs.apiservice.service.imp;
 
 import com.xlbs.apiservice.dao.intf.I_UserDao;
+import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.service.intf.I_UserService;
-import com.xlbs.constantjar.obj.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class UserService implements I_UserService {
      * @return
      */
     @Override
-    public List<Map<Object,Object>> findAllUser() {
+    public List<User> findAllUser() {
         return userDao.findAllUser();
     }
 

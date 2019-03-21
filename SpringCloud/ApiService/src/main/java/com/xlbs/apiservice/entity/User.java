@@ -1,12 +1,14 @@
-package com.xlbs.constantjar.obj;
+package com.xlbs.apiservice.entity;
 
+import com.xlbs.constantjar.obj.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class User extends Entity {
 
-    private Long userId;
+    private Long id;
 
     private String username;
 
@@ -14,6 +16,6 @@ public class User extends Entity {
 
     private String name;
 
-    private String description;
+    private Integer type;
 
 }

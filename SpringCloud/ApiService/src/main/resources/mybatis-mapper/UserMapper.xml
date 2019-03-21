@@ -5,15 +5,19 @@
 <mapper namespace="com.xlbs.apiservice.dao.imp.UserDao">
 
     <sql id="userField">
-        USER_ID AS userId,
-        USER_NAME AS username,
-        PASSWORD AS password,
-        NAME AS name,
-        DESCRIPTION AS description
+        id as id,
+        user_name as username,
+        password as password,
+        name as name,
+        type as type,
+        created_by as createdBy,
+        creatd_date as creatdDate,
+        last_modify_by as lastModifyBy,
+        last_modify_date as lastModifyDate
     </sql>
 
     <!--查询所有用户信息-->
-    <select id="findAllUser" resultType="java.util.Map">
+    <select id="findAllUser" resultType="com.xlbs.apiservice.entity.User">
         select
           <include refid="userField"/>
         from
@@ -21,33 +25,33 @@
     </select>
 
     <!--通过userId查询用户信息-->
-    <select id="findUserByUserId" resultType="com.xlbs.constantjar.obj.User">
+    <select id="findUserByUserId" resultType="com.xlbs.apiservice.entity.User">
         select
           <include refid="userField"/>
         from
           t_user
         where
-          USER_ID = #{userId}
+          id = #{userId}
     </select>
 
     <!--通过username查询用户信息-->
-    <select id="findUserByUsername" resultType="com.xlbs.constantjar.obj.User">
+    <select id="findUserByUsername" resultType="com.xlbs.apiservice.entity.User">
         select
           <include refid="userField"/>
         from
           t_user
         where
-        USER_NAME = #{username}
+        user_name = #{username}
     </select>
 
     <!--通过name查询用户信息-->
-    <select id="findUserByName" resultType="com.xlbs.constantjar.obj.User">
+    <select id="findUserByName" resultType="com.xlbs.apiservice.entity.User">
         select
           <include refid="userField"/>
         from
           t_user
         where
-          NAME = #{name}
+          name = #{name}
     </select>
 
 </mapper>

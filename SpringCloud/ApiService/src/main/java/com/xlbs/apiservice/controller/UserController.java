@@ -1,7 +1,7 @@
 package com.xlbs.apiservice.controller;
 
+import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.service.intf.I_UserService;
-import com.xlbs.constantjar.obj.User;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/sysUser")
+@RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
@@ -25,7 +24,7 @@ public class UserController {
      */
     @ApiOperation(value="获取用户列表", notes="")
     @RequestMapping(value = "/findAllUser", method={RequestMethod.GET, RequestMethod.POST})
-    public List<Map<Object,Object>> findAllUser(){
+    public List<User> findAllUser(){
         return userService.findAllUser();
     }
 
