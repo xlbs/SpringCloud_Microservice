@@ -5,7 +5,7 @@
 <mapper namespace="com.xlbs.apiservice.dao.imp.UserDao">
 
     <sql id="userField">
-        id as id,
+        id as userId,
         user_name as username,
         password as password,
         name as name,

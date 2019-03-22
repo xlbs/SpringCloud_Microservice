@@ -18,6 +18,12 @@ public class UserController {
     @Autowired
     private I_UserService userService;
 
+    @ApiOperation(value="用户登入")
+    @RequestMapping(value = "/login", method={RequestMethod.GET})
+    public User login(@RequestParam String username){
+        return userService.findUserByUsername(username);
+    }
+
     /**
      * 查询所有用户信息
      * @return

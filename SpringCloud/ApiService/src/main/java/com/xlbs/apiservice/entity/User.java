@@ -4,11 +4,10 @@ import com.xlbs.constantjar.obj.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 public class User extends Entity {
 
-    private Long id;
+    private Long userId;
 
     private String username;
 

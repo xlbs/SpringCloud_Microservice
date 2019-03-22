@@ -4,11 +4,10 @@ import com.xlbs.constantjar.obj.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 public class Role extends Entity {
 
-    private Integer id;
+    private Integer roleId;
 
     private String name;
 
