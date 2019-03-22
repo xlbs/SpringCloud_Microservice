@@ -2,6 +2,7 @@ package com.xlbs.apiservice.controller;
 
 import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.entity.User;
+import com.xlbs.apiservice.service.intf.I_MenuService;
 import com.xlbs.apiservice.service.intf.I_UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +17,35 @@ public class UserController {
     @Autowired
     private I_UserService userService;
 
+    @Autowired
+    private I_MenuService menuService;
+
+    /**
+     * 用户通过用户名和密码登入
+     * @param username 用户名
+     * @return
+     */
     @ApiOperation(value="用户登入")
     @RequestMapping(value = "/login", method={RequestMethod.GET})
     public User login(@RequestParam String username){
         return userService.findUserByUsername(username);
     }
 
+    /**
+     * 查找用户所拥有的菜单
+     * @param userId 用户ID
+     * @return
+     */
     @ApiOperation(value="用户菜单")
     @GetMapping(value = "/menu/{userId}")
     public List<Menu> login(@PathVariable Long userId){
-        return null;
-//        return userService.findUserByUsername(username);
+        return menuService.findMenuByUserId(userId);
     }
+
+
+
+
+
 
     /**
      * 查询所有用户信息
