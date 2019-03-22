@@ -10,26 +10,28 @@ import LoginBox from "../../commutils/components/login/LoginBox";
 class MainComponent extends React.Component {
 
     constructor(props) {
+        debugger;
         super(props);
+        const menu = CurrentCache.get().menu;
         const routes = [];
         const routeSub = subItem => {
-            subItem.subs.map(item => {
+            subItem.childMenu.map(item => {
                 let temp = {
-                    path: subItem.key+item.key,
-                    value: subItem.title+'/'+item.title
+                    path: subItem.url+item.url,
+                    value: subItem.name+'/'+item.name
                 };
                 routes.push(temp);
             })
         }
         const route = item => {
             let temp = {
-                path: item.key,
-                value: item.title
+                path: item.url,
+                value: item.name
             };
             routes.push(temp);
         }
-        RouteConfigFile.menus.map(item => {
-            item.subs?routeSub(item):route(item)
+        menu.map(item => {
+            item.childMenu.length === 0 ? route(item) : routeSub(item)
         })
         this.state =  {
             collapsed: false,
