@@ -11,5 +11,15 @@ public class Menu extends Entity {
 
     private String name;
 
+    private Integer parentId;
+
+    private Integer rank;
+
+    private String url;
+
+    private Boolean isEnable;
+
+    private Integer index;
+
 
 }

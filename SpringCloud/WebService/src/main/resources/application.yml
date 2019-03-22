@@ -47,18 +47,22 @@ zuul:
       connect-timeout-millis: 60000
       socket-timeout-millis: 60000
   routes: #开始配置转发规则
-    export-api: #随便定义，但要唯一，最好能见闻起意
+    user-api: #随便定义，但要唯一，最好能见闻起意
+      path: /user/** #请求路径
+      stripPrefix: false
+      service-id: api-service #转发到具体的那个服务
+    export-api:
       path: /export/** #请求路径
       stripPrefix: false
-      service-id: import-export-service  #转发到具体的那个服务
+      service-id: import-export-service #转发到具体的那个服务
     home-api: #随便定义，但要唯一，最好能见闻起意
       path: /home/** #请求路径
       stripPrefix: false
-      service-id: blog-service  #转发到具体的那个服务
+      service-id: blog-service #转发到具体的那个服务
     test-api: #随便定义，但要唯一，最好能见闻起意
       path: /test/** #请求路径
       stripPrefix: false
-      service-id: blog-service  #转发到具体的那个服务
+      service-id: blog-service #转发到具体的那个服务
 
 
 

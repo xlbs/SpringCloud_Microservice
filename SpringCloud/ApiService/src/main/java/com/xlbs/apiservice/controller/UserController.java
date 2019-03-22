@@ -1,13 +1,11 @@
 package com.xlbs.apiservice.controller;
 
+import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.service.intf.I_UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +20,13 @@ public class UserController {
     @RequestMapping(value = "/login", method={RequestMethod.GET})
     public User login(@RequestParam String username){
         return userService.findUserByUsername(username);
+    }
+
+    @ApiOperation(value="用户菜单")
+    @GetMapping(value = "/menu/{userId}")
+    public List<Menu> login(@PathVariable Long userId){
+        return null;
+//        return userService.findUserByUsername(username);
     }
 
     /**
