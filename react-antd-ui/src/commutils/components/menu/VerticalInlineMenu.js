@@ -1,14 +1,15 @@
 import React from 'react';
 import CreateMenu from './CreateMenu'
-import RouteConfigFile from '../../../routes/RouteConfigFile'
+import {CurrentCache} from "../../utils/CurrentCache";
 
 
 class VerticalInlineMenu extends React.Component{
 
     render(){
+        const menu = CurrentCache.get().menu;
         return(
             <CreateMenu
-                menus={RouteConfigFile.menus}
+                menus={menu}
                 mode="inline"
                 theme="dark"
                 style={{ height: '100%' }}

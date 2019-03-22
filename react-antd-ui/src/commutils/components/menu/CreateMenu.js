@@ -3,30 +3,30 @@ import { Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 
 const renderMenuItem = item => ( // item.route 菜单单独跳转的路由
-    <Menu.Item key={item.key}>
-        <Link to={item.route || item.key}>
+    <Menu.Item key={item.menuId}>
+        <Link to={item.url}>
             {item.icon && <Icon type={item.icon} />}
-            <span className="nav-text">{item.title}</span>
+            <span className="nav-text">{item.name}</span>
         </Link>
     </Menu.Item>
 );
 
 const renderSubMenu = subItem => (
     <Menu.SubMenu
-        key={subItem.key}
+        key={subItem.menuId}
         title={
             <span>
                 {subItem.icon && <Icon type={subItem.icon} />}
-                <span className="nav-text">{subItem.title}</span>
+                <span className="nav-text">{subItem.name}</span>
             </span>
         }
     >
-        {subItem.subs.map( item => {
+        {subItem.childMenu.map( item => {
             return(
-                <Menu.Item key={subItem.key+item.key}>
-                    <Link to={subItem.key+item.key}>
+                <Menu.Item key={item.menuId}>
+                    <Link to={subItem.url+item.url}>
                         {item.icon && <Icon type={item.icon} />}
-                        <span className="nav-text">{item.title}</span>
+                        <span className="nav-text">{item.name}</span>
                     </Link>
                 </Menu.Item>
                 )
@@ -37,7 +37,7 @@ const renderSubMenu = subItem => (
 export default ({ menus, ...props }) => (
     <Menu {...props}>
         {menus && menus.map(item =>
-            item.subs ? renderSubMenu(item) : renderMenuItem(item)
+            item.childMenu.length === 0 ? renderMenuItem(item) : renderSubMenu(item)
         )}
     </Menu>
 );
