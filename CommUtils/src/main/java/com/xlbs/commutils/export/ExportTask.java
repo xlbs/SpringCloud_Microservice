@@ -1,7 +1,7 @@
 package com.xlbs.commutils.export;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.xlbs.commutils.utils.RequestContextUtils;
+import com.xlbs.constantjar.RequestContextUtils;
 import com.xlbs.commutils.utils.SpringUtils;
 import com.xlbs.constantjar.obj.Entity;
 import lombok.Getter;

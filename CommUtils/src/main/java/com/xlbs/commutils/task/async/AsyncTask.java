@@ -2,9 +2,9 @@ package com.xlbs.commutils.task.async;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xlbs.commutils.constant.TaskType;
-import com.xlbs.commutils.task.RequestContext;
+import com.xlbs.constantjar.obj.RequestContext;
 import com.xlbs.commutils.task.Task;
-import com.xlbs.commutils.utils.RequestContextUtils;
+import com.xlbs.constantjar.RequestContextUtils;
 import com.xlbs.commutils.utils.SpringUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

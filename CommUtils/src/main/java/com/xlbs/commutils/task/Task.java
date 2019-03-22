@@ -1,6 +1,7 @@
 package com.xlbs.commutils.task;
 
 import com.xlbs.commutils.constant.TaskStatus;
+import com.xlbs.constantjar.obj.RequestContext;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

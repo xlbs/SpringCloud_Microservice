@@ -1,6 +1,6 @@
 package com.xlbs.commutils.task.async;
 
-import com.xlbs.commutils.utils.RequestContextUtils;
+import com.xlbs.constantjar.RequestContextUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.stereotype.Component;
 

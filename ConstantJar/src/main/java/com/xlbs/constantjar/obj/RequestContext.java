@@ -1,4 +1,4 @@
-package com.xlbs.commutils.task;
+package com.xlbs.constantjar.obj;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,9 +12,11 @@ public class RequestContext {
 
     private Long userId;
 
-    private String userNo;
+    private String username;
 
-    private String userName;
+    private String name;
+
+    private Integer userType;
 
 
 }

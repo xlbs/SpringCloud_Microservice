@@ -10,6 +10,8 @@ import java.util.Date;
 @Setter @Getter @NoArgsConstructor
 public class Entity {
 
+    private Long id;
+
     private Long createdBy;
 
     private Date createdDate;
