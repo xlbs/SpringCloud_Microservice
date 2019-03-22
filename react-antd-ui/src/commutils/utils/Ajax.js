@@ -7,7 +7,7 @@ import {showLoginBox} from "../actions/Login";
  * @type {{get: Ajax.get, post: Ajax.post}}
  */
 export const Ajax = {
-    get: ({ url }, callBack, dispatch) => {
+    get: (url, callBack, dispatch) => {
         axios.get(url)
             .then(function (response) {
                 callBack && callBack(response);

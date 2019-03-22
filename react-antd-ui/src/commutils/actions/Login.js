@@ -1,4 +1,4 @@
-import {CurrentUser} from "../utils/CurrentUser";
+import {CurrentCache} from "../utils/CurrentCache";
 
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const TIME_OUT = "TIME_OUT";
@@ -23,7 +23,7 @@ export function showLoginBox(){
         type: TIME_OUT,
         isTimeOut: true,
         errorMsg: '会话已超时，请重新登入',
-        username: CurrentUser.get().data.username,
+        username: CurrentCache.get().data.username,
         userNameDisabled: true
     }
 }

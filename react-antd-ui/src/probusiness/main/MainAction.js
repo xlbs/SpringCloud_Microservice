@@ -1,6 +1,6 @@
 import {push} from "react-router-redux";
-import {AjaxPromise} from "../../commutils/utils/Ajax";
-import {CurrentUser} from "../../commutils/utils/CurrentUser";
+import {Ajax, AjaxPromise} from "../../commutils/utils/Ajax";
+import {CurrentCache} from "../../commutils/utils/CurrentCache";
 import {setErrorMsg, hiddenLoginBox} from "../../commutils/actions/Login";
 import {showConfirm} from "../../commutils/components/dialog/MessageDialog";
 
@@ -10,7 +10,7 @@ import {showConfirm} from "../../commutils/components/dialog/MessageDialog";
  * @returns {function(*): Promise<any>}
  */
 function login(user) {
-    const url = $requestContext.path + "/loginB";
+    let url = $requestContext.path + "/loginB";
     const config = {};
     config.method = 'POST';
     config.params = {
@@ -19,9 +19,16 @@ function login(user) {
     }
     return (dispatch) => AjaxPromise(url,config).then(res => {
         if (res.status=='success') {
-            sessionStorage.setItem("isLogin","1");//已登入
-            CurrentUser.set(res);
-            dispatch(hiddenLoginBox());
+            let cache = {};
+            cache.user = res.user;
+            CurrentCache.set(cache);
+            url = $requestContext.path + "/user/menu/"+res.user.userId;
+            Ajax.get(url,(menu) =>{
+                cache.menu = menu.data;
+                CurrentCache.set(cache);
+                sessionStorage.setItem("isLogin","1");//已登入
+                dispatch(hiddenLoginBox());
+            },dispatch);
         }else{
             dispatch(setErrorMsg(res.message));
         }

@@ -4,7 +4,7 @@ const { Header, Content, Footer, Sider } = Layout;
 import history from '../../history';
 import VerticalInlineMenu from "../../commutils/components/menu/VerticalInlineMenu";
 import RouteConfigFile from '../../routes/RouteConfigFile';
-import {CurrentUser} from "../../commutils/utils/CurrentUser";
+import {CurrentCache} from "../../commutils/utils/CurrentCache";
 import LoginBox from "../../commutils/components/login/LoginBox";
 
 class MainComponent extends React.Component {
@@ -51,8 +51,8 @@ class MainComponent extends React.Component {
             if(history.location.pathname==item.path){
                 location = item.value;
             }
-        })
-        const username = CurrentUser.get().data.userName;
+        });
+        const name = CurrentCache.get().user.name;
         return(
             <div id="main" className="global">
                 <Layout className='global'>
@@ -62,7 +62,7 @@ class MainComponent extends React.Component {
                             <span className='text'>ANTD-UI-管理系统</span>
                         </div>
                         <div className='right-div'>
-                            <span className='right-text'>{username}，欢迎您！</span>
+                            <span className='right-text'>{name}，欢迎您！</span>
                             <span className='exit'><Icon type="poweroff" onClick={this.exitLogin.bind(this)}/></span>
                         </div>
                     </Header>

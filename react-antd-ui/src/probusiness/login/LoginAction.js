@@ -1,6 +1,6 @@
 import {push} from 'react-router-redux';
-import {CurrentUser} from "../../commutils/utils/CurrentUser";
-import {AjaxPromise} from "../../commutils/utils/Ajax";
+import {CurrentCache} from "../../commutils/utils/CurrentCache";
+import {AjaxPromise,Ajax} from "../../commutils/utils/Ajax";
 import {setErrorMsg} from "../../commutils/actions/Login";
 
 /**
@@ -9,7 +9,7 @@ import {setErrorMsg} from "../../commutils/actions/Login";
  * @returns {function(*): Promise<any>}
  */
 function login(user) {
-    const url = $requestContext.path + "/loginB";
+    let url = $requestContext.path + "/loginB";
     const config = {};
     config.method = 'POST';
     config.params = {
@@ -18,9 +18,16 @@ function login(user) {
     }
     return (dispatch) => AjaxPromise(url,config).then(res => {
         if (res.status=='success') {
-            sessionStorage.setItem("isLogin","1");//已登入
-            CurrentUser.set(res);
-            dispatch(push("/"));//跳转到首页
+            let cache = {};
+            cache.user = res.user;
+            CurrentCache.set(cache);
+            url = $requestContext.path + "/user/menu/"+res.user.userId;
+            Ajax.get(url,(menu) =>{
+                cache.menu = menu.data;
+                CurrentCache.set(cache);
+                sessionStorage.setItem("isLogin","1");//已登入
+                dispatch(push("/"));//跳转到首页
+            },dispatch);
         }else{
             dispatch(setErrorMsg(res.message));
         }
