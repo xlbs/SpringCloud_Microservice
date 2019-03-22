@@ -1,6 +1,11 @@
 package com.xlbs.webservice.authentication.user;
 
-public class UserResponse {
+import com.xlbs.constantjar.obj.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
+public class UserResponse extends Entity {
 
     private Long userId;
 
@@ -8,45 +13,12 @@ public class UserResponse {
 
     private String name;
 
-    private String description;
+    private Integer type;
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public UserResponse(Long userId, String username, String name, String description) {
+    public UserResponse(Long userId, String username, String name, Integer type) {
         this.userId = userId;
         this.username = username;
         this.name = name;
-        this.description = description;
+        this.type = type;
     }
 }

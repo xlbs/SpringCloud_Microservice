@@ -5,6 +5,7 @@ import com.xlbs.webservice.authentication.user.User;
 import com.xlbs.webservice.authentication.user.UserInfo;
 import com.xlbs.webservice.authentication.user.UserResponse;
 import com.xlbs.webservice.feign.UserFeignClient;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -37,7 +38,7 @@ public class LoginController_B {
             if(Objects.isNull(userInfo)){
                 return ResponseEntity.ok().body(ImmutableMap.of( "status","error","message","用户不存在"));
             }
-            Authentication token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());//第一步，使用name和password封装成为的token
+            Authentication token = new UsernamePasswordAuthenticationToken(user.getUsername(), DigestUtils.sha1Hex(user.getPassword()));//第一步，使用name和password封装成为的token
             Authentication result = authenticationManager.authenticate(token); //将token传递给Authentication进行验证
             SecurityContextHolder.getContext().setAuthentication(result);
         }catch (Exception e){
@@ -53,8 +54,9 @@ public class LoginController_B {
         session.setAttribute(SessionConstant.USER_ID, userInfo.getUserId());
         session.setAttribute(SessionConstant.USERNAME, userInfo.getUsername());
         session.setAttribute(SessionConstant.NAME, userInfo.getName());
+        session.setAttribute(SessionConstant.USER_TYPE, userInfo.getType());
 
-        UserResponse userResponse = new UserResponse(userInfo.getUserId(),userInfo.getUsername(),userInfo.getName(),userInfo.getDescription());
+        UserResponse userResponse = new UserResponse(userInfo.getUserId(),userInfo.getUsername(),userInfo.getName(),userInfo.getType());
         return ResponseEntity.ok().body(ImmutableMap.of("status","success","data",userResponse,"message","登入成功"));
     }
 
