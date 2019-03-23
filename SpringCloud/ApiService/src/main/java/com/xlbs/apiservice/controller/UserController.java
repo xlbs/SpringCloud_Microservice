@@ -21,7 +21,7 @@ public class UserController {
     private I_MenuService menuService;
 
     /**
-     * 用户通过用户名和密码登入
+     * 用户登入
      * @param username 用户名
      * @return
      */
@@ -32,64 +32,26 @@ public class UserController {
     }
 
     /**
-     * 查找用户所拥有的菜单
+     * 根据用户ID查找该用户所拥有的菜单
      * @param userId 用户ID
      * @return
      */
-    @ApiOperation(value="用户菜单")
+    @ApiOperation(value="根据用户ID查找该用户所拥有的菜单")
     @GetMapping(value = "/menu/{userId}")
-    public List<Menu> login(@PathVariable Long userId){
+    public List<Menu> findMenu(@PathVariable Long userId){
         return menuService.findMenuByUserId(userId);
     }
 
-
-
-
-
-
     /**
-     * 查询所有用户信息
+     * 查找系统中的用户列表
      * @return
      */
-    @ApiOperation(value="获取用户列表", notes="")
-    @RequestMapping(value = "/findAllUser", method={RequestMethod.GET, RequestMethod.POST})
-    public List<User> findAllUser(){
+    @ApiOperation(value="查找系统中的用户列表", notes="哒哒哒哒哒哒")
+    @GetMapping(value = "/findUserList")
+    public List<User> findUserList(){
         return userService.findAllUser();
     }
 
-    /**
-     * 通过userId查询用户信息
-     * @param userId 用户Id
-     * @return
-     */
-    @ApiOperation(value="获取用户详细信息", notes="根据userId来获取用户详细信息")
-//    @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "Integer")
-    @RequestMapping(value = "/findUserByUserId", method={RequestMethod.GET, RequestMethod.POST})
-    public User findUserByUserId(@RequestParam Long userId){
-        return userService.findUserByUserId(userId);
-    }
-
-    /**
-     * 通过username查询用户信息
-     * @param username 用户名
-     * @return
-     */
-    @ApiOperation(value="获取用户详细信息", notes="根据userName来获取用户详细信息")
-    @RequestMapping(value = "/findUserByUsername", method={RequestMethod.GET, RequestMethod.POST})
-    public User findUserByUsername(@RequestParam String username){
-        return userService.findUserByUsername(username);
-    }
-
-    /**
-     * 通过name查询用户信息
-     * @param name 姓名
-     * @return
-     */
-    @ApiOperation(value="获取用户详细信息", notes="根据name来获取用户详细信息")
-    @RequestMapping(value = "/findUserByName", method={RequestMethod.GET, RequestMethod.POST})
-    public User findUserByName(@RequestParam String name){
-        return userService.findUserByName(name);
-    }
 
 
 }

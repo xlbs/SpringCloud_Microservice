@@ -11,7 +11,7 @@
         name as name,
         type as type,
         created_by as createdBy,
-        creatd_date as creatdDate,
+        created_date as createdDate,
         last_modify_by as lastModifyBy,
         last_modify_date as lastModifyDate
     </sql>
