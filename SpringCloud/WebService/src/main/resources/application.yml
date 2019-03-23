@@ -51,6 +51,14 @@ zuul:
       path: /user/** #请求路径
       stripPrefix: false
       service-id: api-service #转发到具体的那个服务
+    menu-api: #随便定义，但要唯一，最好能见闻起意
+      path: /menu/** #请求路径
+      stripPrefix: false
+      service-id: api-service #转发到具体的那个服务
+    data-dict-api: #随便定义，但要唯一，最好能见闻起意
+      path: /dataDict/** #请求路径
+      stripPrefix: false
+      service-id: api-service #转发到具体的那个服务
     export-api:
       path: /export/** #请求路径
       stripPrefix: false
