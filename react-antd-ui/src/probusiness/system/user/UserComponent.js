@@ -1,7 +1,9 @@
 import React from 'react';
 import { Table, Divider, Tag } from 'antd';
 import Button from "antd/es/button/button";
+import CreateTable from '../../../commutils/components/CreateTable';
 import '../../../statics/css/system/user/user.css';
+
 
 class UserComponent extends React.Component{
 
@@ -21,7 +23,7 @@ class UserComponent extends React.Component{
             {title: '姓名',dataIndex: 'name'},
             {title: '类型',dataIndex: 'type'},
             {title: '创建人',dataIndex: 'createdBy'},
-            {title: '创建时间',dataIndex: 'creatdDate'},
+            {title: '创建时间',dataIndex: 'createdDate'},
             {title: '最后修改人',dataIndex: 'lastModifyBy'},
             {title: '最后修改时间',dataIndex: 'lastModifyDate'},
         ];
@@ -57,11 +59,16 @@ class UserComponent extends React.Component{
         return (
             <div id="user">
                 <Button type="primary">新增</Button>
-                <Table
+                <CreateTable
                     columns={this.state.columns}
                     dataSource={dataSource}
-                    // bordered
+                    bordered
                 />
+                {/*<Table*/}
+                    {/*columns={this.state.columns}*/}
+                    {/*dataSource={dataSource}*/}
+                    {/*bordered*/}
+                {/*/>*/}
             </div>
         )
     }
