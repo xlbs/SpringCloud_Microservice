@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xlbs.apiservice.dao.imp.DataDictDao">
+
+    <sql id="entity">
+        created_by as createdBy,
+        created_date as createdDate,
+        last_modify_by as lastModifyBy,
+        last_modify_date as lastModifyDate
+    </sql>
+
+    <sql id="dataDictField">
+        id as id,
+        category as category,
+        `code` AS `code`,
+        `value` AS `value`,
+        `index` AS `index`,
+        <include refid="entity"/>
+    </sql>
+
+    <!--通过类别查找字典表-->
+    <select id="findDataDictByCategory" resultType="com.xlbs.apiservice.entity.DataDict">
+        select
+          <include refid="dataDictField"/>
+        from
+          t_data_dict
+        where
+          category = #{category}
+        order by
+          category,`index`
+    </select>
+
+    <!--通过类别数组查找字典表-->
+    <select id="findDataDictByCategoryList" parameterType="java.util.List" resultType="com.xlbs.apiservice.entity.DataDict">
+        select
+          <include refid="dataDictField"/>
+        from
+          t_data_dict
+        where
+          category
+        in
+          <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+          </foreach>
+        order by
+          category,`index`
+    </select>
+
+
+
+</mapper>

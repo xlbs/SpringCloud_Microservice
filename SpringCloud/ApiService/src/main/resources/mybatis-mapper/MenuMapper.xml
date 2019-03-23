@@ -7,25 +7,25 @@
     <!--通过用户ID查询该用户拥有的菜单-->
     <select id="findMenuByUserId" resultType="com.xlbs.apiservice.entity.Menu">
         select
-            distinct menu.id as menuId,
-            menu.name as name,
-            menu.parent_id as parentId,
-            menu.rank as `rank`,
-            menu.url as url,
-            menu.is_enable as isEnable,
-            menu.icon as icon,
-            menu.index as `index`,
-            menu.created_by as createdBy,
-            menu.creatd_date as creatdDate,
-            menu.last_modify_by as lastModifyBy,
-            menu.last_modify_date as lastModifyDate
+          distinct menu.id as menuId,
+          menu.name as name,
+          menu.parent_id as parentId,
+          menu.rank as `rank`,
+          menu.url as url,
+          menu.is_enable as isEnable,
+          menu.icon as icon,
+          menu.index as `index`,
+          menu.created_by as createdBy,
+          menu.created_date as createdDate,
+          menu.last_modify_by as lastModifyBy,
+          menu.last_modify_date as lastModifyDate
         from
-            (select m.*
-            from `t_user_role` ur
-            left join `t_role_menu` rm on ur.`role_id` = rm.`role_id`
-            left join `t_menu` m on rm.`menu_id` = m.`id`
-            where ur.`user_id` = #{userId}
-            and m.`is_enable` = 1) as menu
+          (select m.*
+          from `t_user_role` ur
+          left join `t_role_menu` rm on ur.`role_id` = rm.`role_id`
+          left join `t_menu` m on rm.`menu_id` = m.`id`
+          where ur.`user_id` = #{userId}
+          and m.`is_enable` = 1) as menu
         order by menu.index
     </select>
 

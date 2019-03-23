@@ -4,16 +4,20 @@
 
 <mapper namespace="com.xlbs.apiservice.dao.imp.UserDao">
 
+    <sql id="entity">
+        created_by as createdBy,
+        created_date as createdDate,
+        last_modify_by as lastModifyBy,
+        last_modify_date as lastModifyDate
+    </sql>
+
     <sql id="userField">
         id as userId,
         user_name as username,
         password as password,
         name as name,
         type as type,
-        created_by as createdBy,
-        created_date as createdDate,
-        last_modify_by as lastModifyBy,
-        last_modify_date as lastModifyDate
+        <include refid="entity"/>
     </sql>
 
     <!--查询所有用户信息-->
@@ -24,7 +28,7 @@
           t_user
     </select>
 
-    <!--通过userId查询用户信息-->
+    <!--通过用户ID查询用户信息-->
     <select id="findUserByUserId" resultType="com.xlbs.apiservice.entity.User">
         select
           <include refid="userField"/>
@@ -34,14 +38,14 @@
           id = #{userId}
     </select>
 
-    <!--通过username查询用户信息-->
+    <!--通过用户名查询用户信息-->
     <select id="findUserByUsername" resultType="com.xlbs.apiservice.entity.User">
         select
           <include refid="userField"/>
         from
           t_user
         where
-        user_name = #{username}
+          user_name = #{username}
     </select>
 
     <!--通过name查询用户信息-->
