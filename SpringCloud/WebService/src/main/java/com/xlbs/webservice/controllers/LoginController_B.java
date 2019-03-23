@@ -57,7 +57,7 @@ public class LoginController_B {
         session.setAttribute(SessionConstant.USER_TYPE, userInfo.getType());
 
         UserResponse userResponse = new UserResponse(userInfo.getUserId(),userInfo.getUsername(),userInfo.getName(),userInfo.getType());
-        return ResponseEntity.ok().body(ImmutableMap.of("status","success","data",userResponse,"message","登入成功"));
+        return ResponseEntity.ok().body(ImmutableMap.of("status","success","user",userResponse,"message","登入成功"));
     }
 
 
