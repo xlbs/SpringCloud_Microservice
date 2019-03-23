@@ -40,12 +40,17 @@ eureka:
 #logging:
 #  config: classpath:log4j.xml
 
-#路由转发
+#采用zuul作为网关,进行路由转发
+#使用serviceId路由策略时,ribbon配置的请求超时的生效
+ribbon:
+  ReadTimeout: 60000 #60秒
+  SocketTimeout: 60000 #60秒
+#使用url路由策略时,ribbon配置的请求超时的生效
 zuul:
   host:
       max-per-route-connections: 500
-      connect-timeout-millis: 60000
-      socket-timeout-millis: 60000
+      connect-timeout-millis: 2000
+      socket-timeout-millis: 2000
   routes: #开始配置转发规则
     user-api: #随便定义，但要唯一，最好能见闻起意
       path: /user/** #请求路径
@@ -71,11 +76,3 @@ zuul:
       path: /test/** #请求路径
       stripPrefix: false
       service-id: blog-service #转发到具体的那个服务
-
-
-
-
-
-
-
-
