@@ -2,12 +2,16 @@ import {Ajax} from "../../../commutils/utils/Ajax";
 
 export const USER_LIST = "USER_LIST";
 
-let url = $requestContext.path + "/user"
+const BASE_URL = $requestContext.path + "/user";
 
+/**
+ * 查询用户数据
+ * @returns {Function}
+ */
 function findUserList() {
     return (dispatch) => {
         Ajax.get(
-            url+"/findUserList",
+            BASE_URL+"/findUserList",
             (res)=>{
                 dispatch({
                     type: USER_LIST,
