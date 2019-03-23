@@ -1,18 +1,72 @@
 import React from 'react';
+import { Table, Divider, Tag } from 'antd';
 import Button from "antd/es/button/button";
+import '../../../statics/css/system/user/user.css';
 
 class UserComponent extends React.Component{
 
-    render() {
+    constructor(props){
+        super(props);
+        const columns = [
+            {title: '操作',key: 'action',width:150,
+                render: ()=>(
+                    <span>
+                        <Button type="primary" size="small" ghost>编辑</Button>
+                        <Divider type="vertical" />
+                        <Button type="primary" size="small" ghost>删除</Button>
+                    </span>
+                )
+            },
+            {title: '账号',dataIndex: 'username'},
+            {title: '姓名',dataIndex: 'name'},
+            {title: '类型',dataIndex: 'type'},
+            {title: '创建人',dataIndex: 'createdBy'},
+            {title: '创建时间',dataIndex: 'creatdDate'},
+            {title: '最后修改人',dataIndex: 'lastModifyBy'},
+            {title: '最后修改时间',dataIndex: 'lastModifyDate'},
+        ];
+        this.state = {
+            columns: columns
+        }
+    }
 
+    componentWillMount() {
+        this.props.user.actions.findUserList();
+    }
+    // componentDidMount() {
+    //     console.log('Component DID MOUNT!')
+    // }
+    // componentWillReceiveProps(newProps) {
+    //     console.log('Component WILL RECEIVE PROPS!')
+    // }
+    // shouldComponentUpdate(newProps, newState) {
+    //     return true;
+    // }
+    // componentWillUpdate(nextProps, nextState) {
+    //     console.log('Component WILL UPDATE!');
+    // }
+    // componentDidUpdate(prevProps, prevState) {
+    //     console.log('Component DID UPDATE!')
+    // }
+    // componentWillUnmount() {
+    //     console.log('Component WILL UNMOUNT!')
+    // }
+
+    render() {
+        const dataSource = this.props.user.userList;
         return (
-            <div>
-                <Button type="primary">
-                    用户管理
-                </Button>
+            <div id="user">
+                <Button type="primary">新增</Button>
+                <Table
+                    columns={this.state.columns}
+                    dataSource={dataSource}
+                    // bordered
+                />
             </div>
         )
     }
+
+
 }
 
 export default UserComponent;

@@ -11,14 +11,15 @@ class handleUserManagement extends React.Component{
     }
 
     render(){
+        const user = this.props;
         return(
-            <UserComponent/>
+            <UserComponent user={user}/>
         )
     }
 }
 
 const mapStateToProps = state =>({
-
+    userList: state.user.userList
 })
 
 const mapDispatchToProps = dispatch =>({
