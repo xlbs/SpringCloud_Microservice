@@ -3,6 +3,7 @@ import { Table, Divider, Tag } from 'antd';
 import Button from "antd/es/button/button";
 import CreateTable from '../../../commutils/components/CreateTable';
 import '../../../statics/css/system/user/user.css';
+import {findDataDict} from "../../../commutils/utils/CommUtils"
 
 
 class UserComponent extends React.Component{
@@ -27,13 +28,17 @@ class UserComponent extends React.Component{
             {title: '最后修改人',dataIndex: 'lastModifyBy'},
             {title: '最后修改时间',dataIndex: 'lastModifyDate'},
         ];
+        const dataDict = ["USER_TYPE","ACTION"];
         this.state = {
-            columns: columns
+            columns: columns,
+            dataDict: dataDict
         }
     }
 
     componentWillMount() {
         this.props.user.actions.findUserList();
+        debugger;
+        findDataDict(this.state.dataDict,this.props.user.dispatch);
     }
     // componentDidMount() {
     //     console.log('Component DID MOUNT!')

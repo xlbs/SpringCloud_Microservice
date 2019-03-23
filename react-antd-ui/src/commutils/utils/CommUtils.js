@@ -1,13 +1,19 @@
-import { showConfirm, showInfo, showSuccess, showError, showWarning } from '../components/dialog/MessageDialog';
+import {Ajax} from "./Ajax";
 
-
-export function exitLogin() {
-    showConfirm("是否确定退出？",
-        ()=>{
-            window.location.href="/login";
+export function findDataDict(category,dispatch) {
+    debugger;
+    let url = $requestContext.path + "/dataDict";
+    if(category && category.length>1){
+        url = url+"/find?category="+category
+    }else{
+        url = url+"/"+category
+    }
+    Ajax.get(
+        url,
+        (res)=>{
+            console.log(res);
         },
-        ()=>{
-
-        }
-    )
+        dispatch
+    );
+    
 }
