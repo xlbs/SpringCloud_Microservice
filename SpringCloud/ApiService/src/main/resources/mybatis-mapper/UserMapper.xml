@@ -14,9 +14,9 @@
     <sql id="userField">
         id as userId,
         user_name as username,
-        password as password,
-        name as name,
-        type as type,
+        `password` AS `password`,
+        `name` AS `name`,
+        `type` AS `type`,
         <include refid="entity"/>
     </sql>
 
