@@ -1,13 +1,13 @@
 import React from 'react';
 
 import HandleMain from './probusiness/main';
-import CRoute from "./routes/CRoute";
+import MenuRoute from "./routes/MenuRoute";
 
 class Main extends React.Component{
     render(){
         return(
             <HandleMain>
-                <CRoute />
+                <MenuRoute />
             </HandleMain>
         )
     }

@@ -11,6 +11,7 @@ class CRoute extends Component {
                     Object.keys(RouteConfigFile).map(key =>
                         RouteConfigFile[key].map(r => {
                             const route = r => {
+                                debugger;
                                 const Component = r.component;
                                 const isLogged = sessionStorage.getItem("isLogin")==="1"? true : false;
                                 return (

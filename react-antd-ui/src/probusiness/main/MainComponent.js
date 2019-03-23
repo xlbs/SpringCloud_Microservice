@@ -3,14 +3,12 @@ import { Layout,Icon } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import history from '../../history';
 import VerticalInlineMenu from "../../commutils/components/menu/VerticalInlineMenu";
-import RouteConfigFile from '../../routes/RouteConfigFile';
 import {CurrentCache} from "../../commutils/utils/CurrentCache";
 import LoginBox from "../../commutils/components/login/LoginBox";
 
 class MainComponent extends React.Component {
 
     constructor(props) {
-        debugger;
         super(props);
         const menu = CurrentCache.get().menu;
         const routes = [];
