@@ -12,13 +12,35 @@ export const CurrentSessionCache = {
         return JSON.parse(json);
     },
     add: function(key,value){
-        debugger;
-        const json = sessionStorage[key];
+        let json = sessionStorage[key];
         if(!json || json==="undefined"){
-            sessionStorage[key] = JSON.stringify(value)
+            sessionStorage[key] = JSON.stringify(value);
         }else{
-            json.push(value);
-            sessionStorage[key] = JSON.stringify(json);
+            json = JSON.parse(json);
+            let cache = [];
+            if(json instanceof Array){
+                for(let i=0; i<json.length; i++){
+                    cache.push(json[i]);
+                }
+                if(value instanceof Array){
+                    for(let j=0; j<value.length; j++){
+                        cache.push(value[j]);
+                    }
+                }else{
+                    cache.push(value);
+                }
+                sessionStorage[key] = JSON.stringify(cache);
+            }else{
+                cache.push(json);
+                if(value instanceof Array){
+                    for(let j=0; j<value.length; j++){
+                        cache.push(value[j]);
+                    }
+                }else{
+                    cache.push(value);
+                }
+                sessionStorage[key] = JSON.stringify(cache);
+            }
         }
     },
     remove: function (key) {
@@ -37,7 +59,7 @@ export const CurrentLocalCache = {
     },
     get: function (key) {
         const json = localStorage[key];
-        if (json===null || json===undefined){
+        if (!json || json==="undefined"){
             return null;
         }
         return JSON.parse(json);

@@ -16,34 +16,46 @@ function isInArray(arr,value){
 }
 
 export function findDataDict(category,dispatch) {
-    debugger;
     let arr = [];
-    const DATA_DICT = CurrentSessionCache.get("DATA_DICT");
-    if(DATA_DICT){
-        let nowDataDictArr = [];
-        for(let i=0; i<DATA_DICT.length; i++){
-            nowDataDictArr.push(DATA_DICT[i].category);
-        }
-        for (let j=0; j<category.length; j++){
-            if(!isInArray(nowDataDictArr,category[j])){
-                arr.push(category[j]);
+    const historyDataDict = CurrentSessionCache.get("DATA_DICT");
+    if(historyDataDict){
+        let historyCategoryArr = [];
+        if(historyDataDict instanceof Array){
+            for(let i=0; i<historyDataDict.length; i++){
+                historyCategoryArr.push(historyDataDict[i].category);
             }
-
+        }else{
+            historyCategoryArr.push(historyDataDict.category);
+        }
+        if(category instanceof Array){
+            for (let j=0; j<category.length; j++){
+                if(!isInArray(historyCategoryArr,category[j])){
+                    arr.push(category[j]);
+                }
+            }
+        }else{
+            if(!isInArray(historyCategoryArr,category)){
+                arr.push(category);
+            }
         }
     }else{
-        arr = category;
+        if(category instanceof Array){
+            arr = category;
+        }else{
+            arr.push(category);
+        }
     }
     if(arr.length>0){
         let url = $requestContext.path + "/dataDict";
         if(arr.length>1){
-            url = url+"/find?category="+arr
+            url = url+"/find?category="+arr;
         }else{
-            url = url+"/"+arr
+            url = url+"/"+arr[0];
         }
         Ajax.get(
             url,
             (res)=>{
-                CurrentSessionCache.add("DATA_DICT",res.dat);a
+                CurrentSessionCache.add("DATA_DICT",res.data);
             },
             dispatch
         );
