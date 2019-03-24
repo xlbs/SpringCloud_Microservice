@@ -1,17 +1,14 @@
 package com.xlbs.webservice.controllers;
 
-import com.google.common.collect.ImmutableMap;
 import com.xlbs.constantjar.ResponseCode;
 import com.xlbs.constantjar.ResponseResult;
 import com.xlbs.webservice.authentication.user.User;
 import com.xlbs.webservice.authentication.user.UserInfo;
 import com.xlbs.webservice.authentication.user.UserResponse;
 import com.xlbs.webservice.feign.UserFeignClient;
+import net.sf.json.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,8 +33,11 @@ public class LoginController_B extends ResponseResult {
     public ResponseResult login(@RequestBody User user, HttpSession session) {
         UserInfo userInfo = null;
         try {
-            userInfo = userFeignClient.findUserByUsername(user.getUsername());
-            if(Objects.isNull(userInfo)){
+            ResponseResult res = userFeignClient.findUserByUsername(user.getUsername());
+            if(!Objects.isNull(res.getData())){
+                JSONObject json = JSONObject.fromObject(res.getData());
+                userInfo = (UserInfo)JSONObject.toBean(json, UserInfo.class);
+            }else{
                 return super.failure(ResponseCode.USER_NOT_EXIST);
             }
             Authentication token = new UsernamePasswordAuthenticationToken(user.getUsername(), DigestUtils.sha1Hex(user.getPassword()));//第一步，使用name和password封装成为的token
@@ -45,7 +45,6 @@ public class LoginController_B extends ResponseResult {
             SecurityContextHolder.getContext().setAuthentication(result);
         }catch (Exception e){
             if(e instanceof BadCredentialsException){
-                e.printStackTrace();
                 return super.failure(ResponseCode.USER_LOGIN_ERROR);
             }else{
                 e.printStackTrace();
