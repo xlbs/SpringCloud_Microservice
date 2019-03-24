@@ -18,10 +18,10 @@ public class UserInfoExport extends AbstractExport {
     @Override
     protected void doExport(OutputStream out, Object argument) {
         ExcelExporter excelExporter = null;
-        int[] columnWidths = {1000,4000,4000,4000,4000};
-        String[] headers = {"ID","用户名","密码","姓名","描述"};
+        int[] columnWidths = {4000,4000,4000,16000,4000,8000,4000,8000};
+        String[] headers = {"账号","姓名","类型","拥有的角色","创建人","创建时间","最后修改人","最后修改时间"};
         excelExporter = new ExcelExporter("用户表", columnWidths, headers);
-        String[] dataKeys = {"userId","userName","password","name","description"};
+        String[] dataKeys = {"username","name","type","roleNames","createdByName","createdDate","lastModifyByName","lastModifyDate"};
         excelExporter.fillData(dataKeys,userExportDao.findAllUser());
         try {
             excelExporter.write(out);

@@ -20,7 +20,7 @@ public class UserExportDao implements I_UserExportDao {
      */
     @Override
     public List<Map<Object,Object>> findAllUser() {
-        return sqlSession.selectList("findAllUser");
+        return sqlSession.selectList("findUserList");
     }
 
 
