@@ -64,12 +64,6 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.17</version>
         </dependency>
-        <!--使用gson需要相应的包-->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>${gson.version}</version>
-        </dependency>
         <!--使用jackson需要相应的包-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
