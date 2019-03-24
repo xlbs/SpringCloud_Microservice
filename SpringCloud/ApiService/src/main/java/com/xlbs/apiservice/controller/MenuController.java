@@ -2,6 +2,7 @@ package com.xlbs.apiservice.controller;
 
 import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.service.intf.I_MenuService;
+import com.xlbs.constantjar.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/menu")
-public class MenuController {
+public class MenuController extends ResponseResult {
 
     @Autowired
     private I_MenuService menuService;
@@ -22,8 +23,12 @@ public class MenuController {
      */
     @ApiOperation(value="根据用户ID查找该用户所拥有的菜单")
     @GetMapping(value = "/{userId}")
-    public List<Menu> findMenu(@PathVariable Long userId){
-        return menuService.findMenuByUserId(userId);
+    public ResponseResult findMenu(@PathVariable Long userId){
+        List<Menu> list = menuService.findMenuByUserId(userId);
+        if(!list.isEmpty()){
+            return super.success(list);
+        }
+        return super.success();
     }
 
 

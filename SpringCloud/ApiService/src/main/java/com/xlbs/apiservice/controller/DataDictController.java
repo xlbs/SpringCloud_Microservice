@@ -1,16 +1,19 @@
 package com.xlbs.apiservice.controller;
 
+import com.xlbs.apiservice.dao.imp.DataDictDao;
 import com.xlbs.apiservice.entity.DataDictInfo;
 import com.xlbs.apiservice.service.intf.I_DataDictService;
+import com.xlbs.constantjar.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/dataDict")
-public class DataDictController {
+public class DataDictController extends ResponseResult {
 
     @Autowired
     private I_DataDictService dataDictService;
@@ -22,8 +25,12 @@ public class DataDictController {
      */
     @ApiOperation(value="根据类别查找字典表数据")
     @GetMapping(value = "/{category}")
-    public DataDictInfo find(@PathVariable String category){
-        return dataDictService.findDataDict(category);
+    public ResponseResult find(@PathVariable String category){
+        DataDictInfo dataDictDao = dataDictService.findDataDict(category);
+        if(!Objects.isNull(dataDictDao)){
+            return super.success(dataDictDao);
+        }
+        return super.success();
     }
 
     /**
@@ -33,8 +40,12 @@ public class DataDictController {
      */
     @ApiOperation(value="根据类别列表查找字典表数据")
     @GetMapping(value = "/find")
-    public List<DataDictInfo> find(@RequestParam(value = "category") List<String> categoryList){
-        return dataDictService.findDataDict(categoryList);
+    public ResponseResult find(@RequestParam(value = "category") List<String> categoryList){
+        List<DataDictInfo> list = dataDictService.findDataDict(categoryList);
+        if(!list.isEmpty()){
+            super.success(list);
+        }
+        return super.success();
     }
 
 
