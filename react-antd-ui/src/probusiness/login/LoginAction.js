@@ -20,7 +20,6 @@ function login(user) {
         Ajax.post(
             {url,params},
             (res) =>{
-                debugger;
                 CurrentSessionCache.set("USER",res);
                 if(res.userId || res.userId===0){
                     url = BASE_URL + "/menu/"+res.userId;
