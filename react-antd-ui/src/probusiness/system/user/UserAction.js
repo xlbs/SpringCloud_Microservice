@@ -21,9 +21,25 @@ function findUserList() {
             dispatch
         )
     }
-    
+}
+
+/**
+ * 导出
+ * @returns {Function}
+ */
+function exportUserInfo() {
+    return (dispatch) => {
+        Ajax.get(
+            $requestContext.path+"/export/exportUserInfo",
+            (res)=>{
+
+            },
+            dispatch
+        )
+    }
 }
 
 export const actions = {
-    findUserList
+    findUserList,
+    exportUserInfo
 }

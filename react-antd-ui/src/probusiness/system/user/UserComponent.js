@@ -41,12 +41,17 @@ class UserComponent extends React.Component{
         this.props.user.findUserList();
     }
 
+    //导出
+    exportUserInfo(){
+        this.props.user.exportUserInfo();
+    }
+
+
     render() {
         const dataSource = this.props.user.userList;
         return (
             <div id="user">
-                <Button type="primary">新增</Button>
-                <Button type="primary">导出</Button>
+                <Button type="primary" onClick={this.exportUserInfo.bind(this)}>导出</Button>
                 <CreateTable
                     columns={this.state.columns}
                     dataSource={dataSource}
