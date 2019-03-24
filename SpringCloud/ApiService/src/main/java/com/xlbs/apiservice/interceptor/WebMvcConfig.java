@@ -19,7 +19,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new HandlerInterceptorAdapter() {
             @Override
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-                System.out.println("==>WebMvcConfig中的拦截器URI: "+request.getRequestURI() );
+                System.out.println("==>ApiService中的拦截器URI: "+request.getRequestURI() );
                 Long userId = new Long(request.getHeader(SessionConstant.USER_ID));
                 String username = request.getHeader(SessionConstant.USERNAME);
                 String name = request.getHeader(SessionConstant.NAME);

@@ -1,6 +1,6 @@
 package com.xlbs.importexportservice.interceptor;
 
-import com.xlbs.commutils.utils.RequestContextUtils;
+import com.xlbs.constantjar.RequestContextUtils;
 import com.xlbs.constantjar.SessionConstant;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,12 +19,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new HandlerInterceptorAdapter() {
             @Override
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-                String uri = request.getRequestURI();
-                System.out.println("==>WebMvcConfig中的拦截器URI: "+uri );
+                System.out.println("==>ImportExportService中的拦截器URI: "+request.getRequestURI() );
                 Long userId = new Long(request.getHeader(SessionConstant.USER_ID));
                 String username = request.getHeader(SessionConstant.USERNAME);
                 String name = request.getHeader(SessionConstant.NAME);
-                RequestContextUtils.set(userId, username, name);
+                Integer userType = Integer.valueOf(request.getHeader(SessionConstant.USER_TYPE));
+                RequestContextUtils.set(userId, username, name, userType);
                 return true;
             }
 
