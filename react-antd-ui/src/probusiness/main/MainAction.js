@@ -1,5 +1,5 @@
 import {push} from "react-router-redux";
-import {Ajax, AjaxPromise} from "../../commutils/utils/Ajax";
+import {Ajax} from "../../commutils/utils/Ajax";
 import {CurrentSessionCache} from "../../commutils/utils/CurrentCache";
 import {setErrorMsg, hiddenLoginBox} from "../../commutils/actions/Login";
 import {showConfirm} from "../../commutils/components/dialog/MessageDialog";
@@ -13,30 +13,51 @@ const BASE_URL = $requestContext.path;
  */
 function login(user) {
     let url = BASE_URL + "/loginB";
-    const config = {};
-    config.method = 'POST';
-    config.params = {
+    const params = {
         username: user.username,
         password: user.password
     }
-    return (dispatch) => AjaxPromise(url,config).then(res => {
-        if (res.status=='success') {
-            CurrentSessionCache.set("USER",res.user);
-            url = BASE_URL + "/menu/"+res.user.userId;
-            Ajax.get(url,
-                (menu) =>{
-                    CurrentSessionCache.set("MENU",menu.data);
-                    sessionStorage.setItem("isLogin","1");//已登入
-                    dispatch(hiddenLoginBox());
-                },
-                dispatch
-            );
-        }else{
-            dispatch(setErrorMsg(res.message));
-        }
-    }).catch( ex => {
-        console.log(ex);
-    })
+    return (dispatch) =>{
+        Ajax.post(
+            {url,params},
+            (res) =>{
+                debugger;
+                CurrentSessionCache.set("USER",res);
+                if(res.userId || res.userId===0){
+                    url = BASE_URL + "/menu/"+res.userId;
+                    Ajax.get(
+                        url,
+                        (menu) =>{
+                            CurrentSessionCache.set("MENU",menu);
+                            sessionStorage.setItem("isLogin","1");//已登入
+                            dispatch(hiddenLoginBox());
+                        },
+                        dispatch
+                    );
+                }
+            },
+            dispatch
+        )
+    }
+
+    // return (dispatch) => AjaxPromise(url,config).then(res => {
+    //     if (res.status=='success') {
+    //         CurrentSessionCache.set("USER",res.user);
+    //         url = BASE_URL + "/menu/"+res.user.userId;
+    //         Ajax.get(url,
+    //             (menu) =>{
+    //                 CurrentSessionCache.set("MENU",menu.data);
+    //                 sessionStorage.setItem("isLogin","1");//已登入
+    //                 dispatch(hiddenLoginBox());
+    //             },
+    //             dispatch
+    //         );
+    //     }else{
+    //         dispatch(setErrorMsg(res.message));
+    //     }
+    // }).catch( ex => {
+    //     console.log(ex);
+    // })
 }
 
 /**

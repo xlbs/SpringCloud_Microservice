@@ -1,6 +1,6 @@
 import {push} from 'react-router-redux';
 import {CurrentSessionCache} from "../../commutils/utils/CurrentCache";
-import {AjaxPromise,Ajax} from "../../commutils/utils/Ajax";
+import {Ajax} from "../../commutils/utils/Ajax";
 import {setErrorMsg} from "../../commutils/actions/Login";
 
 const BASE_URL = $requestContext.path;
