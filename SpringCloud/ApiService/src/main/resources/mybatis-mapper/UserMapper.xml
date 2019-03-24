@@ -58,7 +58,7 @@
           `name` = #{name}
     </select>
 
-    <!--通过姓名查询用户信息-->
+    <!--查询用户信息-->
     <select id="findUserList" resultType="com.xlbs.apiservice.entity.UserInfo">
         select
           t1.id as userId,
