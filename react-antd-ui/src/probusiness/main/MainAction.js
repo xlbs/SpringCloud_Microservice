@@ -29,7 +29,7 @@ function login(user) {
                         url,
                         (menu) =>{
                             CurrentSessionCache.set("MENU",menu);
-                            sessionStorage.setItem("isLogin","1");//已登入
+                            CurrentSessionCache.set("LOGIN_STATUS",true);//已登入
                             dispatch(hiddenLoginBox());
                         },
                         dispatch

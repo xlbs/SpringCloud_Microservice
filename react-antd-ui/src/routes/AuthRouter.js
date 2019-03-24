@@ -1,14 +1,15 @@
 import React from 'react';
 import { Route, Redirect,withRouter } from 'react-router-dom'
+import {CurrentSessionCache} from "../commutils/utils/CurrentCache";
 
 class AuthRouter extends React.Component{
 
     render() {
         const { component: Component, ...rest} = this.props;
-        const isLogged = sessionStorage.getItem("isLogin")==="1"? true : false;
+        const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
         return (
             <Route {...rest} render={props => {
-                return isLogged
+                return LOGIN_STATUS
                     ? <Component {...props} />
                     : <Redirect to="/login" />
             }} />

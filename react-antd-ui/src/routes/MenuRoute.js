@@ -25,13 +25,13 @@ class MenuRoute extends React.Component{
                    menu.map(item => {
                        const route = r => {
                            const Component = menuComponent[r.menuId];
-                           const isLogged = sessionStorage.getItem("isLogin")==="1"? true : false;
+                           const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
                            return (
                                <Route
                                    exact
                                    key={r.menuId}
                                    path={r.url}
-                                   render={props => isLogged ? <Component {...props} /> : <Redirect to="/login" />}
+                                   render={props => LOGIN_STATUS ? <Component {...props} /> : <Redirect to="/login" />}
                                />
                            )
                        }
@@ -39,13 +39,13 @@ class MenuRoute extends React.Component{
                            return(
                                rSub.childMenu.map( r => {
                                    const Component = menuComponent[r.menuId];
-                                   const isLogged = sessionStorage.getItem("isLogin")==="1"? true : false;
+                                   const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
                                    return (
                                        <Route
                                            exact
                                            key={rSub.menuId}
                                            path={rSub.url+r.url}
-                                           render={props => isLogged ? <Component {...props} /> : <Redirect to="/login" />}
+                                           render={props => LOGIN_STATUS ? <Component {...props} /> : <Redirect to="/login" />}
                                        />
                                    )
                                })

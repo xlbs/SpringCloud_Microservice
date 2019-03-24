@@ -3,12 +3,13 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {actions} from "./LoginAction";
 import LoginComponent from "./LoginComponent";
+import {CurrentSessionCache} from "../../commutils/utils/CurrentCache";
 
 class handleLogin extends React.Component{
 
     constructor(props) {
         super(props);
-        sessionStorage.setItem("isLogin","0");//未登入
+        CurrentSessionCache.set("LOGIN_STATUS",false);//未登入
     }
 
     render(){

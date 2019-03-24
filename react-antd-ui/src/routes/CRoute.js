@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import RouteConfigFile from './RouteConfigFile';
+import {CurrentSessionCache} from "../commutils/utils/CurrentCache";
 
 class CRoute extends Component {
 
@@ -13,13 +14,13 @@ class CRoute extends Component {
                             const route = r => {
                                 debugger;
                                 const Component = r.component;
-                                const isLogged = sessionStorage.getItem("isLogin")==="1"? true : false;
+                                const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
                                 return (
                                     <Route
                                         exact
                                         key={r.key}
                                         path={r.key}
-                                        render={props => isLogged ? <Component {...props} /> : <Redirect to="/login" />}
+                                        render={props => LOGIN_STATUS ? <Component {...props} /> : <Redirect to="/login" />}
                                     />
                                 )
                             }
@@ -28,13 +29,13 @@ class CRoute extends Component {
                                 return(
                                     r.subs.map( r => {
                                         const Component = r.component;
-                                        const isLogged = sessionStorage.getItem("isLogin")==="1"? true : false;
+                                        const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
                                         return (
                                             <Route
                                                 exact
                                                 key={superKey+r.key}
                                                 path={superKey+r.key}
-                                                render={props => isLogged ? <Component {...props} /> : <Redirect to="/login" />}
+                                                render={props => LOGIN_STATUS ? <Component {...props} /> : <Redirect to="/login" />}
                                             />
                                         )
                                     })

@@ -33,7 +33,7 @@ function login(user) {
                             }else{
                                 path = menu[0].url+menu[0].childMenu[0].url;
                             }
-                            sessionStorage.setItem("isLogin","1");//已登入
+                            CurrentSessionCache.set("LOGIN_STATUS",true);//已登入
                             dispatch(push(path));//跳转第一个菜单
                         },
                         dispatch
