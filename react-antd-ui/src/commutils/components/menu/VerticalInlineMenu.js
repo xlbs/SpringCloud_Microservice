@@ -1,12 +1,12 @@
 import React from 'react';
 import CreateMenu from './CreateMenu'
-import {CurrentCache} from "../../utils/CurrentCache";
+import {CurrentSessionCache} from "../../utils/CurrentCache";
 
 
 class VerticalInlineMenu extends React.Component{
 
     render(){
-        const menu = CurrentCache.get().menu;
+        const menu = CurrentSessionCache.get("MENU");
         return(
             <CreateMenu
                 menus={menu}

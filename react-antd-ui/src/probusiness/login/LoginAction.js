@@ -1,5 +1,5 @@
 import {push} from 'react-router-redux';
-import {CurrentCache} from "../../commutils/utils/CurrentCache";
+import {CurrentSessionCache} from "../../commutils/utils/CurrentCache";
 import {AjaxPromise,Ajax} from "../../commutils/utils/Ajax";
 import {setErrorMsg} from "../../commutils/actions/Login";
 
@@ -20,15 +20,12 @@ function login(user) {
     }
     return (dispatch) => AjaxPromise(url,config).then(res => {
         if (res.status=='success') {
-            let cache = {};
-            cache.user = res.user;
-            CurrentCache.set(cache);
+            CurrentSessionCache.set("USER",res.user);
             url = BASE_URL + "/menu/"+res.user.userId;
             Ajax.get(
                 url,
                 (menu) =>{
-                    cache.menu = menu.data;
-                    CurrentCache.set(cache);
+                    CurrentSessionCache.set("MENU",menu.data);
                     sessionStorage.setItem("isLogin","1");//已登入
                     dispatch(push("/"));//跳转到首页
                 },

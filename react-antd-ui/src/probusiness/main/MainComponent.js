@@ -3,14 +3,14 @@ import { Layout,Icon } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import history from '../../history';
 import VerticalInlineMenu from "../../commutils/components/menu/VerticalInlineMenu";
-import {CurrentCache} from "../../commutils/utils/CurrentCache";
+import {CurrentSessionCache} from "../../commutils/utils/CurrentCache";
 import LoginBox from "../../commutils/components/login/LoginBox";
 
 class MainComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        const menu = CurrentCache.get().menu;
+        const menu = CurrentSessionCache.get("MENU");
         const routes = [];
         const routeSub = subItem => {
             subItem.childMenu.map(item => {
@@ -42,7 +42,7 @@ class MainComponent extends React.Component {
     }
 
     exitLogin(){
-        this.props.main.actions.exitLogin()
+        this.props.main.actions.exitLogin();
     }
 
     render() {
@@ -52,7 +52,7 @@ class MainComponent extends React.Component {
                 location = item.value;
             }
         });
-        const name = CurrentCache.get().user.name;
+        const name = CurrentSessionCache.get("USER").name;
         return(
             <div id="main" className="global">
                 <Layout className='global'>

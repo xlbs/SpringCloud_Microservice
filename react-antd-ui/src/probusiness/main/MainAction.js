@@ -1,6 +1,6 @@
 import {push} from "react-router-redux";
 import {Ajax, AjaxPromise} from "../../commutils/utils/Ajax";
-import {CurrentCache} from "../../commutils/utils/CurrentCache";
+import {CurrentSessionCache} from "../../commutils/utils/CurrentCache";
 import {setErrorMsg, hiddenLoginBox} from "../../commutils/actions/Login";
 import {showConfirm} from "../../commutils/components/dialog/MessageDialog";
 
@@ -21,14 +21,11 @@ function login(user) {
     }
     return (dispatch) => AjaxPromise(url,config).then(res => {
         if (res.status=='success') {
-            let cache = {};
-            cache.user = res.user;
-            CurrentCache.set(cache);
+            CurrentSessionCache.set("USER",res.user);
             url = BASE_URL + "/menu/"+res.user.userId;
             Ajax.get(url,
                 (menu) =>{
-                    cache.menu = menu.data;
-                    CurrentCache.set(cache);
+                    CurrentSessionCache.set("MENU",menu.data);
                     sessionStorage.setItem("isLogin","1");//已登入
                     dispatch(hiddenLoginBox());
                 },
@@ -50,6 +47,7 @@ function exitLogin() {
     return (dispatch) => {
         showConfirm("是否确定退出？",
             ()=>{//确定
+                CurrentSessionCache.clear();
                 dispatch(push("/login"));//跳转到登入页
             },
             ()=>{//取消

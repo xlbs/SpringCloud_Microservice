@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Divider, Tag } from 'antd';
+import { Table, Divider } from 'antd';
 import Button from "antd/es/button/button";
 import CreateTable from '../../../commutils/components/CreateTable';
 import '../../../statics/css/system/user/user.css';
@@ -32,32 +32,14 @@ class UserComponent extends React.Component{
         this.state = {
             columns: columns,
             dataDict: dataDict
-        }
+        };
+        findDataDict(dataDict,this.props.user.dispatch);
     }
 
     componentWillMount() {
-        this.props.user.actions.findUserList();
-        debugger;
-        findDataDict(this.state.dataDict,this.props.user.dispatch);
+        this.props.user.findUserList();
+
     }
-    // componentDidMount() {
-    //     console.log('Component DID MOUNT!')
-    // }
-    // componentWillReceiveProps(newProps) {
-    //     console.log('Component WILL RECEIVE PROPS!')
-    // }
-    // shouldComponentUpdate(newProps, newState) {
-    //     return true;
-    // }
-    // componentWillUpdate(nextProps, nextState) {
-    //     console.log('Component WILL UPDATE!');
-    // }
-    // componentDidUpdate(prevProps, prevState) {
-    //     console.log('Component DID UPDATE!')
-    // }
-    // componentWillUnmount() {
-    //     console.log('Component WILL UNMOUNT!')
-    // }
 
     render() {
         const dataSource = this.props.user.userList;

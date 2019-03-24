@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import {CurrentCache} from "../commutils/utils/CurrentCache";
+import {CurrentSessionCache} from "../commutils/utils/CurrentCache";
 
 import handleHome from "../probusiness/home/index";
 import handleUserManagement from "../probusiness/system/user/index";
@@ -18,7 +18,7 @@ const menuComponent = {
 class MenuRoute extends React.Component{
 
     render(){
-        const menu = CurrentCache.get().menu;
+        const menu = CurrentSessionCache.get("MENU");
         return(
             <Switch>
                 {
