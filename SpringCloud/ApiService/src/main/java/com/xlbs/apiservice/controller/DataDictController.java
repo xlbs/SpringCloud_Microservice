@@ -43,7 +43,7 @@ public class DataDictController extends ResponseResult {
     public ResponseResult find(@RequestParam(value = "category") List<String> categoryList){
         List<DataDictInfo> list = dataDictService.findDataDict(categoryList);
         if(!list.isEmpty()){
-            super.success(list);
+            return super.success(list);
         }
         return super.success();
     }

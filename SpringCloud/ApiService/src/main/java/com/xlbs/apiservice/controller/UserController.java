@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -25,8 +26,12 @@ public class UserController extends ResponseResult {
      */
     @ApiOperation(value="用户登入", notes="哒哒哒哒哒哒")
     @RequestMapping(value = "/login", method={RequestMethod.GET})
-    public User login(@RequestParam String username){
-        return userService.findUserByUsername(username);
+    public ResponseResult login(@RequestParam String username){
+        User user = userService.findUserByUsername(username);
+        if(!Objects.isNull(user)){
+            return super.success(user);
+        }
+        return super.success();
     }
 
     /**
