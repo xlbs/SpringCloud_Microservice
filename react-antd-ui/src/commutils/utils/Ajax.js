@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { showInfo } from '../components/dialog/MessageDialog';
-import {showLoginBox} from "../actions/Login";
+import {setErrorMsg, showLoginBox} from "../actions/Login";
 
 /**
  * ajax封装
@@ -10,31 +10,53 @@ export const Ajax = {
     get: (url, callBack, dispatch) => {
         axios.get(url)
             .then(function (response) {
-                callBack && callBack(response);
+                if(response.data.code===1){
+                    if(response.data.data){
+                        callBack && callBack(response.data.data);
+                    }else {
+                        showInfo("没有数据");
+                    }
+                }else if(response.data.code===20001 || response.data.code===20002){
+                    dispatch(setErrorMsg(response.data.msg));
+                }else{
+                    showInfo(response.data.msg);
+                }
             })
             .catch(function (error) {
-                if(error.response && error.response.status==403 && error.response.data.message=='session_timeout'){//会话超时，请重新登入
-                    dispatch(showLoginBox());
-                }else if(error.response && error.response.status==500){//服务器异常
-                    showInfo("服务器异常,请稍后重试");
-                }else{
-                    callBack && callBack(error);
-                }
+                alert("服务器异常,请稍后重试");
+                // if(error.response && error.response.status==403 && error.response.data.message=='session_timeout'){//会话超时，请重新登入
+                //     dispatch(showLoginBox());
+                // }else if(error.response && error.response.status==500){//服务器异常
+                //     showInfo("服务器异常,请稍后重试");
+                // }else{
+                //     callBack && callBack(error);
+                // }
             })
     },
     post: ({ url, params }, callBack, dispatch) => {
         axios.post(url, params)
             .then(function (response) {
-                callBack && callBack(response);
+                if(response.data.code===1){
+                    if(response.data.data){
+                        callBack && callBack(response.data.data);
+                    }else {
+                        showInfo("没有数据");
+                    }
+                }else if(response.data.code===20001 || response.data.code===20002){
+                    dispatch(setErrorMsg(response.data.msg));
+                }else{
+                    showInfo(response.data.msg);
+                }
             })
             .catch(function (error) {
-                if(error.response && error.response.status==403 && error.response.data.message=='session_timeout'){//会话超时，请重新登入
-                    dispatch(showLoginBox());
-                }else if(error.response && error.response.status==500){//服务器异常
-                    showInfo("服务器异常,请稍后重试");
-                }else{
-                    callBack && callBack(error);
-                }
+                alert("服务器异常,请稍后重试");
+                // if(error.response && error.response.status==403 && error.response.data.message=='session_timeout'){//会话超时，请重新登入
+                //     dispatch(showLoginBox());
+                // }else if(error.response && error.response.status==500){//服务器异常
+                //     showInfo("服务器异常,请稍后重试");
+                // }else{
+                //     callBack && callBack(error);
+                // }
             })
     }
 }

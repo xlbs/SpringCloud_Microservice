@@ -15,7 +15,7 @@ function findUserList() {
             (res)=>{
                 dispatch({
                     type: USER_LIST,
-                    userList: res.data
+                    userList: res
                 })
             },
             dispatch

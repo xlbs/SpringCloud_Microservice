@@ -15,7 +15,7 @@ function isInArray(arr,value){
     return false;
 }
 
-export function findDataDict(category,dispatch) {
+export function DataDict(category,dispatch) {
     let arr = [];
     const historyDataDict = CurrentSessionCache.get("DATA_DICT");
     if(historyDataDict){
@@ -55,7 +55,7 @@ export function findDataDict(category,dispatch) {
         Ajax.get(
             url,
             (res)=>{
-                CurrentSessionCache.add("DATA_DICT",res.data);
+                CurrentSessionCache.add("DATA_DICT",res);
             },
             dispatch
         );
