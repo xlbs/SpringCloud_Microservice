@@ -1,9 +1,9 @@
 package com.xlbs.constantjar;
 
-public enum ResultCode {
+public enum ResponseCode {
 
     SUCCESS(1, "成功"),/* 成功状态码 */
-    FAILURE(0, "失败"), /* 失败状态码 */
+    FAILURE(0, "服务器异常,请稍后重试"), /* 失败状态码 */
 
     /* 参数错误：10001-19999 */
     PARAM_IS_INVALID(10001, "参数无效"),
@@ -12,11 +12,11 @@ public enum ResultCode {
     PARAM_NOT_COMPLETE(10004, "参数缺失"),
 
     /* 用户错误：20001-29999*/
-    USER_NOT_LOGGED_IN(20001, "用户未登录"),
-    USER_LOGIN_ERROR(20002, "账号不存在或密码错误"),
+    USER_NOT_EXIST(20001, "用户不存在"),
+    USER_LOGIN_ERROR(20002, "账号或密码错误"),
     USER_ACCOUNT_FORBIDDEN(20003, "账号已被禁用"),
-    USER_NOT_EXIST(20004, "用户不存在"),
-    USER_HAS_EXISTED(20005, "用户已存在"),
+    USER_HAS_EXISTED(20004, "用户已存在"),
+    USER_NOT_EXISTED(20005, "用户未登录"),
 
     /* 业务错误：30001-39999 */
     SPECIFIED_QUESTIONED_USER_NOT_EXIST(30001, "某业务出现问题"),
@@ -44,7 +44,7 @@ public enum ResultCode {
 
     private String msg;
 
-    ResultCode(Integer code, String msg) {
+    ResponseCode(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
@@ -58,7 +58,7 @@ public enum ResultCode {
     }
 
     public static Integer getCode(String name) {
-        for (ResultCode item : ResultCode.values()) {
+        for (ResponseCode item : ResponseCode.values()) {
             if (item.name().equals(name)) {
                 return item.code;
             }
@@ -67,7 +67,7 @@ public enum ResultCode {
     }
 
     public static String getMsg(String name) {
-        for (ResultCode item : ResultCode.values()) {
+        for (ResponseCode item : ResponseCode.values()) {
             if (item.name().equals(name)) {
                 return item.msg;
             }
