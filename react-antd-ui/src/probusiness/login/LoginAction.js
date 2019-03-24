@@ -27,8 +27,14 @@ function login(user) {
                         url,
                         (menu) =>{
                             CurrentSessionCache.set("MENU",menu);
+                            let path;
+                            if(menu[0].childMenu.length===0){
+                                path = menu[0].url;
+                            }else{
+                                path = menu[0].url+menu[0].childMenu[0].url;
+                            }
                             sessionStorage.setItem("isLogin","1");//已登入
-                            dispatch(push("/"));//跳转到首页
+                            dispatch(push(path));//跳转第一个菜单
                         },
                         dispatch
                     );
