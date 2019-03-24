@@ -1,5 +1,6 @@
 package com.xlbs.webservice.feign;
 
+import com.xlbs.constantjar.ResponseResult;
 import com.xlbs.webservice.authentication.user.UserInfo;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,6 @@ import com.xlbs.constantjar.ServiceName;
 public interface UserFeignClient {
 
     @RequestMapping(value = "/login")
-    UserInfo findUserByUsername(@RequestParam("username") String username);
+    ResponseResult findUserByUsername(@RequestParam("username") String username);
 
 }
