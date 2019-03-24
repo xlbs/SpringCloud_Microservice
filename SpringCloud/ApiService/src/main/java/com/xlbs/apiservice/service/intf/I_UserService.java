@@ -1,6 +1,7 @@
 package com.xlbs.apiservice.service.intf;
 
 import com.xlbs.apiservice.entity.User;
+import com.xlbs.apiservice.entity.UserInfo;
 
 import java.util.List;
 
@@ -32,6 +33,12 @@ public interface I_UserService {
      * @return
      */
     public User findUserByName(String name);
+
+    /**
+     * 查询用户信息
+     * @return
+     */
+    public List<UserInfo> findUserList();
 
 
 }

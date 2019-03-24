@@ -2,6 +2,7 @@ package com.xlbs.apiservice.controller;
 
 import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.entity.User;
+import com.xlbs.apiservice.entity.UserInfo;
 import com.xlbs.apiservice.service.intf.I_MenuService;
 import com.xlbs.apiservice.service.intf.I_UserService;
 import com.xlbs.constantjar.ResponseResult;
@@ -41,7 +42,7 @@ public class UserController extends ResponseResult {
     @ApiOperation(value="查找系统中的用户数据")
     @GetMapping(value = "/findUserList")
     public ResponseResult findUserList(){
-        List<User> list = userService.findAllUser();
+        List<UserInfo> list = userService.findUserList();
         if(!list.isEmpty()){
             return super.success(list);
         }
