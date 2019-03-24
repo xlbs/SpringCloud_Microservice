@@ -1,6 +1,8 @@
 package com.xlbs.webservice.controllers;
 
 import com.google.common.collect.ImmutableMap;
+import com.xlbs.constantjar.ResponseCode;
+import com.xlbs.constantjar.ResponseResult;
 import com.xlbs.webservice.authentication.user.User;
 import com.xlbs.webservice.authentication.user.UserInfo;
 import com.xlbs.webservice.authentication.user.UserResponse;
@@ -22,7 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 @RestController
-public class LoginController_B {
+public class LoginController_B extends ResponseResult {
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -31,12 +33,12 @@ public class LoginController_B {
     private UserFeignClient userFeignClient;
 
     @RequestMapping(value = "/loginB",method={ RequestMethod.GET, RequestMethod.POST})
-    public HttpEntity login(@ModelAttribute User user, HttpSession session) {
+    public ResponseResult login(@RequestBody User user, HttpSession session) {
         UserInfo userInfo = null;
         try {
             userInfo = userFeignClient.findUserByUsername(user.getUsername());
             if(Objects.isNull(userInfo)){
-                return ResponseEntity.ok().body(ImmutableMap.of( "status","error","message","用户不存在"));
+                return super.failure(ResponseCode.USER_NOT_EXIST);
             }
             Authentication token = new UsernamePasswordAuthenticationToken(user.getUsername(), DigestUtils.sha1Hex(user.getPassword()));//第一步，使用name和password封装成为的token
             Authentication result = authenticationManager.authenticate(token); //将token传递给Authentication进行验证
@@ -44,10 +46,10 @@ public class LoginController_B {
         }catch (Exception e){
             if(e instanceof BadCredentialsException){
                 e.printStackTrace();
-                return ResponseEntity.ok().body(ImmutableMap.of( "status","error","message","用户名或密码错误"));
+                return super.failure(ResponseCode.USER_LOGIN_ERROR);
             }else{
                 e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body(ImmutableMap.of( "message","服务器异常,请稍后重试"));
+                return super.failure();
             }
         }
 
@@ -57,7 +59,7 @@ public class LoginController_B {
         session.setAttribute(SessionConstant.USER_TYPE, userInfo.getType());
 
         UserResponse userResponse = new UserResponse(userInfo.getUserId(),userInfo.getUsername(),userInfo.getName(),userInfo.getType());
-        return ResponseEntity.ok().body(ImmutableMap.of("status","success","user",userResponse,"message","登入成功"));
+        return super.success(userResponse);
     }
 
 
