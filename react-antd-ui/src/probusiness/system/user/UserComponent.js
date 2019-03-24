@@ -9,6 +9,7 @@ import {findDataDict} from "../../../commutils/utils/CommUtils"
 class UserComponent extends React.Component{
 
     constructor(props){
+        debugger;
         super(props);
         const columns = [
             {title: '操作',key: 'action',width:150,
@@ -28,12 +29,13 @@ class UserComponent extends React.Component{
             {title: '最后修改人',dataIndex: 'lastModifyBy'},
             {title: '最后修改时间',dataIndex: 'lastModifyDate'},
         ];
-        const dataDict = ["USER_TYPE","ACTION"];
+        const dataDict = ["ACTION"];
         this.state = {
             columns: columns,
             dataDict: dataDict
         };
-        findDataDict(dataDict,this.props.user.dispatch);
+        debugger;
+        findDataDict("TESTON",this.props.user.dispatch);
     }
 
     componentWillMount() {
