@@ -28,6 +28,11 @@ public class UserController extends ResponseResult {
     @ApiOperation(value="用户登入", notes="哒哒哒哒哒哒")
     @RequestMapping(value = "/login", method={RequestMethod.GET})
     public ResponseResult login(@RequestParam String username){
+        try{
+            Thread.sleep(20000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         User user = userService.findUserByUsername(username);
         if(!Objects.isNull(user)){
             return super.success(user);

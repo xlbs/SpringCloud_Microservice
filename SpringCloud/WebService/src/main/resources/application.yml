@@ -4,6 +4,10 @@ spring:
     name: web-service #服务名
   profiles:
     active: dev #开发环境:dev 生产环境:pro
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
 #  session:
 #    store-type: redis
 #    redis:
@@ -40,13 +44,40 @@ eureka:
 #logging:
 #  config: classpath:log4j.xml
 
+#配置熔断器hystrix的超时时间
+hystrix:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 300000 #120秒
+
+#配置消费者ribbon的超时时间
+#配置消费者api-service服务的超时时间
+api-service:
+  ribbon:
+    ConnectTimeout: 2000 #请求连接的超时时间 2秒
+    ReadTimeout: 10000 #请求处理的超时时间 10秒
+    MaxAutoRetries: 3 #对当前实例的重试次数
+    MaxAutoRetriesNextServer: 1 #切换实例的重试次数
+    OkToRetryOnAllOperations: true #对所有的操作请求都进行重试
+#配置其他服务的超时时间
+ribbon:
+  ConnectTimeout: 2000 #请求连接的超时时间 2秒
+  ReadTimeout: 5000 #请求处理的超时时间 5秒
+  maxAutoRetries: 0 #对当前实例的重试次数
+  maxAutoRetriesNextServer: 1 #切换实例的重试次数
+  OkToRetryOnAllOperations: true #对所有的操作请求都进行重试
+
+
+
 #采用zuul作为网关,进行路由转发
 #使用serviceId路由策略时,ribbon配置的请求超时的生效
-ribbon:
-  ReadTimeout: 60000 #60秒
-  SocketTimeout: 60000 #60秒
-#使用url路由策略时,ribbon配置的请求超时的生效
+#使用url路由策略时,zuul配置的请求超时的生效
 zuul:
+  retryable: true
   host:
       max-per-route-connections: 500
       connect-timeout-millis: 2000
@@ -75,4 +106,4 @@ zuul:
     test-api: #随便定义，但要唯一，最好能见闻起意
       path: /test/** #请求路径
       stripPrefix: false
-      service-id: blog-service #转发到具体的那个服务
+      service-id: blog-service
