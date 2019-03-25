@@ -23,7 +23,8 @@ export const Ajax = {
                 }
             })
             .catch(function (error) {
-                alert("服务器异常,请稍后重试");
+                showInfo("未知错误,请求支援");
+                // alert("服务器异常,请稍后重试");
                 // if(error.response && error.response.status==403 && error.response.data.message=='session_timeout'){//会话超时，请重新登入
                 //     dispatch(showLoginBox());
                 // }else if(error.response && error.response.status==500){//服务器异常
@@ -49,7 +50,7 @@ export const Ajax = {
                 }
             })
             .catch(function (error) {
-                alert("服务器异常,请稍后重试");
+                showInfo("未知错误,请求支援");
                 // if(error.response && error.response.status==403 && error.response.data.message=='session_timeout'){//会话超时，请重新登入
                 //     dispatch(showLoginBox());
                 // }else if(error.response && error.response.status==500){//服务器异常
