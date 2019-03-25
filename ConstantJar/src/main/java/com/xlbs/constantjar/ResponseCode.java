@@ -4,6 +4,7 @@ public enum ResponseCode {
 
     SUCCESS(1, "成功"),/* 成功状态码 */
     FAILURE(0, "服务器异常,请稍后重试"), /* 失败状态码 */
+    SESSION_TIME_OUT(10000,"SESSION超时，请求被禁用"),/* SESSION超时，请求被禁用 */
 
     /* 参数错误：10001-19999 */
     PARAM_IS_INVALID(10001, "参数无效"),
@@ -39,6 +40,9 @@ public enum ResponseCode {
 
     /* 权限错误：70001-79999 */
     PERMISSION_NO_ACCESS(70001, "无访问权限");
+
+
+//    public final static int SESSION_TIME_OUT=10000;
 
     private Integer code;
 

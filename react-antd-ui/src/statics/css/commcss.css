@@ -60,7 +60,7 @@
     filter:alpha(opacity=60);  /*设置透明度为60%*/
     opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
     display:block;
-    z-Index:999;
+    z-Index:0;
 }
 .location{
     background: #D3D3D3;

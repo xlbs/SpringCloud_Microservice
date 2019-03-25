@@ -3,6 +3,7 @@ package com.xlbs.webservice.authentication.filter;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
+import com.xlbs.constantjar.ResponseCode;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
@@ -48,7 +49,7 @@ public class AuthenticationFilter extends ZuulFilter implements InitializingBean
         if(authenticationService.authenticate()){
             return null;
         }else{
-            throw new ZuulException("session超时，请求被禁用",HttpStatus.SC_FORBIDDEN,"session_timeout");
+            throw new ZuulException("SESSION超时，请求被禁用",ResponseCode.getCode("SESSION_TIME_OUT"),ResponseCode.getMsg("SESSION_TIME_OUT"));
         }
     }
 
