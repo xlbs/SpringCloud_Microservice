@@ -12,7 +12,6 @@ class CRoute extends Component {
                     Object.keys(RouteConfigFile).map(key =>
                         RouteConfigFile[key].map(r => {
                             const route = r => {
-                                debugger;
                                 const Component = r.component;
                                 const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
                                 return (
