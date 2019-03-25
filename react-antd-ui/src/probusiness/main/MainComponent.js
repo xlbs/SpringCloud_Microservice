@@ -59,7 +59,7 @@ class MainComponent extends React.Component {
                     <Header className='header'>
                         <div className="logo"></div>
                         <div className='left-div'>
-                            <span className='text'>ANTD-UI-管理系统</span>
+                            <span className='text'>REACT & SPRING BOOT</span>
                         </div>
                         <div className='right-div'>
                             <span className='right-text'>{name}，欢迎您！</span>
