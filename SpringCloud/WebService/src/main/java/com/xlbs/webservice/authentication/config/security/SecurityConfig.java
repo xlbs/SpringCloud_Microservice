@@ -1,4 +1,4 @@
-package com.xlbs.webservice.authentication.config;
+package com.xlbs.webservice.authentication.config.security;
 
 import com.xlbs.webservice.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-public class SecurityConfigMethods_B extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserService userService;
