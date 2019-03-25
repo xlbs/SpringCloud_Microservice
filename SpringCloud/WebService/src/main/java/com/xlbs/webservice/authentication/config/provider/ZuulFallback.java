@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Component
-public class MyProvinder implements FallbackProvider {
+public class ZuulFallback implements FallbackProvider {
 
     /**
      * 返回服务id，如果需要所有调用都支持回退，则return "*"或return null

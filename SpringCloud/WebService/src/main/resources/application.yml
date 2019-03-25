@@ -44,19 +44,19 @@ eureka:
 #logging:
 #  config: classpath:log4j.xml
 
-#feign:
-#  hystrix:
-#    enabled: true
+feign:
+  hystrix:
+    enabled: true
 
 #配置熔断器hystrix的超时时间
-#hystrix:
-#    default:
-#      execution:
-#        timeout:
-#          enabled: true
-#        isolation:
-#          thread:
-#            timeoutInMilliseconds: 20000 #120秒
+hystrix:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000 #120秒
 
 #配置消费者ribbon的超时时间
 #配置消费者api-service服务的超时时间
