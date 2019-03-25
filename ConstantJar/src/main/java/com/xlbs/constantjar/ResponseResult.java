@@ -22,14 +22,14 @@ public class ResponseResult implements Serializable {
     }
 
     //成功 直接返回状态码
-    public ResponseResult success() {
+    public static ResponseResult success() {
         ResponseResult result = new ResponseResult();
         result.setResultCode(ResponseCode.SUCCESS);
         return result;
     }
 
     //成功 返回状态码 及 数据
-    public ResponseResult success(Object data) {
+    public static ResponseResult success(Object data) {
         ResponseResult result = new ResponseResult();
         result.setResultCode(ResponseCode.SUCCESS);
         result.setData(data);
@@ -37,14 +37,14 @@ public class ResponseResult implements Serializable {
     }
 
     //成功 自定义返回状态码
-    public ResponseResult success(ResponseCode resultCode) {
+    public static ResponseResult success(ResponseCode resultCode) {
         ResponseResult result = new ResponseResult();
         result.setResultCode(resultCode);
         return result;
     }
 
     //成功 自定义返回状态码 及 数据
-    public ResponseResult success(ResponseCode resultCode, Object data) {
+    public static ResponseResult success(ResponseCode resultCode, Object data) {
         ResponseResult result = new ResponseResult();
         result.setResultCode(resultCode);
         result.setData(data);
@@ -52,14 +52,14 @@ public class ResponseResult implements Serializable {
     }
 
     //失败 直接返回状态码
-    public ResponseResult failure() {
+    public static ResponseResult failure() {
         ResponseResult result = new ResponseResult();
         result.setResultCode(ResponseCode.FAILURE);
         return result;
     }
 
     //成功 返回状态码 及 数据
-    public ResponseResult failure(Object data) {
+    public static ResponseResult failure(Object data) {
         ResponseResult result = new ResponseResult();
         result.setResultCode(ResponseCode.FAILURE);
         result.setData(data);
@@ -67,14 +67,14 @@ public class ResponseResult implements Serializable {
     }
 
     //失败 自定义返回状态码
-    public ResponseResult failure(ResponseCode resultCode) {
+    public static ResponseResult failure(ResponseCode resultCode) {
         ResponseResult result = new ResponseResult();
         result.setResultCode(resultCode);
         return result;
     }
 
     //失败 自定义返回状态码 及 数据
-    public ResponseResult failure(ResponseCode resultCode, Object data) {
+    public static ResponseResult failure(ResponseCode resultCode, Object data) {
         ResponseResult result = new ResponseResult();
         result.setResultCode(resultCode);
         result.setData(data);
