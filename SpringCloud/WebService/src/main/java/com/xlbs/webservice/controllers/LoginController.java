@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 @RestController
-public class LoginController_B extends ResponseResult {
+public class LoginController extends ResponseResult {
 
     @Autowired
     private AuthenticationManager authenticationManager;
