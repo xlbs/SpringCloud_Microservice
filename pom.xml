@@ -19,6 +19,7 @@
         <module>commutils</module>
         <module>constantjar</module>
         <module>jobservice</module>
+        <module>eurekaserver</module>
         <module>SpringCloud</module>
     </modules>
 
