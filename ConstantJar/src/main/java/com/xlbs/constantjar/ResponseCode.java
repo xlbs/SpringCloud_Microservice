@@ -5,7 +5,7 @@ public enum ResponseCode {
     SUCCESS(1, "成功"),/* 成功状态码 */
     FAILURE(0, "服务报错了,请联系开发人员"), /* 失败状态码 */
     SESSION_TIME_OUT(10000,"SESSION超时，请求被禁用"),/* SESSION超时，请求被禁用 */
-    SERVICE_TIME_OUT(20000, "系统繁忙，请稍后重试"),/* 服务请求超时*/
+    SERVICE_TIME_OUT(20000, "请求超时，请检查您的网络或稍后重试"),/* 服务请求超时*/
 
     /* 参数错误：10001-19999 */
     PARAM_IS_INVALID(10001, "参数无效"),
