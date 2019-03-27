@@ -1,5 +1,6 @@
 package com.xlbs.excelservice.controller;
 
+import com.xlbs.constantjar.ResponseResult;
 import com.xlbs.excelservice.feign.ApiServiceFeignClient;
 import com.xlbs.excelservice.service.intf.I_UserExportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/user")
-public class UserExportController {
+public class UserExportController extends ResponseResult {
 
 
     @Autowired
@@ -23,8 +24,8 @@ public class UserExportController {
      * 导出用户信息
      */
     @GetMapping(value = "/export")
-    public void exportUserInfo(){
-        userExportService.exportUserInfo();
+    public ResponseResult exportUserInfo(){
+        return userExportService.exportUserInfo();
     }
 
     @GetMapping(value = "/ddd")
