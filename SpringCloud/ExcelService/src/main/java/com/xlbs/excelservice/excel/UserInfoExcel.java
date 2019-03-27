@@ -1,19 +1,26 @@
-package com.xlbs.excelservice.service;
+package com.xlbs.excelservice.excel;
 
+import com.xlbs.constantjar.ResponseResult;
 import com.xlbs.excelservice.dao.intf.I_UserExportDao;
 import com.xlbs.commutils.export.AbstractExport;
 import com.xlbs.commutils.export.ExcelExporter;
+import com.xlbs.excelservice.feign.ApiServiceFeignClient;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Component
-public class UserInfoExport extends AbstractExport {
+public class UserInfoExcel extends AbstractExport {
 
     @Autowired
-    private I_UserExportDao userExportDao;
+    private ApiServiceFeignClient apiServiceFeignClient;
 
     @Override
     protected void doExport(OutputStream out, Object argument) {
@@ -22,7 +29,13 @@ public class UserInfoExport extends AbstractExport {
         String[] headers = {"账号","姓名","类型","拥有的角色","创建人","创建时间","最后修改人","最后修改时间"};
         excelExporter = new ExcelExporter("用户表", columnWidths, headers);
         String[] dataKeys = {"username","name","type","roleNames","createdByName","createdDate","lastModifyByName","lastModifyDate"};
-        excelExporter.fillData(dataKeys,userExportDao.findAllUser());
+        List<Map<Object,Object>> list = new ArrayList<>();
+        ResponseResult result = apiServiceFeignClient.userExport();
+        if(!Objects.isNull(result.getData())){
+            JSONObject json = JSONObject.fromObject(result.getData());
+            list = (List)JSONObject.toBean(json, List.class);
+        }
+        excelExporter.fillData(dataKeys,list);
         try {
             excelExporter.write(out);
         }catch (IOException e){
