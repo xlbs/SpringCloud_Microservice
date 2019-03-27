@@ -52,7 +52,7 @@ feign:
 #配置熔断器hystrix的超时时间
 hystrix:
   command:
-    default: #default全局有效，service id指定应用有效
+    default: #default全局有效，serviceId指定应用有效
       execution:
         timeout:
           enabled: true #如果enabled设置为false，则请求超时交给ribbon控制

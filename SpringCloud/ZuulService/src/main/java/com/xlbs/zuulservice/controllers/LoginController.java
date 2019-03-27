@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import com.xlbs.constantjar.SessionConstant;
 
 import javax.servlet.http.HttpSession;
-import java.util.Objects;
 
 @RestController
 public class LoginController extends ResponseResult {
@@ -60,8 +59,6 @@ public class LoginController extends ResponseResult {
         UserResponse userResponse = new UserResponse(userInfo.getUserId(),userInfo.getUsername(),userInfo.getName(),userInfo.getType());
         return super.success(userResponse);
     }
-
-
 
 
 }
