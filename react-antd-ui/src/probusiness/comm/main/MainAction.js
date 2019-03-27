@@ -1,10 +1,11 @@
 import {push} from "react-router-redux";
-import {Ajax} from "../../commutils/utils/Ajax";
-import {CurrentSessionCache} from "../../commutils/utils/CurrentCache";
-import {setErrorMsg, hiddenLoginBox} from "../../commutils/actions/Login";
-import {showConfirm} from "../../commutils/components/dialog/MessageDialog";
+import {Ajax} from "../../../commutils/utils/Ajax";
+import {CurrentSessionCache} from "../../../commutils/utils/CurrentCache";
+import {setErrorMsg, hiddenLoginBox} from "../../../commutils/actions/Login";
+import {showConfirm} from "../../../commutils/components/dialog/MessageDialog";
 
 const BASE_URL = $requestContext.path;
+const API_SERVICE = BASE_URL + "/api_service";
 
 /**
  * 登入操作
@@ -23,7 +24,7 @@ function login(user) {
             (res) =>{
                 CurrentSessionCache.set("USER",res);
                 if(res.userId || res.userId===0){
-                    url = BASE_URL + "/menu/"+res.userId;
+                    url = API_SERVICE + "/menu/"+res.userId;
                     Ajax.get(
                         url,
                         (menu) =>{
@@ -38,25 +39,6 @@ function login(user) {
             dispatch
         )
     }
-
-    // return (dispatch) => AjaxPromise(url,config).then(res => {
-    //     if (res.status=='success') {
-    //         CurrentSessionCache.set("USER",res.user);
-    //         url = BASE_URL + "/menu/"+res.user.userId;
-    //         Ajax.get(url,
-    //             (menu) =>{
-    //                 CurrentSessionCache.set("MENU",menu.data);
-    //                 sessionStorage.setItem("isLogin","1");//已登入
-    //                 dispatch(hiddenLoginBox());
-    //             },
-    //             dispatch
-    //         );
-    //     }else{
-    //         dispatch(setErrorMsg(res.message));
-    //     }
-    // }).catch( ex => {
-    //     console.log(ex);
-    // })
 }
 
 /**

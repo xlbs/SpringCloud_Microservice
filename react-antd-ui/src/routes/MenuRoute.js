@@ -2,10 +2,10 @@ import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import {CurrentSessionCache} from "../commutils/utils/CurrentCache";
 
-import handleHome from "../probusiness/home/index";
-import handleUserManagement from "../probusiness/system/user/index";
-import handleRoleManagement from "../probusiness/system/role/index";
-import handleMenuManagement from "../probusiness/system/menu/index";
+import handleHome from "../probusiness/comm/home/index";
+import handleUserManagement from "../probusiness/comm/system/user/index";
+import handleRoleManagement from "../probusiness/comm/system/role/index";
+import handleMenuManagement from "../probusiness/comm/system/menu/index";
 
 
 const menuComponent = {

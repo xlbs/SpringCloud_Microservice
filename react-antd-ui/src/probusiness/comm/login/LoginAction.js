@@ -1,9 +1,10 @@
 import {push} from 'react-router-redux';
-import {CurrentSessionCache} from "../../commutils/utils/CurrentCache";
-import {Ajax} from "../../commutils/utils/Ajax";
-import {setErrorMsg} from "../../commutils/actions/Login";
+import {CurrentSessionCache} from "../../../commutils/utils/CurrentCache";
+import {Ajax} from "../../../commutils/utils/Ajax";
+import {setErrorMsg} from "../../../commutils/actions/Login";
 
 const BASE_URL = $requestContext.path;
+const API_SERVICE = BASE_URL + "/api_service";
 
 /**
  * 登入操作
@@ -22,7 +23,7 @@ function login(user) {
             (res) =>{
                 CurrentSessionCache.set("USER",res);
                 if(res.userId || res.userId===0){
-                    url = BASE_URL + "/menu/"+res.userId;
+                    url = API_SERVICE + "/menu/"+res.userId;
                     Ajax.get(
                         url,
                         (menu) =>{

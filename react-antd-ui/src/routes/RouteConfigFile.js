@@ -1,9 +1,9 @@
-import handleHome from "../probusiness/home/index";
+import handleHome from "../probusiness/comm/home/index";
 import handleBlogHome from "../probusiness/blog/home/index";
 import handleLeave from "../probusiness/process/leave/index";
 import handleReimbursement from "../probusiness/process/reimbursement/index";
-import ChangePassword from "../probusiness/system/changepassword/ChangePassword";
-import handlePersonCenter from "../probusiness/system/personcenter/index";
+import ChangePassword from "../probusiness/comm/system/changepassword/ChangePassword";
+import handlePersonCenter from "../probusiness/comm/system/personcenter/index";
 
 export default {
     menus: [ // 菜单相关路由

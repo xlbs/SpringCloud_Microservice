@@ -1,4 +1,4 @@
-import {Ajax} from "../../commutils/utils/Ajax";
+import {Ajax} from "../../../commutils/utils/Ajax";
 
 function homeTest() {
 

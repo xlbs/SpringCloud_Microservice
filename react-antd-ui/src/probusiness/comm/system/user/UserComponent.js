@@ -1,9 +1,9 @@
 import React from 'react';
 import { Table, Divider } from 'antd';
 import Button from "antd/es/button/button";
-import CreateTable from '../../../commutils/components/CreateTable';
-import '../../../statics/css/system/user/user.css';
-import {DataDict} from "../../../commutils/utils/CommUtils"
+import CreateTable from '../../../../commutils/components/CreateTable';
+import '../../../../statics/css/system/user/user.css';
+import {DataDict} from "../../../../commutils/utils/CommUtils"
 
 
 class UserComponent extends React.Component{

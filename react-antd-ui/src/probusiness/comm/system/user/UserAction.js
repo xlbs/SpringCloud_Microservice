@@ -1,8 +1,11 @@
-import {Ajax} from "../../../commutils/utils/Ajax";
+import {Ajax} from "../../../../commutils/utils/Ajax";
 
 export const USER_LIST = "USER_LIST";
 
-const BASE_URL = $requestContext.path + "/user";
+const BASE_URL = $requestContext.path;
+const API_SERVICE = BASE_URL + "/api_service";
+const EXCEL_SERVICE = BASE_URL + "/excel_service";
+
 
 /**
  * 查询用户数据
@@ -11,7 +14,7 @@ const BASE_URL = $requestContext.path + "/user";
 function findUserList() {
     return (dispatch) => {
         Ajax.get(
-            BASE_URL+"/findUserList",
+            API_SERVICE+"/user/findUserList",
             (res)=>{
                 dispatch({
                     type: USER_LIST,
@@ -30,7 +33,7 @@ function findUserList() {
 function exportUserInfo() {
     return (dispatch) => {
         Ajax.get(
-            $requestContext.path+"/export/exportUserInfo",
+            EXCEL_SERVICE+"/export/exportUserInfo",
             (res)=>{
 
             },

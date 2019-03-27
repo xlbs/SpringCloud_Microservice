@@ -1,10 +1,10 @@
 import React from 'react';
 import { Layout,Icon } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import history from '../../history';
-import VerticalInlineMenu from "../../commutils/components/menu/VerticalInlineMenu";
-import {CurrentSessionCache} from "../../commutils/utils/CurrentCache";
-import LoginBox from "../../commutils/components/login/LoginBox";
+import history from '../../../history';
+import VerticalInlineMenu from "../../../commutils/components/menu/VerticalInlineMenu";
+import {CurrentSessionCache} from "../../../commutils/utils/CurrentCache";
+import LoginBox from "../../../commutils/components/login/LoginBox";
 
 class MainComponent extends React.Component {
 

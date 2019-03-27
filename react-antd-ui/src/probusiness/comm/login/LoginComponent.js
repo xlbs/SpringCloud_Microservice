@@ -1,6 +1,6 @@
 import React from 'react';
-import '../../statics/css/login/login.css';
-import LoginBox from "../../commutils/components/login/LoginBox";
+import '../../../statics/css/login/login.css';
+import LoginBox from "../../../commutils/components/login/LoginBox";
 
 class LoginComponent extends React.Component {
 

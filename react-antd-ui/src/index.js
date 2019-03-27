@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HandleMain from './probusiness/main';
+import HandleMain from './probusiness/comm/main';
 import MenuRoute from "./routes/MenuRoute";
 
 class Main extends React.Component{

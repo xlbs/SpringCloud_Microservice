@@ -1,4 +1,4 @@
-import {LOGIN_FAIL, TIME_OUT} from "../../commutils/actions/Login";
+import {LOGIN_FAIL, TIME_OUT} from "../../../commutils/actions/Login";
 
 const initState = {
     username: '',

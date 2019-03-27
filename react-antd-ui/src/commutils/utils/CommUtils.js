@@ -1,6 +1,9 @@
 import {Ajax} from "./Ajax";
 import {CurrentSessionCache} from "./CurrentCache";
 
+const BASE_URL = $requestContext.path;
+const API_SERVICE = BASE_URL + "/api_service";
+
 /**
  * 使用循环的方式判断一个元素是否存在于一个数组中
  * @param {Object} arr 数组
@@ -46,7 +49,7 @@ export function DataDict(category,dispatch) {
         }
     }
     if(arr.length>0){
-        let url = $requestContext.path + "/dataDict";
+        let url = API_SERVICE + "/dataDict";
         if(arr.length>1){
             url = url+"/find?category="+arr;
         }else{

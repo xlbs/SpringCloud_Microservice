@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {actions} from "./LoginAction";
 import LoginComponent from "./LoginComponent";
-import {CurrentSessionCache} from "../../commutils/utils/CurrentCache";
+import {CurrentSessionCache} from "../../../commutils/utils/CurrentCache";
 
 class handleLogin extends React.Component{
 
