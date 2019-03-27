@@ -5,16 +5,14 @@ import com.xlbs.excelservice.dao.intf.I_UserExportDao;
 import com.xlbs.commutils.export.AbstractExport;
 import com.xlbs.commutils.export.ExcelExporter;
 import com.xlbs.excelservice.feign.ApiServiceFeignClient;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Component
 public class UserInfoExcel extends AbstractExport {
@@ -32,8 +30,14 @@ public class UserInfoExcel extends AbstractExport {
         List<Map<Object,Object>> list = new ArrayList<>();
         ResponseResult result = apiServiceFeignClient.userExport();
         if(!Objects.isNull(result.getData())){
-            JSONObject json = JSONObject.fromObject(result.getData());
-            list = (List)JSONObject.toBean(json, List.class);
+            JSONArray json = JSONArray.fromObject(result.getData());
+            System.out.println(json.toString());
+            Collection collection = JSONArray.toCollection(json, Map.class);
+            Iterator it = collection.iterator();
+            while (it.hasNext()) {
+                Map map = (Map) it.next();
+                list.add(map);
+            }
         }
         excelExporter.fillData(dataKeys,list);
         try {

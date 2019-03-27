@@ -5,12 +5,12 @@ import com.xlbs.constantjar.ResponseResult;
 import com.xlbs.constantjar.ServiceName;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(value = ServiceName.API_SERVICE, fallback = ApiServiceFeignFallback.class)
 public interface ApiServiceFeignClient {
 
-    @RequestMapping(value = "/user/export")
+    @GetMapping(value = "/user/export")
     ResponseResult userExport();
 
 }
