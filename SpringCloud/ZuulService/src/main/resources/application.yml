@@ -44,38 +44,36 @@ eureka:
 #logging:
 #  config: classpath:log4j.xml
 
+#Feign配置,开熔断器 默认false
 feign:
   hystrix:
     enabled: true
 
 #配置熔断器hystrix的超时时间
 hystrix:
-    default:
+  command:
+    default: #default全局有效，service id指定应用有效
       execution:
         timeout:
           enabled: true #如果enabled设置为false，则请求超时交给ribbon控制
         isolation:
           thread:
-            timeoutInMilliseconds: 20000 #120秒
+            timeoutInMilliseconds: 30000 #30秒,此时间要大于(ConnectTimeout+ReadTimeout)*(1+MaxAutoRetries+MaxAutoRetriesNextServer),否则重试机制无效
 
 #配置消费者ribbon的超时时间
-#配置消费者api-service服务的超时时间
-api-service:
+api-service: #配置消费者api-service服务的超时时间
   ribbon:
-    ConnectTimeout: 2000 #请求连接的超时时间 2秒
-    ReadTimeout: 5000 #请求处理的超时时间 10秒
-    MaxAutoRetries: 0 #对当前实例的重试次数
-    MaxAutoRetriesNextServer: 1 #切换实例的重试次数
-    OkToRetryOnAllOperations: true #对所有的操作请求都进行重试
-#配置其他服务的超时时间
-ribbon:
-  ConnectTimeout: 2000 #请求连接的超时时间 2秒
-  ReadTimeout: 5000 #请求处理的超时时间 5秒
-  maxAutoRetries: 0 #对当前实例的重试次数(不包含第一次重试)
-  maxAutoRetriesNextServer: 1 #切换实例的重试次数(不包含第一个服务)
-  OkToRetryOnAllOperations: true #对所有的操作请求都进行重试
-
-
+    ConnectTimeout: 2000
+    ReadTimeout: 10000
+    MaxAutoRetries: 0
+    MaxAutoRetriesNextServer: 1
+    OkToRetryOnAllOperations: true
+ribbon: #配置其他服务的超时时间
+  ConnectTimeout: 2000 #请求连接的超时时间 2秒 默认值2000
+  ReadTimeout: 5000 #请求处理的超时时间 5秒 默认值5000
+  maxAutoRetries: 0 #对当前实例的重试次数(不包含第一次重试) 默认0
+  maxAutoRetriesNextServer: 1 #切换实例的重试次数(不包含第一个服务) 默认1
+  OkToRetryOnAllOperations: true #对所有的操作请求都进行重试 默认false
 
 #采用zuul作为网关,进行路由转发(此项目使用serviceId路由策略)
 #使用serviceId路由策略时,ribbon配置的请求超时的生效
@@ -96,15 +94,3 @@ zuul:
     import-export-service: #随便定义，但要唯一，最好能见闻起意
       path: /excel_service/** #请求路径
       service-id: excel-service #转发到具体的那个服务
-#    export-api:
-#      path: /export/** #请求路径
-#      stripPrefix: false
-#      service-id: import-export-service #转发到具体的那个服务
-#    home-api: #随便定义，但要唯一，最好能见闻起意
-#      path: /home/** #请求路径
-#      stripPrefix: false
-#      service-id: blog-service #转发到具体的那个服务
-#    test-api: #随便定义，但要唯一，最好能见闻起意
-#      path: /test/** #请求路径
-#      stripPrefix: false
-#      service-id: blog-service
