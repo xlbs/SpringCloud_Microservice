@@ -1,6 +1,6 @@
 package com.xlbs.zuulservice.controllers;
 
-import com.xlbs.constantjar.ResponseCode;
+import com.xlbs.constantjar.RepStateCode;
 import com.xlbs.constantjar.ResponseResult;
 import com.xlbs.zuulservice.user.User;
 import com.xlbs.zuulservice.user.UserInfo;
@@ -33,22 +33,22 @@ public class LoginController extends ResponseResult {
     public ResponseResult login(@RequestBody User user, HttpSession session) {
         UserInfo userInfo = null;
         try {
-            ResponseResult res = userFeignClient.findUserByUsername(user.getUsername());
-            if(!Objects.isNull(res.getData())){
-                JSONObject json = JSONObject.fromObject(res.getData());
+            ResponseResult result = userFeignClient.findUserByUsername(user.getUsername());
+            if(result.getState()){
+                JSONObject json = JSONObject.fromObject(result.getData());
                 userInfo = (UserInfo)JSONObject.toBean(json, UserInfo.class);
             }else{
-                return super.failure(ResponseCode.USER_NOT_EXIST);
+                return result;
             }
             Authentication token = new UsernamePasswordAuthenticationToken(user.getUsername(), DigestUtils.sha1Hex(user.getPassword()));//第一步，使用name和password封装成为的token
-            Authentication result = authenticationManager.authenticate(token); //将token传递给Authentication进行验证
-            SecurityContextHolder.getContext().setAuthentication(result);
+            Authentication authentication = authenticationManager.authenticate(token); //将token传递给Authentication进行验证
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }catch (Exception e){
             if(e instanceof BadCredentialsException){
-                return super.failure(ResponseCode.USER_LOGIN_ERROR);
+                return custom(RepStateCode.USER_LOGIN_ERROR);
             }else{
                 e.printStackTrace();
-                return super.failure();
+                return failure();
             }
         }
 

@@ -1,6 +1,6 @@
 package com.xlbs.zuulservice.config.fallback;
 
-import com.xlbs.constantjar.ResponseCode;
+import com.xlbs.constantjar.RepStateCode;
 import com.xlbs.constantjar.ResponseResult;
 import net.sf.json.JSONObject;
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
@@ -47,7 +47,7 @@ public class ZuulFallback implements FallbackProvider {
              */
             @Override
             public InputStream getBody() throws IOException {
-                ResponseResult result = ResponseResult.failure(ResponseCode.SERVICE_TIME_OUT);
+                ResponseResult result = ResponseResult.custom(RepStateCode.SERVICE_TIME_OUT);
                 JSONObject json = JSONObject.fromObject(result);
                 return new ByteArrayInputStream(json.toString().getBytes("UTF-8"));
             }
