@@ -33,7 +33,7 @@ function findUserList() {
 function exportUserInfo() {
     return (dispatch) => {
         Ajax.get(
-            EXCEL_SERVICE+"/export/exportUserInfo",
+            EXCEL_SERVICE+"/user/export",
             (res)=>{
 
             },
