@@ -4,6 +4,7 @@ import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.entity.UserInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface I_UserService {
 
@@ -39,6 +40,12 @@ public interface I_UserService {
      * @return
      */
     public List<UserInfo> findUserList();
+
+    /**
+     * 导出用户信息
+     * @return
+     */
+    public List<Map<Object,Object>> exportUser();
 
 
 }

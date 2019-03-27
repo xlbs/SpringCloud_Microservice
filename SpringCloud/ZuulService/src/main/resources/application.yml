@@ -58,7 +58,7 @@ hystrix:
           enabled: true #如果enabled设置为false，则请求超时交给ribbon控制
         isolation:
           thread:
-            timeoutInMilliseconds: 30000 #30秒,此时间要大于(ConnectTimeout+ReadTimeout)*(1+MaxAutoRetries+MaxAutoRetriesNextServer),否则重试机制无效
+            timeoutInMilliseconds: 120000 #30秒,此时间要大于(ConnectTimeout+ReadTimeout)*(1+MaxAutoRetries+MaxAutoRetriesNextServer),否则重试机制无效
 
 #配置消费者ribbon的超时时间
 api-service: #配置消费者api-service服务的超时时间
@@ -70,7 +70,7 @@ api-service: #配置消费者api-service服务的超时时间
     OkToRetryOnAllOperations: true
 ribbon: #配置其他服务的超时时间
   ConnectTimeout: 2000 #请求连接的超时时间 2秒 默认值2000
-  ReadTimeout: 5000 #请求处理的超时时间 5秒 默认值5000
+  ReadTimeout: 60000 #请求处理的超时时间 5秒 默认值5000
   maxAutoRetries: 0 #对当前实例的重试次数(不包含第一次重试) 默认0
   maxAutoRetriesNextServer: 1 #切换实例的重试次数(不包含第一个服务) 默认1
   OkToRetryOnAllOperations: true #对所有的操作请求都进行重试 默认false

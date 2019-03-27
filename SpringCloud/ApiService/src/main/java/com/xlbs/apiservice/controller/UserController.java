@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -43,9 +44,23 @@ public class UserController extends ResponseResult {
     public ResponseResult findUserList(){
         List<UserInfo> list = userService.findUserList();
         if(!list.isEmpty()){
-            return super.success(list);
+            return success(list);
         }
-        return super.success();
+        return success();
+    }
+
+    /**
+     * 导出系统中的用户数据
+     * @return
+     */
+    @ApiOperation(value="导出系统中的用户数据")
+    @GetMapping(value = "/export")
+    public ResponseResult exportUser(){
+        List<Map<Object,Object>> list = userService.exportUser();
+        if(!list.isEmpty()){
+            return success(list);
+        }
+        return success();
     }
 
 

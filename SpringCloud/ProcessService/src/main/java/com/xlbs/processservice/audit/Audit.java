@@ -1,6 +1,5 @@
 package com.xlbs.processservice.audit;
 
-import com.xlbs.constantjar.obj.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
