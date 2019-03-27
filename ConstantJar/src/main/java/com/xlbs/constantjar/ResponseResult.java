@@ -12,76 +12,62 @@ public class ResponseResult implements Serializable {
 
     private Integer code;//状态码
 
+    private Boolean state;//状态
+
     private String msg;//消息
 
     private Object data;//数据
 
-    private void setResultCode(ResponseCode code) {
+    private void setResultCode(RepStateCode code) {
         this.code = code.code();
+        this.state = code.state();
         this.msg = code.msg();
     }
 
-    //成功 直接返回状态码
+    //成功 直接返回 状态码
     public static ResponseResult success() {
         ResponseResult result = new ResponseResult();
-        result.setResultCode(ResponseCode.SUCCESS);
+        result.setResultCode(RepStateCode.SUCCESS);
         return result;
     }
 
-    //成功 返回状态码 及 数据
+    //成功 返回 状态码 及 数据
     public static ResponseResult success(Object data) {
         ResponseResult result = new ResponseResult();
-        result.setResultCode(ResponseCode.SUCCESS);
+        result.setResultCode(RepStateCode.SUCCESS);
         result.setData(data);
         return result;
     }
 
-    //成功 自定义返回状态码
-    public static ResponseResult success(ResponseCode resultCode) {
-        ResponseResult result = new ResponseResult();
-        result.setResultCode(resultCode);
-        return result;
-    }
-
-    //成功 自定义返回状态码 及 数据
-    public static ResponseResult success(ResponseCode resultCode, Object data) {
-        ResponseResult result = new ResponseResult();
-        result.setResultCode(resultCode);
-        result.setData(data);
-        return result;
-    }
-
-    //失败 直接返回状态码
+    //失败 直接返回 状态码
     public static ResponseResult failure() {
         ResponseResult result = new ResponseResult();
-        result.setResultCode(ResponseCode.FAILURE);
+        result.setResultCode(RepStateCode.FAILURE);
         return result;
     }
 
-    //成功 返回状态码 及 数据
-    public static ResponseResult failure(Object data) {
+    //失败 返回 状态码 及 数据
+//    public static ResponseResult failure(Object data) {
+//        ResponseResult result = new ResponseResult();
+//        result.setResultCode(RepStateCode.FAILURE);
+//        result.setData(data);
+//        return result;
+//    }
+
+    //自定义返回 状态码
+    public static ResponseResult custom(RepStateCode resultCode) {
         ResponseResult result = new ResponseResult();
-        result.setResultCode(ResponseCode.FAILURE);
+        result.setResultCode(resultCode);
+        return result;
+    }
+
+    //自定义返回 状态码 及 数据
+    public static ResponseResult custom(RepStateCode resultCode, Object data) {
+        ResponseResult result = new ResponseResult();
+        result.setResultCode(resultCode);
         result.setData(data);
         return result;
     }
-
-    //失败 自定义返回状态码
-    public static ResponseResult failure(ResponseCode resultCode) {
-        ResponseResult result = new ResponseResult();
-        result.setResultCode(resultCode);
-        return result;
-    }
-
-    //失败 自定义返回状态码 及 数据
-    public static ResponseResult failure(ResponseCode resultCode, Object data) {
-        ResponseResult result = new ResponseResult();
-        result.setResultCode(resultCode);
-        result.setData(data);
-        return result;
-    }
-
-
 
 
 }
