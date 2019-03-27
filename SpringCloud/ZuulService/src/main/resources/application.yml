@@ -1,0 +1,110 @@
+#spring配置
+spring:
+  application:
+    name: zuul-service #服务名
+  profiles:
+    active: dev #开发环境:dev 生产环境:pro
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true #开启重试机制
+#  session:
+#    store-type: redis
+#    redis:
+#      namespace: session
+#  redis:
+#    database: 0 #Redis数据库索引（默认为0）
+#    host: localhost #Redis服务器地址
+#    port: 6379 #Redis服务器连接端口
+#    pool:
+#      max-active: 8 #连接池最大连接数（使用负值表示没有限制）
+#      max-wait: -1 #连接池最大阻塞等待时间（使用负值表示没有限制）
+#      min-idle: 0 #连接池中的最小空闲连接
+#      max-idle: 8 #连接池中的最大空闲连接
+
+
+server:
+  port: 8080 #服务端口
+  session:
+    timeout: 1800
+
+
+#eureka服务配置
+eureka:
+  instance: #服务实例
+    instance-id: ${spring.application.name}:${server.port} #服务实例名称
+    prefer-ip-address: true #不使用主机名来定义注册中心的地址，而使用IP地址的形式，如果设置了eureka.instance.ip-address 属性，则使用该属性配置的IP，否则自动获取除环路IP外的第一个IP地址
+    lease-renewal-interval-in-seconds: 10 #服务续约任务的调用时间，默认为30秒
+    lease-expiration-duration-in-seconds: 60 #服务失效时间，默认为90秒
+  client:
+    service-url:
+      defaultZone: http://localhost:8888/eureka/
+
+#日志配置
+#logging:
+#  config: classpath:log4j.xml
+
+#feign:
+#  hystrix:
+#    enabled: true
+
+#配置熔断器hystrix的超时时间
+hystrix:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000 #120秒
+
+#配置消费者ribbon的超时时间
+#配置消费者api-service服务的超时时间
+api-service:
+  ribbon:
+    ConnectTimeout: 2000 #请求连接的超时时间 2秒
+    ReadTimeout: 5000 #请求处理的超时时间 10秒
+    MaxAutoRetries: 0 #对当前实例的重试次数
+    MaxAutoRetriesNextServer: 1 #切换实例的重试次数
+    OkToRetryOnAllOperations: true #对所有的操作请求都进行重试
+#配置其他服务的超时时间
+ribbon:
+  ConnectTimeout: 2000 #请求连接的超时时间 2秒
+  ReadTimeout: 5000 #请求处理的超时时间 5秒
+  maxAutoRetries: 0 #对当前实例的重试次数(不包含第一次重试)
+  maxAutoRetriesNextServer: 1 #切换实例的重试次数(不包含第一个服务)
+  OkToRetryOnAllOperations: true #对所有的操作请求都进行重试
+
+
+
+#采用zuul作为网关,进行路由转发(此项目使用serviceId路由策略)
+#使用serviceId路由策略时,ribbon配置的请求超时的生效
+#使用url路由策略时,zuul配置的请求超时的生效
+zuul:
+  retryable: true #由zuul转发的请求开启重试机制
+#  host:
+#      max-per-route-connections: 500
+#      connect-timeout-millis: 2000
+#      socket-timeout-millis: 2000
+  routes: #开始配置转发规则
+    api-service: #随便定义，但要唯一，最好能见闻起意
+      path: /api_service/** #请求路径
+      service-id: api-service #转发到具体的那个服务
+    menu-api: #随便定义，但要唯一，最好能见闻起意
+      path: /blog_service/** #请求路径
+      service-id: blog-service #转发到具体的那个服务
+    import-export-service: #随便定义，但要唯一，最好能见闻起意
+      path: /excel_service/** #请求路径
+      service-id: excel-service #转发到具体的那个服务
+#    export-api:
+#      path: /export/** #请求路径
+#      stripPrefix: false
+#      service-id: import-export-service #转发到具体的那个服务
+#    home-api: #随便定义，但要唯一，最好能见闻起意
+#      path: /home/** #请求路径
+#      stripPrefix: false
+#      service-id: blog-service #转发到具体的那个服务
+#    test-api: #随便定义，但要唯一，最好能见闻起意
+#      path: /test/** #请求路径
+#      stripPrefix: false
+#      service-id: blog-service

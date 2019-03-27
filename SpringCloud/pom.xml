@@ -14,12 +14,11 @@
     </parent>
 
     <modules>
-        <module>webservice</module>
+        <module>zuulservice</module>
         <module>apiservice</module>
         <module>processservice</module>
         <module>blogservice</module>
-        <module>importexportservice</module>
-        <!--<module>dataoperatservice</module>-->
+        <module>excelservice</module>
     </modules>
 
     <properties>

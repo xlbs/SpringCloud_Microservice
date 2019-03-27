@@ -28,6 +28,11 @@ public class UserController extends ResponseResult {
     @ApiOperation(value="用户登入", notes="哒哒哒哒哒哒")
     @RequestMapping(value = "/login", method={RequestMethod.GET})
     public ResponseResult login(@RequestParam String username){
+//        try{
+//            Thread.sleep(60000);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
         User user = userService.findUserByUsername(username);
         if(!Objects.isNull(user)){
             return super.success(user);
@@ -42,11 +47,11 @@ public class UserController extends ResponseResult {
     @ApiOperation(value="查找系统中的用户数据")
     @GetMapping(value = "/findUserList")
     public ResponseResult findUserList(){
-        try{
-            Thread.sleep(60000);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        try{
+//            Thread.sleep(60000);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
         List<UserInfo> list = userService.findUserList();
         if(!list.isEmpty()){
             return super.success(list);
