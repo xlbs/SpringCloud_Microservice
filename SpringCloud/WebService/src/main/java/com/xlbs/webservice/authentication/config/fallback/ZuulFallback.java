@@ -1,4 +1,4 @@
-package com.xlbs.webservice.authentication.config.provider;
+package com.xlbs.webservice.authentication.config.fallback;
 
 import com.xlbs.constantjar.ResponseCode;
 import com.xlbs.constantjar.ResponseResult;
