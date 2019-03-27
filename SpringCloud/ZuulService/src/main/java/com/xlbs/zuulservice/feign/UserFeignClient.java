@@ -21,8 +21,7 @@ class UserFeignFallback implements UserFeignClient{
 
     @Override
     public ResponseResult findUserByUsername(String username) {
-        ResponseResult result = ResponseResult.custom(RepStateCode.SERVICE_TIME_OUT);
-        return result;
+        return ResponseResult.custom(RepStateCode.SERVICE_TIME_OUT);
     }
 
 }
