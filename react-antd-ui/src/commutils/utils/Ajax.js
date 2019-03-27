@@ -14,7 +14,7 @@ export const Ajax = {
                     if(response.data.data){
                         callBack && callBack(response.data.data);
                     }else {
-                        showInfo("没有数据");
+                        showInfo(response.data.msg);
                     }
                 }else if(response.data.code===20001 || response.data.code===20002){
                     dispatch(setErrorMsg(response.data.msg));
