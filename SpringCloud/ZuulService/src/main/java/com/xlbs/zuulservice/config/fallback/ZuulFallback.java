@@ -23,7 +23,7 @@ public class ZuulFallback implements FallbackProvider {
      */
     @Override
     public String getRoute() {
-        return "api-service";
+        return "*";
     }
 
     @Override
