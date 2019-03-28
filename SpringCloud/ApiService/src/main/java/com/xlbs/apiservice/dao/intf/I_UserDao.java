@@ -1,25 +1,13 @@
 package com.xlbs.apiservice.dao.intf;
 
+import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.entity.User;
-import com.xlbs.apiservice.entity.UserInfo;
+import com.xlbs.apiservice.entity.UserQuery;
 
 import java.util.List;
 import java.util.Map;
 
 public interface I_UserDao {
-
-    /**
-     * 查询所有用户信息
-     * @return
-     */
-    public List<User> findAllUser();
-
-    /**
-     * 通过userId查询用户信息
-     * @param userId 用户Id
-     * @return
-     */
-    public User findUserByUserId(Long userId);
 
     /**
      * 通过username查询用户信息
@@ -29,17 +17,16 @@ public interface I_UserDao {
     public User findUserByUsername(String username);
 
     /**
-     * 通过name查询用户信息
-     * @param name 用户名
-     * @return
-     */
-    public User findUserByName(String name);
-
-    /**
      * 查询用户信息
      * @return
      */
-    public List<UserInfo> findUserList();
+    public PageInfo<Map<Object, Object>> findUserList(UserQuery userQuery);
+
+    /**
+     * 保存用户
+     * @param user 用户
+     */
+    public Long saveUser(User user);
 
     /**
      * 导出用户信息

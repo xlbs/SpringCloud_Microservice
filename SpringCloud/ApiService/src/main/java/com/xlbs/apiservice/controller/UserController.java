@@ -1,7 +1,8 @@
 package com.xlbs.apiservice.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.entity.User;
-import com.xlbs.apiservice.entity.UserInfo;
+import com.xlbs.apiservice.entity.UserQuery;
 import com.xlbs.apiservice.service.intf.I_UserService;
 import com.xlbs.constantjar.RepStateCode;
 import com.xlbs.constantjar.ResponseResult;
@@ -40,12 +41,20 @@ public class UserController extends ResponseResult {
      * @return
      */
     @ApiOperation(value="查找系统中的用户数据")
-    @GetMapping(value = "/findUserList")
-    public ResponseResult findUserList(){
-        List<UserInfo> list = userService.findUserList();
-        if(!list.isEmpty()){
-            return success(list);
-        }
+    @PostMapping(value = "/findUserList")
+    public ResponseResult findUserList(@RequestBody UserQuery userQuery){
+        PageInfo<Map<Object,Object>> pageInfo = userService.findUserList(userQuery);
+        return success(pageInfo.getList());
+    }
+
+    /**
+     * 保存用户
+     * @return
+     */
+    @ApiOperation(value="保存用户")
+    @PostMapping(value = "/save")
+    public ResponseResult save(@RequestBody User user){
+        userService.saveUser(user);
         return success();
     }
 

@@ -1,13 +1,17 @@
 package com.xlbs.apiservice.dao.imp;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.ImmutableMap;
 import com.xlbs.apiservice.dao.intf.I_UserDao;
 import com.xlbs.apiservice.entity.User;
-import com.xlbs.apiservice.entity.UserInfo;
+import com.xlbs.apiservice.entity.UserQuery;
+import com.xlbs.constantjar.RequestContextUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,28 +22,21 @@ public class UserDao implements I_UserDao {
     private SqlSession sqlSession;
 
     @Override
-    public List<User> findAllUser() {
-        return sqlSession.selectList("findAllUser");
-    }
-
-    @Override
-    public User findUserByUserId(Long userId) {
-        return sqlSession.selectOne("findUserByUserId", userId);
-    }
-
-    @Override
     public User findUserByUsername(String username) {
         return sqlSession.selectOne("findUserByUsername", ImmutableMap.of("username",username));
     }
 
     @Override
-    public User findUserByName(String name) {
-        return sqlSession.selectOne("findUserByName", ImmutableMap.of("name",name));
+    public PageInfo<Map<Object, Object>> findUserList(UserQuery userQuery) {
+        return PageHelper.startPage(userQuery.getPageNum(),userQuery.getPageSize())
+                .doSelectPageInfo(()->sqlSession.selectList("findUserList",userQuery));
     }
 
     @Override
-    public List<UserInfo> findUserList() {
-        return sqlSession.selectList("findUserList");
+    public Long saveUser(User user) {
+        user.setCreatedBy(RequestContextUtils.getUserId());
+        user.setCreatedDate(new Date());
+        return Long.valueOf(sqlSession.insert("saveUser", user));
     }
 
     @Override
