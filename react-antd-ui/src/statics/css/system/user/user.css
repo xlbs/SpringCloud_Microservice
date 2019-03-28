@@ -1,3 +1,18 @@
-.table{
-    height: 350px;
+.user{
+    position:relative;
+    width: 1500px;
+    height: 1200px;
+}
+.user-from{
+    width: 500px;
+    height: 800px;
+    /*margin: auto;*/
+    border: 1px solid #ccc;
+    background: white;
+    position: absolute;
+    margin-top: 50%;
+    margin-bottom: 50%;
+    left: 0px;
+    right: 0px;
+    z-Index:1;
 }

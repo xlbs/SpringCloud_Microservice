@@ -1,6 +1,7 @@
 import {Ajax} from "../../../../commutils/utils/Ajax";
 
 export const USER_LIST = "USER_LIST";
+export const ADD_USER = "ADD_USER";
 
 const BASE_URL = $requestContext.path;
 const API_SERVICE = BASE_URL + "/api_service";
@@ -31,6 +32,14 @@ function findUserList() {
     }
 }
 
+function addUser() {
+    return {
+        type: ADD_USER,
+        open: true,
+        content: "新增"
+    }
+}
+
 /**
  * 导出
  * @returns {Function}
@@ -49,5 +58,6 @@ function exportUserInfo() {
 
 export const actions = {
     findUserList,
+    addUser,
     exportUserInfo
 }

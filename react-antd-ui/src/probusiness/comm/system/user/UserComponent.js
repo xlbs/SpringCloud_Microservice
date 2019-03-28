@@ -4,6 +4,7 @@ import Button from "antd/es/button/button";
 import CreateTable from '../../../../commutils/components/CreateTable';
 import '../../../../statics/css/system/user/user.css';
 import {DataDict} from "../../../../commutils/utils/CommUtils"
+import UserBox from "./UserBox";
 
 
 class UserComponent extends React.Component{
@@ -41,6 +42,11 @@ class UserComponent extends React.Component{
         this.props.user.findUserList();
     }
 
+    //新增
+    addUser(){
+        this.props.user.addUser();
+    }
+
     //导出
     exportUserInfo(){
         this.props.user.exportUserInfo();
@@ -50,8 +56,12 @@ class UserComponent extends React.Component{
     render() {
         const dataSource = this.props.user.userList;
         return (
-            <div id="user">
+            <div id="user" className="user">
+                <Button type="primary" onClick={this.addUser.bind(this)}>新增</Button>
                 <Button type="primary" onClick={this.exportUserInfo.bind(this)}>导出</Button>
+
+                {this.props.user.dialog && this.props.user.dialog.open? <UserBox/> : ""}
+
                 <CreateTable
                     columns={this.state.columns}
                     dataSource={dataSource}

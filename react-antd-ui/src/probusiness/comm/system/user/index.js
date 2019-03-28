@@ -19,7 +19,8 @@ class handleUserManagement extends React.Component{
 }
 
 const mapStateToProps = state =>({
-    userList: state.user.userList
+    userList: state.user.userList,
+    dialog: state.user.dialog,
 })
 
 const mapDispatchToProps = dispatch =>{
