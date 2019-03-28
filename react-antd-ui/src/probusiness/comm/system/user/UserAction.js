@@ -12,9 +12,14 @@ const EXCEL_SERVICE = BASE_URL + "/excel_service";
  * @returns {Function}
  */
 function findUserList() {
+    const url = API_SERVICE+"/user/findUserList";
+    const params = {
+        username: "ff",
+        name: "dd"
+    };
     return (dispatch) => {
-        Ajax.get(
-            API_SERVICE+"/user/findUserList",
+        Ajax.post(
+            {url,params},
             (res)=>{
                 dispatch({
                     type: USER_LIST,
