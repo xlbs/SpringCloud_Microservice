@@ -44,7 +44,7 @@ public class AuthenticationFilter extends ZuulFilter implements InitializingBean
     public Object run() throws ZuulException {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String uri = request.getRequestURI();
-        System.out.println("==>ZuulFilter 中拦截器的URI: "+uri );
+        System.out.println("==>ZuulFilter中拦截器的URI: "+uri );
         if(authenticationService.authenticate()){
             return null;
         }else{
