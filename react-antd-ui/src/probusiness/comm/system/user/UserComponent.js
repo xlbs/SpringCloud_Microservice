@@ -4,7 +4,7 @@ import Button from "antd/es/button/button";
 import CreateTable from '../../../../commutils/components/CreateTable';
 import '../../../../statics/css/system/user/user.css';
 import {DataDict} from "../../../../commutils/utils/CommUtils"
-import UserBox from "./UserBox";
+import UserModalDialog from "./UserModalDialog";
 
 
 class UserComponent extends React.Component{
@@ -35,6 +35,7 @@ class UserComponent extends React.Component{
             columns: columns,
             dataDict: dataDict
         };
+        this.closeDialog = this.closeDialog.bind(this);
         DataDict(dataDict,this.props.user.dispatch);
     }
 
@@ -52,15 +53,20 @@ class UserComponent extends React.Component{
         this.props.user.exportUserInfo();
     }
 
+    closeDialog(){
+        this.props.user.closeDialog();
+    }
+
 
     render() {
-        const dataSource = this.props.user.userList;
+        const props = this.props.user;
+        const dataSource = props.userList;
         return (
             <div id="user" className="user">
                 <Button type="primary" onClick={this.addUser.bind(this)}>新增</Button>
                 <Button type="primary" onClick={this.exportUserInfo.bind(this)}>导出</Button>
 
-                {this.props.user.dialog && this.props.user.dialog.open? <UserBox/> : ""}
+                {props.dialog && props.dialog.open? <UserModalDialog dialog={props}/> : ""}
 
                 <CreateTable
                     columns={this.state.columns}
