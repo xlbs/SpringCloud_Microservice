@@ -43,6 +43,7 @@ class UserModalDialog extends React.Component {
             validateStatus[field] = 'error';
             help[field] = msg;
             this.setState({hasFeedback,validateStatus,help});
+            callback(this.state.help[field]);
         }else{
             if(field=='confirm'){
                 if (fieldValue && fieldValue !== form.getFieldValue('password')) {
@@ -50,17 +51,20 @@ class UserModalDialog extends React.Component {
                     validateStatus[field] = 'error';
                     help[field] = '两次输入的密码不一致';
                     this.setState({hasFeedback,validateStatus,help});
+                    callback(this.state.help[field]);
                 } else {
                     hasFeedback[field] = true;
                     validateStatus[field] = 'success';
                     help[field] = '';
                     this.setState({hasFeedback,validateStatus,help});
+                    callback();
                 }
             }else{
                 hasFeedback[field] = true;
                 validateStatus[field] = 'success';
                 help[field] = '';
                 this.setState({hasFeedback,validateStatus,help});
+                callback();
             }
             if(field=='password' && this.state.confirmDirty){
                 form.validateFields(['confirm']);
