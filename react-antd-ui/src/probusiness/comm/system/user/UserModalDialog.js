@@ -2,52 +2,75 @@ import React from 'react';
 import {Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,} from 'antd';
 import {DictSelect} from '../../../../commutils/components/utils/Select';
 
-const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
-
-const residences = [{
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [{
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [{
-            value: 'xihu',
-            label: 'West Lake',
-        }],
-    }],
-}, {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [{
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [{
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-        }],
-    }],
-}];
-
 class UserModalDialog extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            // modalVisible: true,
+            hasFeedback: {
+                name: false,
+                userType: true,
+                username: false,
+                password: false,
+                confirm: false,
+            },
+            validateStatus: {
+                name: '',
+                userType: 'success',
+                username: '',
+                password: '',
+                confirm: '',
+            },
+            help: {
+                name: '',
+                userType: '',
+                username: '',
+                password: '',
+                confirm: '',
+            },
             confirmDirty: false,
-            autoCompleteResult: [],
         };
     }
 
-    handleSubmit(e){
-        debugger;
-        e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
+    validateInputField(field, msg, rule, value, callback){
+        const form = this.props.form;
+        let hasFeedback = this.state.hasFeedback;
+        let validateStatus = this.state.validateStatus;
+        let help = this.state.help;
+        const fieldValue = form.getFieldValue(field);
+        if(!fieldValue){
+            hasFeedback[field] = true;
+            validateStatus[field] = 'error';
+            help[field] = msg;
+            this.setState({hasFeedback,validateStatus,help});
+        }else{
+            if(field=='confirm'){
+                if (fieldValue && fieldValue !== form.getFieldValue('password')) {
+                    hasFeedback[field] = true;
+                    validateStatus[field] = 'error';
+                    help[field] = '两次输入的密码不一致';
+                    this.setState({hasFeedback,validateStatus,help});
+                } else {
+                    hasFeedback[field] = true;
+                    validateStatus[field] = 'success';
+                    help[field] = '';
+                    this.setState({hasFeedback,validateStatus,help});
+                }
+            }else{
+                hasFeedback[field] = true;
+                validateStatus[field] = 'success';
+                help[field] = '';
+                this.setState({hasFeedback,validateStatus,help});
             }
-        });
+            if(field=='password' && this.state.confirmDirty){
+                form.validateFields(['confirm']);
+            }
+        }
+    }
+
+    handleConfirmBlur(e){
+        const value = e.target.value;
+        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
     /**
@@ -55,12 +78,12 @@ class UserModalDialog extends React.Component {
      */
     saveUser(){
         debugger;
-        this.props.form.validateFields( (err, values) =>{
+        this.props.form.validateFieldsAndScroll( (err, values) =>{
             if (!err) {
+                this.props.dialog.saveUser(values);
                 console.log('Received values of form: ', values);
             }
         });
-        this.props.dialog.closeDialog();
     }
 
     /**
@@ -70,76 +93,8 @@ class UserModalDialog extends React.Component {
         this.props.dialog.closeDialog();
     }
 
-    handleConfirmBlur(e){
-        const value = e.target.value;
-        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-    }
-
-    compareToFirstPassword(rule, value, callback){
-        const form = this.props.form;
-        if (value && value !== form.getFieldValue('password')) {
-            callback('两次输入的密码不一致');
-        } else {
-            callback();
-        }
-    }
-
-    validateToNextPassword(rule, value, callback){
-        const form = this.props.form;
-        if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], { force: true });
-        }
-        callback();
-    }
-
-    handleWebsiteChange(value){
-        let autoCompleteResult;
-        if (!value) {
-            autoCompleteResult = [];
-        } else {
-            autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-        }
-        this.setState({ autoCompleteResult });
-    }
-
     render() {
         const { getFieldDecorator } = this.props.form;
-        const { autoCompleteResult } = this.state;
-        const formItemLayout = {
-            labelCol: {
-                xs: { span: 24 },
-                sm: { span: 8 },
-            },
-            wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 16 },
-            },
-        };
-        const tailFormItemLayout = {
-            wrapperCol: {
-                xs: {
-                    span: 24,
-                    offset: 0,
-                },
-                sm: {
-                    span: 16,
-                    offset: 8,
-                },
-            },
-        };
-        const prefixSelector = getFieldDecorator('prefix', {
-            initialValue: '86',
-        })(
-            <Select style={{ width: 70 }}>
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
-            </Select>
-        );
-
-        const websiteOptions = autoCompleteResult.map(website => (
-            <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-        ));
-
         return (
             <div>
                 <Modal
@@ -152,65 +107,87 @@ class UserModalDialog extends React.Component {
                     onCancel={this.cancel.bind(this)}
                     destroyOnClose={true}
                 >
-                    <Form onSubmit={this.handleSubmit.bind(this)}>
+                    <Form>
                         <Form.Item
                             label="姓名"
+                            hasFeedback={this.state.hasFeedback.name}
+                            validateStatus={this.state.validateStatus.name}
+                            help={this.state.help.name}
                         >
-                            {getFieldDecorator('name', {
+                            {getFieldDecorator('name',{
                                 rules: [{
-                                    type: 'text', message: 'The input is not valid Text',
-                                }, {
-                                    required: true, message: '请输入姓名',
+                                    required: true,
+                                    validator: this.validateInputField.bind(this,'name','Please input your name!'),
                                 }],
                             })(
-                                <Input placeholder="请输入姓名" />
+                                <Input type='text' placeholder="请输入姓名"/>
                             )}
                         </Form.Item>
-                        <Form.Item>
-                            <DictSelect
-                                category="USER_TYPE"
-                                // defaultValue="1"
-                            />
+
+                        <Form.Item
+                            label="用户类型"
+                            hasFeedback={this.state.hasFeedback.userType}
+                            validateStatus={this.state.validateStatus.userType}
+                            help={this.state.help.userType}
+                        >
+                            {getFieldDecorator('userType',{
+                                rules: [{
+                                    required: true, message: 'Please select your userType!',
+                                }],
+                                initialValue: '2',
+                            })(
+                                <DictSelect
+                                    category="USER_TYPE"
+                                    placeholder="请选择用户类型"
+                                />
+                            )}
                         </Form.Item>
+
                         <Form.Item
                             label="账号"
+                            hasFeedback={this.state.hasFeedback.username}
+                            validateStatus={this.state.validateStatus.username}
+                            help={this.state.help.username}
                         >
-                            {getFieldDecorator('username', {
+                            {getFieldDecorator('username',{
                                 rules: [{
-                                    type: 'text', message: 'The input is not valid Text!',
-                                }, {
-                                    required: true, message: '请输入账号',
+                                    required: true,
+                                    validator: this.validateInputField.bind(this,'username','Please input your username!'),
                                 }],
                             })(
-                                <Input placeholder="请输入账号" />
+                                <Input type='text' placeholder="请输入账号"/>
                             )}
                         </Form.Item>
+
                         <Form.Item
                             label="密码"
+                            hasFeedback={this.state.hasFeedback.password}
+                            validateStatus={this.state.validateStatus.password}
+                            help={this.state.help.password}
                         >
-                            {getFieldDecorator('password', {
+                            {getFieldDecorator('password',{
                                 rules: [{
-                                    required: true, message: 'Please input your password!',
-                                }, {
-                                    // validator: this.validateToNextPassword,
+                                    required: true,
+                                    validator: this.validateInputField.bind(this,'password','Please input your password!'),
                                 }],
                             })(
-                                <Input type="password" />
+                                <Input type="password" placeholder="请输入密码"/>
                             )}
                         </Form.Item>
+
                         <Form.Item
                             label="确认密码"
+                            hasFeedback={this.state.hasFeedback.confirm}
+                            validateStatus={this.state.validateStatus.confirm}
+                            help={this.state.help.confirm}
                         >
                             {getFieldDecorator('confirm', {
                                 rules: [{
-                                    required: true, message: 'Please confirm your password!',
-                                }, {
-                                    // validator: this.compareToFirstPassword,
+                                    required: true,
+                                    validator: this.validateInputField.bind(this,'confirm','Please confirm your password!'),
                                 }],
                             })(
-                                <Input type="password"
-                                       // onBlur={this.handleConfirmBlur}
-                                />
+                                <Input type="password" placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/>
                             )}
                         </Form.Item>
                     </Form>

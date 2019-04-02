@@ -35,6 +35,16 @@ function findUserList() {
 }
 
 /**
+ * 保存用户
+ * @param values
+ */
+function saveUser(values) {
+    debugger;
+    console.log(values);
+
+}
+
+/**
  * 新增用户
  * @returns {{type: string, open: boolean, content: string}}
  */
@@ -89,6 +99,7 @@ export const actions = {
     findUserList,
     addUser,
     editUser,
+    saveUser,
     exportUserInfo,
     closeDialog
 }
