@@ -52,8 +52,8 @@ public class UserController extends ResponseResult {
      * @return
      */
     @ApiOperation(value="保存用户")
-    @PostMapping(value = "/save")
-    public ResponseResult save(@RequestBody User user){
+    @PostMapping(value = "/saveUser")
+    public ResponseResult saveUser(@RequestBody User user){
         userService.saveUser(user);
         return success();
     }

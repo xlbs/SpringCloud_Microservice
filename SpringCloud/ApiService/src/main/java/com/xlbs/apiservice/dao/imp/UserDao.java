@@ -33,10 +33,10 @@ public class UserDao implements I_UserDao {
     }
 
     @Override
-    public Long saveUser(User user) {
+    public void saveUser(User user) {
         user.setCreatedBy(RequestContextUtils.getUserId());
         user.setCreatedDate(new Date());
-        return Long.valueOf(sqlSession.insert("saveUser", user));
+        sqlSession.insert("saveUser", user);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.xlbs.apiservice.entity.UserQuery;
 import com.xlbs.apiservice.service.intf.I_UserService;
 import com.xlbs.commutils.utils.RandomCodeUtils;
 import com.xlbs.constantjar.RequestContextUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +39,10 @@ public class UserService implements I_UserService {
     public void saveUser(User user) {
         Long id = RandomCodeUtils.getRandomId();
         user.setUserId(id);
-        Long resId = userDao.saveUser(user);
-        System.out.println(resId);
+        String password = DigestUtils.sha1Hex(user.getPassword());
+        user.setPassword(password);
+        System.out.println(password);
+        userDao.saveUser(user);
     }
 
     @Override

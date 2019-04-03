@@ -26,7 +26,7 @@ public interface I_UserDao {
      * 保存用户
      * @param user 用户
      */
-    public Long saveUser(User user);
+    public void saveUser(User user);
 
     /**
      * 导出用户信息
