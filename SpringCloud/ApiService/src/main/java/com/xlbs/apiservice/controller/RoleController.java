@@ -22,8 +22,19 @@ public class RoleController extends ResponseResult {
      */
     @ApiOperation(value="查找系统中的角色数据")
     @GetMapping(value = "/findRoles")
-    public ResponseResult findUserList(){
+    public ResponseResult findRoles(){
         List<Role> list = roleService.findRoles();
+        return success(list);
+    }
+
+    /**
+     * 查找某个用户的角色数据
+     * @return
+     */
+    @ApiOperation(value="查找某个用户的角色数据")
+    @GetMapping(value = "/findRoles/{userId}")
+    public ResponseResult findRolesByUserId(@PathVariable(value = "userId") Long userId){
+        List<Role> list = roleService.findRolesByUserId(userId);
         return success(list);
     }
 

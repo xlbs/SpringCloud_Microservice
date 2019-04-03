@@ -5,7 +5,6 @@
 <mapper namespace="com.xlbs.apiservice.dao.imp.RoleDao">
 
     <sql id="entity">
-        id as roleId,
         created_by as createdBy,
         created_date as createdDate,
         last_modify_by as lastModifyBy,
@@ -18,12 +17,24 @@
         <include refid="entity"/>
     </sql>
 
-    <!--查询所有用户信息-->
+    <!--查询所有角色信息-->
     <select id="findAllRole" resultType="com.xlbs.apiservice.entity.Role">
         select
           <include refid="roleField"/>
         from
           t_role
+    </select>
+
+    <!--查询某个用户的角色信息-->
+    <select id="findRolesByUserId" resultType="com.xlbs.apiservice.entity.Role">
+        select
+          user_id as userId,
+          role_id as roleId,
+          <include refid="entity"/>
+        from
+          t_user_role
+        where
+          user_id = #{userId}
     </select>
 
 </mapper>

@@ -19,5 +19,10 @@ public class RoleDao implements I_RoleDao {
         return sqlSession.selectList("findAllRole");
     }
 
+    @Override
+    public List<Role> findRolesByUserId(Long userId) {
+        return sqlSession.selectList("findRolesByUserId",userId);
+    }
+
 
 }
