@@ -48,6 +48,18 @@ function addUser() {
 }
 
 /**
+ * 编辑用户
+ * @returns {{type: string, open: boolean, content: string}}
+ */
+function editUser() {
+    return {
+        type: EDIT_USER,
+        open: true,
+        content: "编辑"
+    }
+}
+
+/**
  * 查询所有角色
  */
 function findRoles() {
@@ -76,17 +88,7 @@ function saveUser(values) {
 
 }
 
-/**
- * 编辑用户
- * @returns {{type: string, open: boolean, content: string}}
- */
-function editUser() {
-    return {
-        type: EDIT_USER,
-        open: true,
-        content: "新增"
-    }
-}
+
 
 /**
  * 关闭弹出框

@@ -15,7 +15,7 @@ class UserComponent extends React.Component{
             {title: '操作',key: 'action',width:150,
                 render: ()=>(
                     <span>
-                        <Button type="primary" size="small" ghost>编辑</Button>
+                        <Button type="primary" size="small" onClick={this.editUser.bind(this)} ghost>编辑</Button>
                         <Divider type="vertical" />
                         <Button type="primary" size="small" ghost>删除</Button>
                     </span>
@@ -47,6 +47,11 @@ class UserComponent extends React.Component{
     //新增
     addUser(){
         this.props.user.addUser();
+    }
+
+    //编辑
+    editUser(){
+        this.props.user.editUser();
     }
 
     //查找角色

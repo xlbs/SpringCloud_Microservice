@@ -18,11 +18,6 @@ const userReducer = (state = initialState, action) => {
                     content: action.content
                 }
             }
-        case ROLES:
-            return{
-                ...state,
-                roles: action.roles
-            }
         case EDIT_USER:
             return{
                 ...state,
@@ -30,6 +25,11 @@ const userReducer = (state = initialState, action) => {
                     open: action.open,
                     content: action.content
                 }
+            }
+        case ROLES:
+            return{
+                ...state,
+                roles: action.roles
             }
         case CLOSE_DIALOG:
             return{

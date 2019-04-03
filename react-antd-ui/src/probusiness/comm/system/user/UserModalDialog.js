@@ -171,10 +171,11 @@ class UserModalDialog extends React.Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const title = this.props.modalDialog.dialog.content + '用户';
         return (
             <div>
                 <Modal
-                    title="新增用户"
+                    title={title}
                     centered
                     visible={true}
                     okText="保存"
