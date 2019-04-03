@@ -2,6 +2,7 @@ import {Ajax} from "../../../../commutils/utils/Ajax";
 
 export const USER_LIST = "USER_LIST";
 export const ADD_USER = "ADD_USER";
+export const ROLES = "ROLES";
 export const EDIT_USER = "EDIT_USER";
 export const CLOSE_DIALOG = "CLOSE_DIALOG";
 
@@ -35,16 +36,6 @@ function findUserList() {
 }
 
 /**
- * 保存用户
- * @param values
- */
-function saveUser(values) {
-    debugger;
-    console.log(values);
-
-}
-
-/**
  * 新增用户
  * @returns {{type: string, open: boolean, content: string}}
  */
@@ -54,6 +45,35 @@ function addUser() {
         open: true,
         content: "新增"
     }
+}
+
+/**
+ * 查询所有角色
+ */
+function findRoles() {
+    const url = API_SERVICE+"/role/findRoles";
+    return (dispatch) => {
+        Ajax.get(
+            url,
+            (res) =>{
+                dispatch({
+                    type: ROLES,
+                    roles: res
+                })
+            },
+            dispatch
+        )
+    }
+}
+
+/**
+ * 保存用户
+ * @param values
+ */
+function saveUser(values) {
+    debugger;
+    console.log(values);
+
 }
 
 /**
@@ -98,6 +118,7 @@ function exportUserInfo() {
 export const actions = {
     findUserList,
     addUser,
+    findRoles,
     editUser,
     saveUser,
     exportUserInfo,

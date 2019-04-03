@@ -1,4 +1,4 @@
-import {USER_LIST,ADD_USER,EDIT_USER,CLOSE_DIALOG} from "./UserAction";
+import {USER_LIST,ADD_USER,ROLES,EDIT_USER,CLOSE_DIALOG} from "./UserAction";
 
 const initialState = {
 
@@ -17,6 +17,11 @@ const userReducer = (state = initialState, action) => {
                     open: action.open,
                     content: action.content
                 }
+            }
+        case ROLES:
+            return{
+                ...state,
+                roles: action.roles
             }
         case EDIT_USER:
             return{

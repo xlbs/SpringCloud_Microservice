@@ -41,11 +41,17 @@ class UserComponent extends React.Component{
 
     componentWillMount() {
         this.props.user.findUserList();
+        // this.props.user.findRoles();
     }
 
     //新增
     addUser(){
         this.props.user.addUser();
+    }
+
+    //查找角色
+    findRoles(){
+        this.props.user.findRoles();
     }
 
     //导出
@@ -66,7 +72,7 @@ class UserComponent extends React.Component{
                 <Button type="primary" onClick={this.addUser.bind(this)}>新增</Button>
                 <Button type="primary" onClick={this.exportUserInfo.bind(this)}>导出</Button>
 
-                {props.dialog && props.dialog.open? <UserModalDialog dialog={props}/> : ""}
+                {props.dialog && props.dialog.open? <UserModalDialog modalDialog={props}/> : ""}
 
                 <CreateTable
                     columns={this.state.columns}

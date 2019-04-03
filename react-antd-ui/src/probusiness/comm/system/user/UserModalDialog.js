@@ -1,6 +1,32 @@
 import React from 'react';
-import {Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,} from 'antd';
+import {Modal, Form, Input, Checkbox, Tooltip, Icon, Cascader, Select, Row, Col, Button, AutoComplete,} from 'antd';
 import {DictSelect} from '../../../../commutils/components/utils/Select';
+
+const CheckboxGroup = Checkbox.Group;
+
+const RoleCheckbox = ({roles}) =>{
+    return(
+        <div>
+            <Checkbox
+                indeterminate={this.state.indeterminate}
+                onChange={this.onCheckAllChange}
+                checked={this.state.checkAll}
+            >
+                全选
+            </Checkbox>
+            <CheckboxGroup>
+                <Row>
+                    {roles.map(role =>{
+                        return(
+                            <Col span={8}><Checkbox value={role.roleId}>{role.name}</Checkbox></Col>
+                        )
+                    })}
+                </Row>
+            </CheckboxGroup>
+        </div>
+
+    )
+}
 
 class UserModalDialog extends React.Component {
 
@@ -29,7 +55,66 @@ class UserModalDialog extends React.Component {
                 confirm: '',
             },
             confirmDirty: false,
+            indeterminate: false,
+            checkAll: false,
+            checkedList: [],
         };
+    }
+
+    componentWillMount() {
+        this.props.modalDialog.findRoles();
+    }
+
+    roleCheckbox(){
+        const roles = this.props.modalDialog.roles;
+        const options = [];
+        roles.map(role=>{
+            // const option = {label: role.name, value: role.roleId };
+            options.push(role.roleId);
+        })
+        return(
+            <div>
+                <Checkbox
+                    indeterminate={this.state.indeterminate}
+                    onChange={this.onCheckAllChange.bind(this,options)}
+                    checked={this.state.checkAll}
+                >
+                    全选
+                </Checkbox>
+                <CheckboxGroup
+                    // options={options}
+                    value={this.state.checkedList}
+                    onChange={this.onChange.bind(this,options)}
+                >
+                    <Row>
+                        {roles.map(role =>{
+                            return(
+                                <Col span={8}>
+                                    <Checkbox value={role.roleId}>{role.name}</Checkbox>
+                                </Col>
+                            )
+                        })}
+                    </Row>
+                </CheckboxGroup>
+            </div>
+
+        )
+    }
+
+    onCheckAllChange(options,e){
+        this.setState({
+            checkedList: e.target.checked ? options : [],
+            indeterminate: false,
+            checkAll: e.target.checked,
+        });
+    }
+
+    onChange(options,checkedList){
+        this.setState({
+            checkedList,
+            indeterminate: !!checkedList.length && (checkedList.length < options.length),
+            checkAll: checkedList.length === options.length,
+        });
     }
 
     validateInputField(field, msg, rule, value, callback){
@@ -84,7 +169,7 @@ class UserModalDialog extends React.Component {
         debugger;
         this.props.form.validateFieldsAndScroll( (err, values) =>{
             if (!err) {
-                this.props.dialog.saveUser(values);
+                this.props.modalDialog.saveUser(values);
                 console.log('Received values of form: ', values);
             }
         });
@@ -94,7 +179,7 @@ class UserModalDialog extends React.Component {
      * 取消
      */
     cancel(){
-        this.props.dialog.closeDialog();
+        this.props.modalDialog.closeDialog();
     }
 
     render() {
@@ -194,10 +279,16 @@ class UserModalDialog extends React.Component {
                                 <Input type="password" placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/>
                             )}
                         </Form.Item>
+
+                        {this.props.modalDialog.roles?
+
+                            this.roleCheckbox.bind(this)()
+                            :
+                            ""
+                        }
                     </Form>
                 </Modal>
             </div>
-
         );
     }
 }
