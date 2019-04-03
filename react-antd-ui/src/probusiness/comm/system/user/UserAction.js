@@ -84,7 +84,19 @@ function findRoles() {
  */
 function saveUser(values) {
     debugger;
-    console.log(values);
+    const url = API_SERVICE+"/user/saveUser";
+    const params = values;
+    return (dispatch) =>{
+        Ajax.post(
+            {url,params},
+            (res) => {
+                console.log(res);
+            },
+            dispatch
+        )
+
+    }
+
 
 }
 

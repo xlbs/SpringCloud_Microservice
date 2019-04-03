@@ -35,6 +35,7 @@ class UserModalDialog extends React.Component {
             indeterminate: false,
             checkAll: false,
             checkedList: [],
+            buttonDisabled: true,
         };
     }
 
@@ -107,7 +108,7 @@ class UserModalDialog extends React.Component {
             hasFeedback[field] = true;
             validateStatus[field] = 'error';
             help[field] = msg;
-            this.setState({hasFeedback,validateStatus,help});
+            this.setState({hasFeedback,validateStatus,help,buttonDisabled:true});
             callback(this.state.help[field]);
         }else{
             if(field=='confirm'){
@@ -115,20 +116,20 @@ class UserModalDialog extends React.Component {
                     hasFeedback[field] = true;
                     validateStatus[field] = 'error';
                     help[field] = '两次输入的密码不一致';
-                    this.setState({hasFeedback,validateStatus,help});
+                    this.setState({hasFeedback,validateStatus,help,buttonDisabled:true});
                     callback(this.state.help[field]);
                 } else {
                     hasFeedback[field] = true;
                     validateStatus[field] = 'success';
                     help[field] = '';
-                    this.setState({hasFeedback,validateStatus,help});
+                    this.setState({hasFeedback,validateStatus,help,buttonDisabled:false});
                     callback();
                 }
             }else{
                 hasFeedback[field] = true;
                 validateStatus[field] = 'success';
                 help[field] = '';
-                this.setState({hasFeedback,validateStatus,help});
+                this.setState({hasFeedback,validateStatus,help,buttonDisabled:false});
                 callback();
             }
             if(field=='password' && this.state.confirmDirty){
@@ -182,6 +183,7 @@ class UserModalDialog extends React.Component {
                     cancelText="取消"
                     onOk={this.saveUser.bind(this)}
                     onCancel={this.cancel.bind(this)}
+                    okButtonProps={{ disabled: this.state.buttonDisabled }}
                     destroyOnClose={true}
                 >
                     <Form>
