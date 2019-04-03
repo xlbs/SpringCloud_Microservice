@@ -13,13 +13,15 @@ class UserComponent extends React.Component{
         super(props);
         const columns = [
             {title: '操作',key: 'action',width:150,
-                render: ()=>(
-                    <span>
-                        <Button type="primary" size="small" onClick={this.editUser.bind(this)} ghost>编辑</Button>
-                        <Divider type="vertical" />
-                        <Button type="primary" size="small" ghost>删除</Button>
-                    </span>
-                )
+                render: (row)=>{
+                    return(
+                        <span>
+                            <Button type="primary" size="small" onClick={this.editUser.bind(this,row.userId)} ghost>编辑</Button>
+                            <Divider type="vertical" />
+                            <Button type="primary" size="small" ghost>删除</Button>
+                        </span>
+                    )
+                }
             },
             {title: '账号',dataIndex: 'username'},
             {title: '姓名',dataIndex: 'name'},
@@ -50,7 +52,8 @@ class UserComponent extends React.Component{
     }
 
     //编辑
-    editUser(){
+    editUser(userId){
+        debugger;
         this.props.user.editUser();
     }
 
