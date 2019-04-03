@@ -37,7 +37,6 @@ class UserComponent extends React.Component{
             columns: columns,
             dataDict: dataDict
         };
-        this.closeDialog = this.closeDialog.bind(this);
         DataDict(dataDict,this.props.user.dispatch);
     }
 
@@ -61,11 +60,6 @@ class UserComponent extends React.Component{
     exportUserInfo(){
         this.props.user.exportUserInfo();
     }
-
-    closeDialog(){
-        this.props.user.closeDialog();
-    }
-
 
     render() {
         const props = this.props.user;
