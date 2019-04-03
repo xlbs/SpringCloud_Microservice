@@ -57,11 +57,6 @@ class UserComponent extends React.Component{
         this.props.user.editUser();
     }
 
-    //查找角色
-    findRoles(){
-        this.props.user.findRoles();
-    }
-
     //导出
     exportUserInfo(){
         this.props.user.exportUserInfo();
