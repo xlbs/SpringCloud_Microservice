@@ -1,4 +1,5 @@
 import {Ajax} from "../../../../commutils/utils/Ajax";
+import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 
 export const USER_LIST = "USER_LIST";
 export const ADD_USER = "ADD_USER";
@@ -83,14 +84,16 @@ function findRoles() {
  * @param values
  */
 function saveUser(values) {
-    debugger;
     const url = API_SERVICE+"/user/saveUser";
     const params = values;
     return (dispatch) =>{
         Ajax.post(
             {url,params},
             (res) => {
-                console.log(res);
+                debugger;
+                dispatch(findUserList());
+                dispatch(closeDialog());
+                showInfo(res.msg);
             },
             dispatch
         )

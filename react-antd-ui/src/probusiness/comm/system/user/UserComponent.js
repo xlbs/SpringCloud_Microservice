@@ -27,9 +27,9 @@ class UserComponent extends React.Component{
             {title: '姓名',dataIndex: 'name'},
             {title: '类型',dataIndex: 'type'},
             {title: '所拥有角色',dataIndex: 'roleNames'},
-            {title: '创建人',dataIndex: 'createdByName'},
+            {title: '创建人',dataIndex: 'createdBy'},
             {title: '创建时间',dataIndex: 'createdDate'},
-            {title: '最后修改人',dataIndex: 'lastModifyByName'},
+            {title: '最后修改人',dataIndex: 'lastModifyBy'},
             {title: '最后修改时间',dataIndex: 'lastModifyDate'},
         ];
         const dataDict = ["USER_TYPE"];

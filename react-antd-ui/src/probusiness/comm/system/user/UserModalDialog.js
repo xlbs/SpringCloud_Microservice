@@ -12,21 +12,21 @@ class UserModalDialog extends React.Component {
         this.state = {
             hasFeedback: {
                 name: false,
-                userType: true,
+                type: true,
                 username: false,
                 password: false,
                 confirm: false,
             },
             validateStatus: {
                 name: '',
-                userType: 'success',
+                type: 'success',
                 username: '',
                 password: '',
                 confirm: '',
             },
             help: {
                 name: '',
-                userType: '',
+                type: '',
                 username: '',
                 password: '',
                 confirm: '',
@@ -147,14 +147,12 @@ class UserModalDialog extends React.Component {
      * 保存用户
      */
     saveUser(){
-        debugger;
         this.props.form.validateFieldsAndScroll( (err, values) =>{
             if (!err) {
                 const roles = this.state.checkedList;
                 if(roles.length!=0){
                     values.roles = roles;
                     this.props.modalDialog.saveUser(values);
-                    console.log('Received values of form: ', values);
                 }else{
                     showInfo("请为用户分配角色");
                 }
@@ -205,13 +203,13 @@ class UserModalDialog extends React.Component {
 
                         <Form.Item
                             label="用户类型"
-                            hasFeedback={this.state.hasFeedback.userType}
-                            validateStatus={this.state.validateStatus.userType}
-                            help={this.state.help.userType}
+                            hasFeedback={this.state.hasFeedback.type}
+                            validateStatus={this.state.validateStatus.type}
+                            help={this.state.help.type}
                         >
-                            {getFieldDecorator('userType',{
+                            {getFieldDecorator('type',{
                                 rules: [{
-                                    required: true, message: 'Please select your userType!',
+                                    required: true, message: 'Please select your type!',
                                 }],
                                 initialValue: '2',
                             })(
