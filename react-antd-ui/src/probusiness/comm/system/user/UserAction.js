@@ -4,6 +4,7 @@ import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 export const USER_LIST = "USER_LIST";
 export const ADD_USER = "ADD_USER";
 export const ROLES = "ROLES";
+export const USER_ROLES = "USER_ROLES";
 export const EDIT_USER = "EDIT_USER";
 export const CLOSE_DIALOG = "CLOSE_DIALOG";
 
@@ -52,27 +53,39 @@ function addUser() {
  * 编辑用户
  * @returns {{type: string, open: boolean, content: string}}
  */
-function editUser() {
+function editUser(userId) {
     return {
         type: EDIT_USER,
         open: true,
-        content: "编辑"
+        content: "编辑",
+        userId: userId
     }
 }
 
 /**
  * 查询所有角色
  */
-function findRoles() {
-    const url = API_SERVICE+"/role/findRoles";
+function findRoles(userId) {
+    let url = API_SERVICE+"/role/findRoles";
+    if(userId){
+        url = url+"/"+userId
+    }
     return (dispatch) => {
         Ajax.get(
             url,
             (res) =>{
-                dispatch({
-                    type: ROLES,
-                    roles: res
-                })
+                if(userId){
+                    dispatch({
+                        type: USER_ROLES,
+                        userRoles: res
+                    })
+                }else{
+                    dispatch({
+                        type: ROLES,
+                        roles: res
+                    })
+                }
+
             },
             dispatch
         )

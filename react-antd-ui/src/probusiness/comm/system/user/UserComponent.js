@@ -52,8 +52,7 @@ class UserComponent extends React.Component{
 
     //编辑
     editUser(userId){
-        debugger;
-        this.props.user.editUser();
+        this.props.user.editUser(userId);
     }
 
     //导出

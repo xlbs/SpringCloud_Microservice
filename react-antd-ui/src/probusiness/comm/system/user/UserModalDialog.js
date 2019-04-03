@@ -36,10 +36,16 @@ class UserModalDialog extends React.Component {
             checkAll: false,
             checkedList: [],
             buttonDisabled: true,
+            clickCheckbox: false,
         };
     }
 
     componentWillMount() {
+        debugger;
+        const userId = this.props.modalDialog.dialog.userId;
+        if(userId){
+            this.props.modalDialog.findRoles(userId);
+        }
         this.props.modalDialog.findRoles();
     }
 
@@ -49,7 +55,23 @@ class UserModalDialog extends React.Component {
         roles.map(role=>{
             // const option = {label: role.name, value: role.roleId };
             options.push(role.roleId);
-        })
+        });
+        debugger;
+        const userRoles = this.props.modalDialog.userRoles;
+        let checkedList = [];
+        let indeterminate = false;
+        if(userRoles&&this.props.modalDialog.dialog.userId&&!this.state.clickCheckbox){
+            userRoles.map(userRole =>{
+                checkedList.push(userRole.roleId);
+            })
+            if(checkedList.length != 0){
+                indeterminate = true;
+            }else{
+                indeterminate = false;
+            }
+            this.state.checkedList = checkedList;
+            this.state.indeterminate = indeterminate;
+        }
         return(
             <div id="role">
                 <div style={{lineHeight:'39px'}}>
@@ -87,6 +109,7 @@ class UserModalDialog extends React.Component {
             checkedList: e.target.checked ? options : [],
             indeterminate: false,
             checkAll: e.target.checked,
+            clickCheckbox: true,
         });
     }
 
@@ -95,6 +118,7 @@ class UserModalDialog extends React.Component {
             checkedList,
             indeterminate: !!checkedList.length && (checkedList.length < options.length),
             checkAll: checkedList.length === options.length,
+            clickCheckbox: true,
         });
     }
 
