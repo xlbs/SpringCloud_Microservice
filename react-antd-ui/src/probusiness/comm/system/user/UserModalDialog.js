@@ -1,32 +1,9 @@
 import React from 'react';
 import {Modal, Form, Input, Checkbox, Tooltip, Icon, Cascader, Select, Row, Col, Button, AutoComplete,} from 'antd';
 import {DictSelect} from '../../../../commutils/components/utils/Select';
+import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 
 const CheckboxGroup = Checkbox.Group;
-
-const RoleCheckbox = ({roles}) =>{
-    return(
-        <div>
-            <Checkbox
-                indeterminate={this.state.indeterminate}
-                onChange={this.onCheckAllChange}
-                checked={this.state.checkAll}
-            >
-                全选
-            </Checkbox>
-            <CheckboxGroup>
-                <Row>
-                    {roles.map(role =>{
-                        return(
-                            <Col span={8}><Checkbox value={role.roleId}>{role.name}</Checkbox></Col>
-                        )
-                    })}
-                </Row>
-            </CheckboxGroup>
-        </div>
-
-    )
-}
 
 class UserModalDialog extends React.Component {
 
@@ -73,7 +50,10 @@ class UserModalDialog extends React.Component {
             options.push(role.roleId);
         })
         return(
-            <div>
+            <div id="role">
+                <div style={{lineHeight:'39px'}}>
+                    <label><span style={{color:'red',marginRight:'4px',fontSize:'14px',fontFamily:'SimSun'}}>*</span>角色:</label>
+                </div>
                 <Checkbox
                     indeterminate={this.state.indeterminate}
                     onChange={this.onCheckAllChange.bind(this,options)}
@@ -169,8 +149,15 @@ class UserModalDialog extends React.Component {
         debugger;
         this.props.form.validateFieldsAndScroll( (err, values) =>{
             if (!err) {
-                this.props.modalDialog.saveUser(values);
-                console.log('Received values of form: ', values);
+                const roles = this.state.checkedList;
+                if(roles.length!=0){
+                    values.roles = roles;
+                    this.props.modalDialog.saveUser(values);
+                    console.log('Received values of form: ', values);
+                }else{
+                    showInfo("请为用户分配角色");
+                }
+
             }
         });
     }
@@ -279,14 +266,10 @@ class UserModalDialog extends React.Component {
                                 <Input type="password" placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/>
                             )}
                         </Form.Item>
-
-                        {this.props.modalDialog.roles?
-
-                            this.roleCheckbox.bind(this)()
-                            :
-                            ""
-                        }
                     </Form>
+
+                    {this.props.modalDialog.roles?this.roleCheckbox.bind(this)():""}
+
                 </Modal>
             </div>
         );
