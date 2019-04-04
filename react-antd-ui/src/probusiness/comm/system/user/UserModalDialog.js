@@ -42,11 +42,27 @@ class UserModalDialog extends React.Component {
 
     componentWillMount() {
         debugger;
+        this.props.modalDialog.findRoles();
         const userId = this.props.modalDialog.dialog.userId;
         if(userId){
-            this.props.modalDialog.findRoles(userId);
+            this.setState({
+                hasFeedback: {
+                    name: true,
+                    type: true,
+                    username: true,
+                    password: true,
+                    confirm: true,
+                },
+                validateStatus: {
+                    name: 'success',
+                    type: 'success',
+                    username: 'success',
+                    password: 'success',
+                    confirm: 'success',
+                },
+            });
+            this.props.modalDialog.findUserInfo(userId);
         }
-        this.props.modalDialog.findRoles();
     }
 
     roleCheckbox(){
@@ -57,7 +73,10 @@ class UserModalDialog extends React.Component {
             options.push(role.roleId);
         });
         debugger;
-        const userRoles = this.props.modalDialog.userRoles;
+        let userRoles ;
+        if(this.props.modalDialog.userInfo){
+            userRoles = this.props.modalDialog.userInfo.roles;
+        }
         let checkedList = [];
         let indeterminate = false;
         if(userRoles&&this.props.modalDialog.dialog.userId&&!this.state.clickCheckbox){
@@ -193,8 +212,19 @@ class UserModalDialog extends React.Component {
     }
 
     render() {
+        debugger;
         const { getFieldDecorator } = this.props.form;
         const title = this.props.modalDialog.dialog.content + '用户';
+        const userInfo = this.props.modalDialog.userInfo;
+        let {name,type,username,password,confirm} = {};
+        if(userInfo&&this.props.modalDialog.dialog.userId){
+            name = userInfo.name;
+            type = userInfo.type;
+            username = userInfo.username;
+            password = userInfo.password;
+            confirm = userInfo.password;
+            // passwordType = 'text'
+        }
         return (
             <div>
                 <Modal
@@ -220,6 +250,7 @@ class UserModalDialog extends React.Component {
                                     required: true,
                                     validator: this.validateInputField.bind(this,'name','Please input your name!'),
                                 }],
+                                initialValue: name? name : '',
                             })(
                                 <Input type='text' placeholder="请输入姓名"/>
                             )}
@@ -235,7 +266,7 @@ class UserModalDialog extends React.Component {
                                 rules: [{
                                     required: true, message: 'Please select your type!',
                                 }],
-                                initialValue: '2',
+                                initialValue: type||type==0? type+'' : '2',
                             })(
                                 <DictSelect
                                     category="USER_TYPE"
@@ -255,6 +286,7 @@ class UserModalDialog extends React.Component {
                                     required: true,
                                     validator: this.validateInputField.bind(this,'username','Please input your username!'),
                                 }],
+                                initialValue: username? username : '',
                             })(
                                 <Input type='text' placeholder="请输入账号"/>
                             )}
@@ -271,8 +303,9 @@ class UserModalDialog extends React.Component {
                                     required: true,
                                     validator: this.validateInputField.bind(this,'password','Please input your password!'),
                                 }],
+                                initialValue: password? password : '',
                             })(
-                                <Input type="password" placeholder="请输入密码"/>
+                                password? <Input type='text' placeholder="请输入密码"/> : <Input type='password' placeholder="请输入密码"/>
                             )}
                         </Form.Item>
 
@@ -287,8 +320,10 @@ class UserModalDialog extends React.Component {
                                     required: true,
                                     validator: this.validateInputField.bind(this,'confirm','Please confirm your password!'),
                                 }],
+                                initialValue: confirm? confirm : '',
                             })(
-                                <Input type="password" placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/>
+                                confirm? <Input type='text' placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/> : <Input type='password' placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/>
+
                             )}
                         </Form.Item>
                     </Form>

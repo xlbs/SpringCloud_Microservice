@@ -3,9 +3,10 @@ import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 
 export const USER_LIST = "USER_LIST";
 export const ADD_USER = "ADD_USER";
-export const ROLES = "ROLES";
-export const USER_ROLES = "USER_ROLES";
 export const EDIT_USER = "EDIT_USER";
+export const ROLES = "ROLES";
+export const USER_INFO = "USER_INFO";
+export const USER_ROLES = "USER_ROLES";
 export const CLOSE_DIALOG = "CLOSE_DIALOG";
 
 const BASE_URL = $requestContext.path;
@@ -14,7 +15,7 @@ const EXCEL_SERVICE = BASE_URL + "/excel_service";
 
 
 /**
- * 查询用户数据
+ * 查询用户数据列表
  * @returns {Function}
  */
 function findUserList() {
@@ -62,32 +63,63 @@ function editUser(userId) {
     }
 }
 
+
 /**
  * 查询所有角色
  */
-function findRoles(userId) {
+function findRoles() {
     let url = API_SERVICE+"/role/findRoles";
-    if(userId){
-        url = url+"/"+userId
-    }
     return (dispatch) => {
         Ajax.get(
             url,
             (res) =>{
-                if(userId){
-                    dispatch({
-                        type: USER_ROLES,
-                        userRoles: res
-                    })
-                }else{
-                    dispatch({
-                        type: ROLES,
-                        roles: res
-                    })
-                }
-
+                dispatch({
+                    type: ROLES,
+                    roles: res
+                })
             },
             dispatch
+        )
+    }
+}
+
+
+/**
+ * 查询某个用户信息
+ * @param userId
+ * @returns {Function}
+ */
+function findUserInfo(userId) {
+    const url = API_SERVICE+"/user/"+userId;
+    return (dispatch) =>{
+        Ajax.get(
+            url,
+            (res) =>{
+                dispatch({
+                    type: USER_INFO,
+                    userInfo: res
+                })
+            }
+        )
+    }
+}
+
+/**
+ * 查询某个用户的角色信息
+ * @param userId
+ * @returns {Function}
+ */
+function findUserRoles(userId) {
+    const url = API_SERVICE+"/role/"+userId;
+    return (dispatch) =>{
+        Ajax.get(
+            url,
+            (res) =>{
+                dispatch({
+                    type: USER_ROLES,
+                    userRoles: res
+                })
+            }
         )
     }
 }
@@ -115,8 +147,6 @@ function saveUser(values) {
 
 
 }
-
-
 
 /**
  * 关闭弹出框
@@ -149,6 +179,8 @@ export const actions = {
     findUserList,
     addUser,
     findRoles,
+    findUserInfo,
+    findUserRoles,
     editUser,
     saveUser,
     exportUserInfo,
