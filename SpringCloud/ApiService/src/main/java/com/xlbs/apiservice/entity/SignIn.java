@@ -4,10 +4,8 @@ import com.xlbs.constantjar.obj.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter @Setter
-public class User extends Entity {
+public class SignIn extends Entity {
 
     private Long userId;
 
@@ -18,7 +16,5 @@ public class User extends Entity {
     private String name;
 
     private Integer type;
-
-    private List<Role> roles;
 
 }

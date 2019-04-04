@@ -21,15 +21,16 @@ public class UserDao implements I_UserDao {
     @Autowired
     private SqlSession sqlSession;
 
-    @Override
-    public User findUserByUsername(String username) {
-        return sqlSession.selectOne("findUserByUsername", ImmutableMap.of("username",username));
-    }
 
     @Override
     public PageInfo<Map<Object, Object>> findUserList(UserQuery userQuery) {
         return PageHelper.startPage(userQuery.getPageNum(),userQuery.getPageSize())
                 .doSelectPageInfo(()->sqlSession.selectList("findUserList",userQuery));
+    }
+
+    @Override
+    public User findUserInfoByUserId(Long userId) {
+        return sqlSession.selectOne("findUserInfoByUserId", ImmutableMap.of("userId",userId));
     }
 
     @Override

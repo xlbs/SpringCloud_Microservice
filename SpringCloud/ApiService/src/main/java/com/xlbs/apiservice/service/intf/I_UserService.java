@@ -1,6 +1,7 @@
 package com.xlbs.apiservice.service.intf;
 
 import com.github.pagehelper.PageInfo;
+import com.xlbs.apiservice.entity.SignIn;
 import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.entity.UserQuery;
 
@@ -10,18 +11,18 @@ import java.util.Map;
 public interface I_UserService {
 
     /**
-     * 通过username查询用户信息
-     * @param username 用户编号
-     * @return
-     */
-    public User findUserByUsername(String username);
-
-    /**
      * 查询用户信息
      * @param userQuery 条件
      * @return
      */
     public PageInfo<Map<Object,Object>> findUserList(UserQuery userQuery);
+
+    /**
+     * 通过userId查询用户信息
+     * @param userId
+     * @return
+     */
+    public User findUserInfoByUserId(Long userId);
 
     /**
      * 保存用户

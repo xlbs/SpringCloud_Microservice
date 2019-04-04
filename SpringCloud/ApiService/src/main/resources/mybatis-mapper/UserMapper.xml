@@ -20,16 +20,6 @@
         <include refid="entity"/>
     </sql>
 
-    <!--通过账号查询用户信息-->
-    <select id="findUserByUsername" resultType="com.xlbs.apiservice.entity.User">
-        select
-          <include refid="userField"/>
-        from
-          t_user
-        where
-          user_name = #{username}
-    </select>
-
     <!--查询用户信息-->
     <select id="findUserList" resultType="java.util.Map">
         select
@@ -60,6 +50,16 @@
           group by
             ur.`user_id`) as t4
         on t1.`id`=t4.userid
+    </select>
+
+    <!--通过账号查询用户信息-->
+    <select id="findUserInfoByUserId" resultType="com.xlbs.apiservice.entity.User">
+        select
+          <include refid="userField"/>
+        from
+          t_user
+        where
+          id = #{userId}
     </select>
 
     <!--保存用户-->

@@ -10,17 +10,17 @@ import java.util.Map;
 public interface I_UserDao {
 
     /**
-     * 通过username查询用户信息
-     * @param username 用户编号
-     * @return
-     */
-    public User findUserByUsername(String username);
-
-    /**
      * 查询用户信息
      * @return
      */
     public PageInfo<Map<Object, Object>> findUserList(UserQuery userQuery);
+
+    /**
+     * 通过userId查询用户信息
+     * @param userId 用户ID
+     * @return
+     */
+    public User findUserInfoByUserId(Long userId);
 
     /**
      * 保存用户

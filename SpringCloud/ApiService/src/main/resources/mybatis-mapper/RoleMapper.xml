@@ -25,7 +25,7 @@
           t_role
     </select>
 
-    <!--查询某个用户的角色信息-->
+    <!--通过userId查询用户信息-->
     <select id="findRolesByUserId" resultType="com.xlbs.apiservice.entity.Role">
         select
           user_id as userId,

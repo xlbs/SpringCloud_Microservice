@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xlbs.apiservice.dao.imp.SignInDao">
+
+    <!--通过账号登入-->
+    <select id="signIn" resultType="com.xlbs.apiservice.entity.SignIn">
+        select
+          id as userId,
+          user_name as username,
+          `password` AS `password`,
+          `name` AS `name`,
+          `type` AS `type`,
+          created_by as createdBy,
+          created_date as createdDate,
+          last_modify_by as lastModifyBy,
+          last_modify_date as lastModifyDate
+        from
+          t_user
+        where
+          user_name = #{username}
+    </select>
+
+</mapper>

@@ -13,7 +13,8 @@ public interface I_RoleDao {
     public List<Role> findRoles();
 
     /**
-     *查询某个用户的角色信息
+     * 通过userId查询用户的角色信息
+     * @param userId 用户ID
      * @return
      */
     public List<Role> findRolesByUserId(Long userId);

@@ -1,6 +1,7 @@
 package com.xlbs.apiservice.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.xlbs.apiservice.entity.SignIn;
 import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.entity.UserQuery;
 import com.xlbs.apiservice.service.intf.I_UserService;
@@ -22,21 +23,6 @@ public class UserController extends ResponseResult {
     private I_UserService userService;
 
     /**
-     * 用户登入
-     * @param username 用户名
-     * @return
-     */
-    @ApiOperation(value="用户登入", notes="哒哒哒哒哒哒")
-    @RequestMapping(value = "/login", method={RequestMethod.GET})
-    public ResponseResult login(@RequestParam String username){
-        User user = userService.findUserByUsername(username);
-        if(!Objects.isNull(user)){
-            return success(user);
-        }
-        return custom(RepStateCode.USER_NOT_EXIST);
-    }
-
-    /**
      * 查找系统中的用户数据
      * @return
      */
@@ -45,6 +31,17 @@ public class UserController extends ResponseResult {
     public ResponseResult findUserList(@RequestBody UserQuery userQuery){
         PageInfo<Map<Object,Object>> pageInfo = userService.findUserList(userQuery);
         return success(pageInfo.getList());
+    }
+
+    /**
+     * 查找某个用户信息
+     * @return
+     */
+    @ApiOperation(value="查找某个用户的角色数据")
+    @GetMapping(value = "/{userId}")
+    public ResponseResult findUserInfoByUserId(@PathVariable(value = "userId") Long userId){
+        User user = userService.findUserInfoByUserId(userId);
+        return success(user);
     }
 
     /**
