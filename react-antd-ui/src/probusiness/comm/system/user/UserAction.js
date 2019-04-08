@@ -109,33 +109,32 @@ function findUserInfo(userId) {
  * @param userId
  * @returns {Function}
  */
-function findUserRoles(userId) {
-    const url = API_SERVICE+"/role/"+userId;
-    return (dispatch) =>{
-        Ajax.get(
-            url,
-            (res) =>{
-                dispatch({
-                    type: USER_ROLES,
-                    userRoles: res
-                })
-            }
-        )
-    }
-}
+// function findUserRoles(userId) {
+//     const url = API_SERVICE+"/role/"+userId;
+//     return (dispatch) =>{
+//         Ajax.get(
+//             url,
+//             (res) =>{
+//                 dispatch({
+//                     type: USER_ROLES,
+//                     userRoles: res
+//                 })
+//             }
+//         )
+//     }
+// }
 
 /**
  * 保存用户
  * @param values
  */
-function saveUser(values) {
-    const url = API_SERVICE+"/user/saveUser";
+function saveUserInfo(values) {
+    const url = API_SERVICE+"/user/saveUserInfo";
     const params = values;
     return (dispatch) =>{
         Ajax.post(
             {url,params},
             (res) => {
-                debugger;
                 dispatch(findUserList());
                 dispatch(closeDialog());
                 showInfo(res.msg);
@@ -180,9 +179,9 @@ export const actions = {
     addUser,
     findRoles,
     findUserInfo,
-    findUserRoles,
+    // findUserRoles,
     editUser,
-    saveUser,
+    saveUserInfo,
     exportUserInfo,
     closeDialog
 }

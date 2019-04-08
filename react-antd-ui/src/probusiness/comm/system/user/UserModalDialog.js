@@ -187,13 +187,17 @@ class UserModalDialog extends React.Component {
     /**
      * 保存用户
      */
-    saveUser(){
+    saveUserInfo(){
         this.props.form.validateFieldsAndScroll( (err, values) =>{
             if (!err) {
-                const roles = this.state.checkedList;
+                const checkedRoles = this.state.checkedList;
+                let roles = [];
+                for(let i=0; i<checkedRoles.length; i++){
+                    roles.push({roleId:checkedRoles[i]})
+                }
                 if(roles.length!=0){
                     values.roles = roles;
-                    this.props.modalDialog.saveUser(values);
+                    this.props.modalDialog.saveUserInfo(values);
                 }else{
                     showInfo("请为用户分配角色");
                 }
@@ -239,7 +243,7 @@ class UserModalDialog extends React.Component {
                             <Button onClick={this.cancel.bind(this)}>
                                 取消
                             </Button>
-                            <Button type="primary" onClick={this.saveUser.bind(this)} disabled={this.state.buttonDisabled}>
+                            <Button type="primary" onClick={this.saveUserInfo.bind(this)} disabled={this.state.buttonDisabled}>
                                 保存
                             </Button>
                         </div>
