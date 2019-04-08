@@ -28,7 +28,7 @@ public interface I_UserService {
      * 保存用户
      * @param user 用户
      */
-    public void saveUser(User user);
+    public void saveUserInfo(User user);
 
     /**
      * 导出用户信息

@@ -24,5 +24,10 @@ public class RoleDao implements I_RoleDao {
         return sqlSession.selectList("findRolesByUserId",userId);
     }
 
+    @Override
+    public void saveUserRoles(List<Role> roles) {
+        sqlSession.insert("saveUserRoles",roles);
+    }
+
 
 }

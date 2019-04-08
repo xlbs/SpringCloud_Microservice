@@ -20,6 +20,13 @@ public interface I_RoleDao {
     public List<Role> findRolesByUserId(Long userId);
 
 
+    /**
+     * 批量保存角色信息
+     * @param roles
+     */
+    public void saveUserRoles(List<Role> roles);
+
+
 
 
 

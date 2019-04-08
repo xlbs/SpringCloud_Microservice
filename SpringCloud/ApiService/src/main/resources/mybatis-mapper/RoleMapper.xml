@@ -37,4 +37,14 @@
           user_id = #{userId}
     </select>
 
+    <!--批量保存用户角色-->
+    <insert id="saveUserRoles">
+        insert into t_user_role
+          (user_id, role_id, created_by, created_date)
+        values
+          <foreach collection ="list" item="role" separator =",">
+            (#{role.userId}, #{role.roleId}, #{role.createdBy}, #{role.createdDate})
+          </foreach >
+    </insert>
+
 </mapper>

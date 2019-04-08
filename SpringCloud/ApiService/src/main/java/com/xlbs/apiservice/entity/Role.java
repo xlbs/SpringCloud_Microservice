@@ -11,5 +11,7 @@ public class Role extends Entity {
 
     private String name;
 
+    private Long userId;
+
 
 }

@@ -31,12 +31,12 @@ public class RoleController extends ResponseResult {
      * 查找某个用户的角色数据
      * @return
      */
-    @ApiOperation(value="查找某个用户的角色数据")
-    @GetMapping(value = "/findRoles/{userId}")
-    public ResponseResult findRolesByUserId(@PathVariable(value = "userId") Long userId){
-        List<Role> list = roleService.findRolesByUserId(userId);
-        return success(list);
-    }
+//    @ApiOperation(value="查找某个用户的角色数据")
+//    @GetMapping(value = "/findRoles/{userId}")
+//    public ResponseResult findRolesByUserId(@PathVariable(value = "userId") Long userId){
+//        List<Role> list = roleService.findRolesByUserId(userId);
+//        return success(list);
+//    }
 
 
 

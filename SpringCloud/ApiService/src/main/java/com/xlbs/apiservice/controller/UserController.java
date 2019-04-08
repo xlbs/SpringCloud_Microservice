@@ -1,11 +1,9 @@
 package com.xlbs.apiservice.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.xlbs.apiservice.entity.SignIn;
 import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.entity.UserQuery;
 import com.xlbs.apiservice.service.intf.I_UserService;
-import com.xlbs.constantjar.RepStateCode;
 import com.xlbs.constantjar.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -49,9 +46,9 @@ public class UserController extends ResponseResult {
      * @return
      */
     @ApiOperation(value="保存用户")
-    @PostMapping(value = "/saveUser")
-    public ResponseResult saveUser(@RequestBody User user){
-        userService.saveUser(user);
+    @PostMapping(value = "/saveUserInfo")
+    public ResponseResult saveUserInfo(@RequestBody User user){
+        userService.saveUserInfo(user);
         return success();
     }
 

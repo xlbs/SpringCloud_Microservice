@@ -34,6 +34,7 @@ public class UserService implements I_UserService {
     @Override
     public User findUserInfoByUserId(Long userId) {
         User user = userDao.findUserInfoByUserId(userId);
+        user.setPassword(DigestUtils.sha1Hex(user.getPassword()));
         List<Role> roles = roleDao.findRolesByUserId(userId);
         user.setRoles(roles);
         return user;
@@ -41,13 +42,17 @@ public class UserService implements I_UserService {
 
     @Override
     @Transactional
-    public void saveUser(User user) {
+    public void saveUserInfo(User user) {
         Long id = RandomCodeUtils.getRandomId();
         user.setUserId(id);
         String password = DigestUtils.sha1Hex(user.getPassword());
         user.setPassword(password);
-        System.out.println(password);
+        List<Role> roles = user.getRoles();
+        for (Role role : roles){
+            role.setUserId(id);
+        }
         userDao.saveUser(user);
+        roleDao.saveUserRoles(roles);
     }
 
     @Override
