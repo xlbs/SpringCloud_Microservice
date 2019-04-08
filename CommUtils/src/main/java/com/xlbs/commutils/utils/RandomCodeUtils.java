@@ -58,7 +58,7 @@ public class RandomCodeUtils {
      */
     public static long getRandomId(){
         Date date = new Date();
-        String dateStr = new SimpleDateFormat("yyyyMMddHHmmssSSSS").format(date);
+        String dateStr = new SimpleDateFormat("yyMMddHHmmssSSSS").format(date);
         return Long.valueOf(dateStr).longValue();
     }
 
