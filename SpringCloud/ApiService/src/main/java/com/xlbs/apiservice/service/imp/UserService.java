@@ -8,11 +8,13 @@ import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.entity.UserQuery;
 import com.xlbs.apiservice.service.intf.I_UserService;
 import com.xlbs.commutils.utils.RandomCodeUtils;
+import com.xlbs.constantjar.RequestContextUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +36,6 @@ public class UserService implements I_UserService {
     @Override
     public User findUserInfoByUserId(Long userId) {
         User user = userDao.findUserInfoByUserId(userId);
-        user.setPassword(DigestUtils.sha1Hex(user.getPassword()));
         List<Role> roles = roleDao.findRolesByUserId(userId);
         user.setRoles(roles);
         return user;
@@ -50,6 +51,8 @@ public class UserService implements I_UserService {
         List<Role> roles = user.getRoles();
         for (Role role : roles){
             role.setUserId(id);
+            role.setCreatedBy(RequestContextUtils.getUserId());
+            role.setCreatedDate(new Date());
         }
         userDao.saveUser(user);
         roleDao.saveUserRoles(roles);
