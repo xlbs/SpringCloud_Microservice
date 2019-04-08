@@ -216,15 +216,15 @@ class UserModalDialog extends React.Component {
         const { getFieldDecorator } = this.props.form;
         const title = this.props.modalDialog.dialog.content + '用户';
         const userInfo = this.props.modalDialog.userInfo;
-        let {name,type,username,password,confirm} = {};
+        let isEdit = false;
+        let {name,type,username} = {};
         if(userInfo&&this.props.modalDialog.dialog.userId){
+            isEdit = true;
             name = userInfo.name;
             type = userInfo.type;
             username = userInfo.username;
-            password = userInfo.password;
-            confirm = userInfo.password;
-            // passwordType = 'text'
         }
+
         return (
             <div>
                 <Modal
@@ -291,41 +291,44 @@ class UserModalDialog extends React.Component {
                                 <Input type='text' placeholder="请输入账号"/>
                             )}
                         </Form.Item>
+                        {!isEdit?
+                            <div>
+                                <Form.Item
+                                    label="密码"
+                                    hasFeedback={this.state.hasFeedback.password}
+                                    validateStatus={this.state.validateStatus.password}
+                                    help={this.state.help.password}
+                                >
+                                    {getFieldDecorator('password',{
+                                        rules: [{
+                                            required: true,
+                                            validator: this.validateInputField.bind(this,'password','Please input your password!'),
+                                        }],
+                                    })(
+                                        <Input type='password' placeholder="请输入密码"/>
+                                    )}
+                                </Form.Item>
 
-                        <Form.Item
-                            label="密码"
-                            hasFeedback={this.state.hasFeedback.password}
-                            validateStatus={this.state.validateStatus.password}
-                            help={this.state.help.password}
-                        >
-                            {getFieldDecorator('password',{
-                                rules: [{
-                                    required: true,
-                                    validator: this.validateInputField.bind(this,'password','Please input your password!'),
-                                }],
-                                initialValue: password? password : '',
-                            })(
-                                password? <Input type='text' placeholder="请输入密码"/> : <Input type='password' placeholder="请输入密码"/>
-                            )}
-                        </Form.Item>
+                                <Form.Item
+                                    label="确认密码"
+                                    hasFeedback={this.state.hasFeedback.confirm}
+                                    validateStatus={this.state.validateStatus.confirm}
+                                    help={this.state.help.confirm}
+                                >
+                                    {getFieldDecorator('confirm', {
+                                        rules: [{
+                                            required: true,
+                                            validator: this.validateInputField.bind(this,'confirm','Please confirm your password!'),
+                                        }],
+                                    })(
+                                        <Input type='password' placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/>
 
-                        <Form.Item
-                            label="确认密码"
-                            hasFeedback={this.state.hasFeedback.confirm}
-                            validateStatus={this.state.validateStatus.confirm}
-                            help={this.state.help.confirm}
-                        >
-                            {getFieldDecorator('confirm', {
-                                rules: [{
-                                    required: true,
-                                    validator: this.validateInputField.bind(this,'confirm','Please confirm your password!'),
-                                }],
-                                initialValue: confirm? confirm : '',
-                            })(
-                                confirm? <Input type='text' placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/> : <Input type='password' placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/>
-
-                            )}
-                        </Form.Item>
+                                    )}
+                                </Form.Item>
+                            </div>
+                            :
+                            ""
+                        }
                     </Form>
 
                     {this.props.modalDialog.roles?this.roleCheckbox.bind(this)():""}
