@@ -41,7 +41,6 @@ class UserModalDialog extends React.Component {
     }
 
     componentWillMount() {
-        debugger;
         this.props.modalDialog.findRoles();
         const userId = this.props.modalDialog.dialog.userId;
         if(userId){
@@ -72,7 +71,6 @@ class UserModalDialog extends React.Component {
             // const option = {label: role.name, value: role.roleId };
             options.push(role.roleId);
         });
-        debugger;
         let userRoles ;
         if(this.props.modalDialog.userInfo){
             userRoles = this.props.modalDialog.userInfo.roles;
@@ -176,7 +174,7 @@ class UserModalDialog extends React.Component {
                 callback();
             }
             if(field=='password' && this.state.confirmDirty){
-                form.validateFields(['confirm']);
+                form.validateFields(['confirm'], { force: true });
             }
         }
     }
@@ -212,7 +210,6 @@ class UserModalDialog extends React.Component {
     }
 
     render() {
-        debugger;
         const { getFieldDecorator } = this.props.form;
         const title = this.props.modalDialog.dialog.content + '用户';
         const userInfo = this.props.modalDialog.userInfo;
@@ -233,10 +230,20 @@ class UserModalDialog extends React.Component {
                     visible={true}
                     okText="保存"
                     cancelText="取消"
-                    onOk={this.saveUser.bind(this)}
-                    onCancel={this.cancel.bind(this)}
-                    okButtonProps={{ disabled: this.state.buttonDisabled }}
+                    // onOk={this.saveUser.bind(this)}
+                    onCancel={this.cancel.bind(this)}//右上角的关闭按钮
+                    // okButtonProps={{ disabled: this.state.buttonDisabled }}
                     destroyOnClose={true}
+                    footer={[
+                        <div className='user-button'>
+                            <Button onClick={this.cancel.bind(this)}>
+                                取消
+                            </Button>
+                            <Button type="primary" onClick={this.saveUser.bind(this)} disabled={this.state.buttonDisabled}>
+                                保存
+                            </Button>
+                        </div>
+                    ]}
                 >
                     <Form>
                         <Form.Item
