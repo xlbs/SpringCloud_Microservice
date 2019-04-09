@@ -18,7 +18,7 @@ class UserComponent extends React.Component{
                         <span>
                             <Button type="primary" size="small" onClick={this.editUser.bind(this,row.userId)} ghost>编辑</Button>
                             <Divider type="vertical" />
-                            <Button type="primary" size="small" ghost>删除</Button>
+                            <Button type="primary" size="small" onClick={this.deleteUser.bind(this,row.userId,row.username)} ghost>删除</Button>
                         </span>
                     )
                 }
@@ -42,7 +42,6 @@ class UserComponent extends React.Component{
 
     componentWillMount() {
         this.props.user.findUserList();
-        // this.props.user.findRoles();
     }
 
     //新增
@@ -53,6 +52,11 @@ class UserComponent extends React.Component{
     //编辑
     editUser(userId){
         this.props.user.editUser(userId);
+    }
+
+    //删除
+    deleteUser(userId,username){
+        this.props.user.deleteUser(userId,username);
     }
 
     //导出

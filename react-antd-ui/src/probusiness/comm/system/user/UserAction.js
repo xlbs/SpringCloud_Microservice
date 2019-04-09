@@ -1,5 +1,5 @@
 import {Ajax} from "../../../../commutils/utils/Ajax";
-import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
+import {showConfirm, showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 
 export const USER_LIST = "USER_LIST";
 export const ADD_USER = "ADD_USER";
@@ -52,7 +52,8 @@ function addUser() {
 
 /**
  * 编辑用户
- * @returns {{type: string, open: boolean, content: string}}
+ * @param userId
+ * @returns {{type: string, open: boolean, content: string, userId: *}}
  */
 function editUser(userId) {
     return {
@@ -60,6 +61,33 @@ function editUser(userId) {
         open: true,
         content: "编辑",
         userId: userId
+    }
+}
+
+/**
+ * 删除用户
+ * @param userId
+ */
+function deleteUser(userId,username) {
+    return (dispatch) => {
+        showConfirm("确定删除账号为: "+username+" 的用户？",
+            ()=>{
+                if(username=="admin"){
+                    showInfo("超级用户无法删除");
+                    return;
+                }
+                const url = API_SERVICE+"/user/delete/"+userId;
+                Ajax.get(
+                    url,
+                    (res) => {
+                        dispatch(findUserList());
+                        showInfo(res.msg);
+                    },
+                    dispatch
+                )
+            },
+            ()=>{}
+        )
     }
 }
 
@@ -105,26 +133,6 @@ function findUserInfo(userId) {
 }
 
 /**
- * 查询某个用户的角色信息
- * @param userId
- * @returns {Function}
- */
-// function findUserRoles(userId) {
-//     const url = API_SERVICE+"/role/"+userId;
-//     return (dispatch) =>{
-//         Ajax.get(
-//             url,
-//             (res) =>{
-//                 dispatch({
-//                     type: USER_ROLES,
-//                     userRoles: res
-//                 })
-//             }
-//         )
-//     }
-// }
-
-/**
  * 保存用户
  * @param values
  */
@@ -146,8 +154,6 @@ function saveUserInfo(values) {
         )
 
     }
-
-
 }
 
 /**
@@ -180,10 +186,10 @@ function exportUserInfo() {
 export const actions = {
     findUserList,
     addUser,
+    editUser,
+    deleteUser,
     findRoles,
     findUserInfo,
-    // findUserRoles,
-    editUser,
     saveUserInfo,
     exportUserInfo,
     closeDialog
