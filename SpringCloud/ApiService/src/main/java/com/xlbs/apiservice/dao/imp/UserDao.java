@@ -48,6 +48,11 @@ public class UserDao implements I_UserDao {
     }
 
     @Override
+    public void deleteUser(Long userId) {
+        sqlSession.delete("deleteUser",userId);
+    }
+
+    @Override
     public List<Map<Object, Object>> exportUser() {
         return sqlSession.selectList("exportUser");
     }

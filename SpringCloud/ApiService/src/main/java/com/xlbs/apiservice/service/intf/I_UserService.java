@@ -19,16 +19,22 @@ public interface I_UserService {
 
     /**
      * 通过userId查询用户信息
-     * @param userId
+     * @param userId 用户ID
      * @return
      */
     public User findUserInfoByUserId(Long userId);
 
     /**
-     * 保存用户
-     * @param user 用户
+     * 保存用户信息
+     * @param user 用户信息
      */
     public void saveUserInfo(User user, Boolean isEdit);
+
+    /**
+     * 删除用户信息
+     * @param userId 用户ID
+     */
+    public void deleteUserInfo(Long userId);
 
     /**
      * 导出用户信息

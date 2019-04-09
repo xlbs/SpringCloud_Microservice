@@ -42,13 +42,24 @@ public class UserController extends ResponseResult {
     }
 
     /**
-     * 保存用户
+     * 保存用户信息
      * @return
      */
-    @ApiOperation(value="保存用户")
+    @ApiOperation(value="保存用户信息")
     @PostMapping(value = "/saveUserInfo")
     public ResponseResult saveUserInfo(@RequestBody User user, @RequestParam(required = false) Boolean isEdit){
         userService.saveUserInfo(user,isEdit);
+        return success();
+    }
+
+    /**
+     * 删除用户信息
+     * @return
+     */
+    @ApiOperation(value="删除用户信息")
+    @GetMapping(value = "delete/{userId}")
+    public ResponseResult deleteUserInfo(@PathVariable(value = "userId") Long userId){
+        userService.deleteUserInfo(userId);
         return success();
     }
 

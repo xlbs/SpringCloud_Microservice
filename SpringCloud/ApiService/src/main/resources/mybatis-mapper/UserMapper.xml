@@ -94,6 +94,11 @@
         where id=#{userId}
     </update>
 
+    <!--删除用户-->
+    <delete id="deleteUser" >
+        delete from t_user where id=#{userId}
+    </delete>
+
     <!--导出用户信息-->
     <select id="exportUser" resultType="java.util.Map">
         select

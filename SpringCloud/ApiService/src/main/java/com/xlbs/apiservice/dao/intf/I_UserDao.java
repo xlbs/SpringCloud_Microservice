@@ -35,6 +35,12 @@ public interface I_UserDao {
     public void updateUser(User user);
 
     /**
+     * 删除用户
+     * @param userId 用户Id
+     */
+    public void deleteUser(Long userId);
+
+    /**
      * 导出用户信息
      * @return
      */

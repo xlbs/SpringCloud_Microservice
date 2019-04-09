@@ -66,6 +66,13 @@ public class UserService implements I_UserService {
     }
 
     @Override
+    @Transactional
+    public void deleteUserInfo(Long userId) {
+        roleDao.deleteUserRoles(userId);
+        userDao.deleteUser(userId);
+    }
+
+    @Override
     public List<Map<Object, Object>> exportUser() {
         return userDao.exportUser();
     }
