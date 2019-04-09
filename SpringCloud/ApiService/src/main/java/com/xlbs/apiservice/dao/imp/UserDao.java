@@ -41,6 +41,13 @@ public class UserDao implements I_UserDao {
     }
 
     @Override
+    public void updateUser(User user) {
+        user.setLastModifyBy(RequestContextUtils.getUserId());
+        user.setLastModifyDate(new Date());
+        sqlSession.update("updateUser", user);
+    }
+
+    @Override
     public List<Map<Object, Object>> exportUser() {
         return sqlSession.selectList("exportUser");
     }

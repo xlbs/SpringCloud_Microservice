@@ -29,5 +29,10 @@ public class RoleDao implements I_RoleDao {
         sqlSession.insert("saveUserRoles",roles);
     }
 
+    @Override
+    public void deleteUserRoles(Long userId) {
+        sqlSession.delete("deleteUserRoles",userId);
+    }
+
 
 }

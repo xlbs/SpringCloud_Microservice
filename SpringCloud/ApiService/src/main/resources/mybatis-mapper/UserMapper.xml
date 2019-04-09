@@ -71,6 +71,29 @@
 
     </insert>
 
+    <!--更新用户-->
+    <update id="updateUser" parameterType="com.xlbs.apiservice.entity.User">
+        update t_user
+        <set>
+            <if test="username != null">
+                user_name=#{username},
+            </if>
+            <if test="name != null">
+                `name`=#{name},
+            </if>
+            <if test="type != null">
+                `type`=#{type},
+            </if>
+            <if test="lastModifyBy != null">
+                last_modify_by=#{lastModifyBy},
+            </if>
+            <if test="lastModifyDate != null">
+                last_modify_date=#{lastModifyDate}
+            </if>
+        </set>
+        where id=#{userId}
+    </update>
+
     <!--导出用户信息-->
     <select id="exportUser" resultType="java.util.Map">
         select

@@ -47,8 +47,8 @@ public class UserController extends ResponseResult {
      */
     @ApiOperation(value="保存用户")
     @PostMapping(value = "/saveUserInfo")
-    public ResponseResult saveUserInfo(@RequestBody User user){
-        userService.saveUserInfo(user);
+    public ResponseResult saveUserInfo(@RequestBody User user, @RequestParam(required = false) Boolean isEdit){
+        userService.saveUserInfo(user,isEdit);
         return success();
     }
 

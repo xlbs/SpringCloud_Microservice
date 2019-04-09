@@ -29,6 +29,12 @@ public interface I_UserDao {
     public void saveUser(User user);
 
     /**
+     * 更新用户
+     * @param user 用户
+     */
+    public void updateUser(User user);
+
+    /**
      * 导出用户信息
      * @return
      */

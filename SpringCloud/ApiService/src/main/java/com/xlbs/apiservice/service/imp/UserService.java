@@ -43,18 +43,25 @@ public class UserService implements I_UserService {
 
     @Override
     @Transactional
-    public void saveUserInfo(User user) {
-        Long id = RandomCodeUtils.getRandomId();
-        user.setUserId(id);
-        String password = DigestUtils.sha1Hex(user.getPassword());
-        user.setPassword(password);
+    public void saveUserInfo(User user, Boolean isEdit) {
+        Long id  = null;
+        if(isEdit){
+            id = user.getUserId();
+            roleDao.deleteUserRoles(id);
+            userDao.updateUser(user);
+        }else{
+            id = RandomCodeUtils.getRandomId();
+            user.setUserId(id);
+            String password = DigestUtils.sha1Hex(user.getPassword());
+            user.setPassword(password);
+            userDao.saveUser(user);
+        }
         List<Role> roles = user.getRoles();
         for (Role role : roles){
             role.setUserId(id);
             role.setCreatedBy(RequestContextUtils.getUserId());
             role.setCreatedDate(new Date());
         }
-        userDao.saveUser(user);
         roleDao.saveUserRoles(roles);
     }
 

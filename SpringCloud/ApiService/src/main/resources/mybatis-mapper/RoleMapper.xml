@@ -37,7 +37,7 @@
           user_id = #{userId}
     </select>
 
-    <!--批量保存用户角色-->
+    <!--批量保存用户角色信息-->
     <insert id="saveUserRoles">
         insert into t_user_role
           (user_id, role_id, created_by, created_date,last_modify_by,last_modify_date)
@@ -46,5 +46,10 @@
             (#{role.userId}, #{role.roleId}, #{role.createdBy}, #{role.createdDate}, #{role.lastModifyBy}, #{role.lastModifyDate})
           </foreach >
     </insert>
+
+    <!--删除用户角色信息-->
+    <delete id="deleteUserRoles" >
+        delete from t_user_role where user_id = #{userId}
+    </delete>
 
 </mapper>

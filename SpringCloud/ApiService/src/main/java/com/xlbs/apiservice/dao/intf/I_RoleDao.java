@@ -21,10 +21,16 @@ public interface I_RoleDao {
 
 
     /**
-     * 批量保存角色信息
+     * 批量保存用户角色信息
      * @param roles
      */
     public void saveUserRoles(List<Role> roles);
+
+    /**
+     * 删除用户角色信息
+     * @param userId
+     */
+    public void deleteUserRoles(Long userId);
 
 
 
