@@ -129,7 +129,10 @@ function findUserInfo(userId) {
  * @param values
  */
 function saveUserInfo(values) {
-    const url = API_SERVICE+"/user/saveUserInfo";
+    let url = API_SERVICE+"/user/saveUserInfo";
+    if(values.userId){
+        url = url +"?isEdit=true"
+    }
     const params = values;
     return (dispatch) =>{
         Ajax.post(
