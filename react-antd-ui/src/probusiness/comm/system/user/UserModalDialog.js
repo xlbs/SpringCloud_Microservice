@@ -127,6 +127,7 @@ class UserModalDialog extends React.Component {
             indeterminate: false,
             checkAll: e.target.checked,
             clickCheckbox: true,
+            buttonDisabled: false || !e.target.checked,
         });
     }
 
@@ -136,6 +137,7 @@ class UserModalDialog extends React.Component {
             indeterminate: !!checkedList.length && (checkedList.length < options.length),
             checkAll: checkedList.length === options.length,
             clickCheckbox: true,
+            buttonDisabled: false || !checkedList.length,
         });
     }
 
@@ -205,7 +207,6 @@ class UserModalDialog extends React.Component {
                 }else{
                     showInfo("请为用户分配角色");
                 }
-
             }
         });
     }
