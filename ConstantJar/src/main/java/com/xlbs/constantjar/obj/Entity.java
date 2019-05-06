@@ -10,7 +10,7 @@ import java.util.Date;
 @Setter @Getter @NoArgsConstructor
 public class Entity {
 
-    private Long id;
+    private Long key;
 
     private Long createdBy;
 
