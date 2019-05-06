@@ -58,7 +58,7 @@ export function DataDict(category,dispatch) {
         Ajax.get(
             url,
             (res)=>{
-                CurrentSessionCache.add("DATA_DICT",res);
+                CurrentSessionCache.add("DATA_DICT",res.data);
             },
             dispatch
         );
