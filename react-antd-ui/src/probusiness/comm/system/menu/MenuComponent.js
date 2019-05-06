@@ -7,7 +7,7 @@ class MenuComponent extends React.Component{
     constructor(props){
         super(props);
         const columns = [
-            {title: '菜单标识',dataIndex: 'menuId',width:150},
+            {title: '菜单标识',dataIndex: 'id',width:150},
             {title: '菜单名',dataIndex: 'name'},
             {title: '菜单等级',dataIndex: 'rank'},
             {title: 'URL',dataIndex: 'url'},

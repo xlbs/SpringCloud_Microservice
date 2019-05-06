@@ -3,7 +3,7 @@ import { Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 
 const renderMenuItem = item => ( // item.route 菜单单独跳转的路由
-    <Menu.Item key={item.menuId}>
+    <Menu.Item key={item.id}>
         <Link to={item.url}>
             {item.icon && <Icon type={item.icon} />}
             <span className="nav-text">{item.name}</span>
@@ -13,7 +13,7 @@ const renderMenuItem = item => ( // item.route 菜单单独跳转的路由
 
 const renderSubMenu = subItem => (
     <Menu.SubMenu
-        key={subItem.menuId}
+        key={subItem.id}
         title={
             <span>
                 {subItem.icon && <Icon type={subItem.icon} />}
@@ -23,7 +23,7 @@ const renderSubMenu = subItem => (
     >
         {subItem.children.map( item => {
             return(
-                <Menu.Item key={item.menuId}>
+                <Menu.Item key={item.id}>
                     <Link to={subItem.url+item.url}>
                         {item.icon && <Icon type={item.icon} />}
                         <span className="nav-text">{item.name}</span>

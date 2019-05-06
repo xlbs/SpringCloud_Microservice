@@ -26,12 +26,12 @@ class MenuRoute extends React.Component{
                 {
                    menu.map(item => {
                        const route = r => {
-                           const Component = menuComponent[r.menuId];
+                           const Component = menuComponent[r.id];
                            const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
                            return (
                                <Route
                                    exact
-                                   key={r.menuId}
+                                   key={r.id}
                                    path={r.url}
                                    render={props => LOGIN_STATUS ? <Component {...props} /> : <Redirect to="/login" />}
                                />
@@ -40,12 +40,12 @@ class MenuRoute extends React.Component{
                        const routeSub = rSub => {
                            return(
                                rSub.children.map( r => {
-                                   const Component = menuComponent[r.menuId];
+                                   const Component = menuComponent[r.id];
                                    const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
                                    return (
                                        <Route
                                            exact
-                                           key={rSub.menuId}
+                                           key={rSub.id}
                                            path={rSub.url+r.url}
                                            render={props => LOGIN_STATUS ? <Component {...props} /> : <Redirect to="/login" />}
                                        />
