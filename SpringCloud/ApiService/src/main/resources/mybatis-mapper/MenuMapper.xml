@@ -7,7 +7,8 @@
     <!--查询所有菜单-->
     <select id="findMenu" resultType="com.xlbs.apiservice.entity.Menu">
         select
-          menu.id as menuId,
+          menu.id as `key`,
+          menu.id,
           menu.name as name,
           menu.parent_id as parentId,
           menu.rank as `rank`,
@@ -27,7 +28,7 @@
     <!--通过用户ID查询该用户拥有的菜单-->
     <select id="findMenuByUserId" resultType="com.xlbs.apiservice.entity.Menu">
         select
-          distinct menu.id as menuId,
+          distinct menu.id,
           menu.name as name,
           menu.parent_id as parentId,
           menu.rank as `rank`,
