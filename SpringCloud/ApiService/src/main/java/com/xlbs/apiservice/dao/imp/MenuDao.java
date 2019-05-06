@@ -15,6 +15,11 @@ public class MenuDao implements I_MenuDao {
     private SqlSession sqlSession;
 
     @Override
+    public List<Menu> findMenu() {
+        return sqlSession.selectList("findMenu");
+    }
+
+    @Override
     public List<Menu> findMenuByUserId(Long userId) {
         return sqlSession.selectList("findMenuByUserId", userId);
     }

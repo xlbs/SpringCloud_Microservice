@@ -25,7 +25,7 @@ public class Menu extends Entity {
 
     private Integer index;
 
-    private List<Menu> childMenu;
+    private List<Menu> children;
 
 
 }

@@ -4,6 +4,26 @@
 
 <mapper namespace="com.xlbs.apiservice.dao.imp.MenuDao">
 
+    <!--查询所有菜单-->
+    <select id="findMenu" resultType="com.xlbs.apiservice.entity.Menu">
+        select
+          menu.id as menuId,
+          menu.name as name,
+          menu.parent_id as parentId,
+          menu.rank as `rank`,
+          menu.url as url,
+          menu.is_enable as isEnable,
+          menu.icon as icon,
+          menu.index as `index`,
+          menu.created_by as createdBy,
+          menu.created_date as createdDate,
+          menu.last_modify_by as lastModifyBy,
+          menu.last_modify_date as lastModifyDate
+        from
+          `t_menu` menu
+        order by menu.id
+    </select>
+
     <!--通过用户ID查询该用户拥有的菜单-->
     <select id="findMenuByUserId" resultType="com.xlbs.apiservice.entity.Menu">
         select

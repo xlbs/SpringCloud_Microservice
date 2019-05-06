@@ -17,13 +17,27 @@ public class MenuController extends ResponseResult {
     private I_MenuService menuService;
 
     /**
+     * 查询所有的菜单
+     * @return
+     */
+    @ApiOperation(value="查询所有的菜单")
+    @GetMapping
+    public ResponseResult findMenu(){
+        List<Menu> list = menuService.findMenu();
+        if(!list.isEmpty()){
+            return super.success(list);
+        }
+        return super.success();
+    }
+
+    /**
      * 根据用户ID查找该用户所拥有的菜单
      * @param userId 用户ID
      * @return
      */
     @ApiOperation(value="根据用户ID查找该用户所拥有的菜单")
     @GetMapping(value = "/{userId}")
-    public ResponseResult findMenu(@PathVariable Long userId){
+    public ResponseResult findMenuByUserId(@PathVariable Long userId){
         List<Menu> list = menuService.findMenuByUserId(userId);
         if(!list.isEmpty()){
             return super.success(list);

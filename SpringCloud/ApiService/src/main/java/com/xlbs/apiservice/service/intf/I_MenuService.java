@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface I_MenuService {
 
+    public List<Menu> findMenu();
+
     public List<Menu> findMenuByUserId(Long userId);
 
 

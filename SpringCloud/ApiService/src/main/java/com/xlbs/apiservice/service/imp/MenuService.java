@@ -17,6 +17,19 @@ public class MenuService implements I_MenuService {
     private I_MenuDao menuDao;
 
     @Override
+    public List<Menu> findMenu() {
+        List<Menu> menuList = menuDao.findMenu();
+        List<Menu> oneLevelMenuList = new ArrayList<>();
+        for (Menu menu : menuList){
+            if(Objects.isNull(menu.getParentId())){
+                oneLevelMenuList.add(menu);
+            }
+        }
+        List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
+        return resList;
+    }
+
+    @Override
     public List<Menu> findMenuByUserId(Long userId) {
         List<Menu> menuList = menuDao.findMenuByUserId(userId);
         List<Menu> oneLevelMenuList = new ArrayList<>();
@@ -43,9 +56,9 @@ public class MenuService implements I_MenuService {
                     childMenuList.add(childMenu);
                 }
             }
-            parenMenu.setChildMenu(childMenuList);
-            if(!parenMenu.getChildMenu().isEmpty()){
-                findChildMenu(parenMenu.getChildMenu(), menuList);
+            parenMenu.setChildren(childMenuList);
+            if(!parenMenu.getChildren().isEmpty()){
+                findChildMenu(parenMenu.getChildren(), menuList);
             }
         }
         return parenMenuList;
