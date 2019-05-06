@@ -6,6 +6,7 @@ import handleHome from "../probusiness/comm/home/index";
 import handleUserManagement from "../probusiness/comm/system/user/index";
 import handleRoleManagement from "../probusiness/comm/system/role/index";
 import handleMenuManagement from "../probusiness/comm/system/menu/index";
+import handleLeaveProcess from "../probusiness/process/leave/index";
 
 
 const menuComponent = {
@@ -13,6 +14,7 @@ const menuComponent = {
     3: handleUserManagement,
     4: handleRoleManagement,
     5: handleMenuManagement,
+    7: handleLeaveProcess,
 }
 
 class MenuRoute extends React.Component{
