@@ -11,11 +11,7 @@ export const Ajax = {
         axios.get(url)
             .then(function (response) {
                 if(response.data.code===1){
-                    if(response.data.data){
-                        callBack && callBack(response.data.data);
-                    }else {
-                        callBack && callBack(response.data);
-                    }
+                    callBack && callBack(response.data);
                 }else if(response.data.code===20001 || response.data.code===20002){
                     dispatch(setErrorMsg(response.data.msg));
                 }else{
@@ -34,11 +30,7 @@ export const Ajax = {
         axios.post(url, params)
             .then(function (response) {
                 if(response.data.code===1){
-                    if(response.data.data){
-                        callBack && callBack(response.data.data);
-                    }else {
-                        callBack && callBack(response.data);
-                    }
+                    callBack && callBack(response.data);
                 }else if(response.data.code===20001 || response.data.code===20002){
                     dispatch(setErrorMsg(response.data.msg));
                 }else{

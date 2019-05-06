@@ -21,21 +21,26 @@ function login(user) {
         Ajax.post(
             {url,params},
             (res) =>{
-                CurrentSessionCache.set("USER",res);
-                if(res.userId || res.userId===0){
-                    url = API_SERVICE + "/menu/"+res.userId;
+                CurrentSessionCache.set("USER",res.data);
+                if(res.data.userId || res.data.userId===0){
+                    url = API_SERVICE + "/menu/"+res.data.userId;
                     Ajax.get(
                         url,
                         (menu) =>{
-                            CurrentSessionCache.set("MENU",menu);
-                            let path;
-                            if(menu[0].childMenu.length===0){
-                                path = menu[0].url;
+                            if(menu.data){
+                                CurrentSessionCache.set("MENU",menu.data);
+                                let path;
+                                if(menu.data[0].childMenu.length===0){
+                                    path = menu.data[0].url;
+                                }else{
+                                    path = menu.data[0].url+menu[0].childMenu[0].url;
+                                }
+                                CurrentSessionCache.set("LOGIN_STATUS",true);//已登入
+                                dispatch(push(path));//跳转第一个菜单
                             }else{
-                                path = menu[0].url+menu[0].childMenu[0].url;
+                                dispatch(setErrorMsg("加载菜单失败，请检查用户权限!"));
                             }
-                            CurrentSessionCache.set("LOGIN_STATUS",true);//已登入
-                            dispatch(push(path));//跳转第一个菜单
+
                         },
                         dispatch
                     );

@@ -30,7 +30,7 @@ function findUserList() {
             (res)=>{
                 dispatch({
                     type: USER_LIST,
-                    userList: res
+                    userList: res.data
                 })
             },
             dispatch
@@ -103,7 +103,7 @@ function findRoles() {
             (res) =>{
                 dispatch({
                     type: ROLES,
-                    roles: res
+                    roles: res.data
                 })
             },
             dispatch
@@ -125,7 +125,7 @@ function findUserInfo(userId) {
             (res) =>{
                 dispatch({
                     type: USER_INFO,
-                    userInfo: res
+                    userInfo: res.data
                 })
             }
         )

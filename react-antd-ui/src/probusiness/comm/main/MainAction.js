@@ -22,15 +22,19 @@ function login(user) {
         Ajax.post(
             {url,params},
             (res) =>{
-                CurrentSessionCache.set("USER",res);
-                if(res.userId || res.userId===0){
-                    url = API_SERVICE + "/menu/"+res.userId;
+                CurrentSessionCache.set("USER",res.data);
+                if(res.data.userId || res.data.userId===0){
+                    url = API_SERVICE + "/menu/"+res.data.userId;
                     Ajax.get(
                         url,
                         (menu) =>{
-                            CurrentSessionCache.set("MENU",menu);
-                            CurrentSessionCache.set("LOGIN_STATUS",true);//已登入
-                            dispatch(hiddenLoginBox());
+                            if(menu.data){
+                                CurrentSessionCache.set("MENU",menu.data);
+                                CurrentSessionCache.set("LOGIN_STATUS",true);//已登入
+                                dispatch(hiddenLoginBox());
+                            }else{
+                                dispatch(setErrorMsg("加载菜单失败，请检查用户权限!"));
+                            }
                         },
                         dispatch
                     );
