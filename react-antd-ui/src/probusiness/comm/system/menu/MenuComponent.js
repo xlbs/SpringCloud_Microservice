@@ -7,7 +7,7 @@ class MenuComponent extends React.Component{
     constructor(props){
         super(props);
         const columns = [
-            {title: '菜单标识',dataIndex: 'id',width:150},
+            {title: '菜单标识',dataIndex: 'menuId',width:150},
             {title: '菜单名',dataIndex: 'name'},
             {title: '菜单等级',dataIndex: 'rank'},
             {title: 'URL',dataIndex: 'url'},
@@ -37,7 +37,7 @@ class MenuComponent extends React.Component{
     }
 
     componentWillMount() {
-        // this.props.user.findUserList();
+        this.props.menu.findMenuList();
     }
 
     //编辑
@@ -51,68 +51,19 @@ class MenuComponent extends React.Component{
     }
 
     render() {
-
-        const data = [{
-            key: 1,
-            name: 'John Brown sr.',
-            age: 60,
-            address: 'New York No. 1 Lake Park',
-            children: [{
-                key: 11,
-                name: 'John Brown',
-                age: 42,
-                address: 'New York No. 2 Lake Park',
-            }, {
-                key: 12,
-                name: 'John Brown jr.',
-                age: 30,
-                address: 'New York No. 3 Lake Park',
-                children: [{
-                    key: 121,
-                    name: 'Jimmy Brown',
-                    age: 16,
-                    address: 'New York No. 3 Lake Park',
-                }],
-            }, {
-                key: 13,
-                name: 'Jim Green sr.',
-                age: 72,
-                address: 'London No. 1 Lake Park',
-                children: [{
-                    key: 131,
-                    name: 'Jim Green',
-                    age: 42,
-                    address: 'London No. 2 Lake Park',
-                    children: [{
-                        key: 1311,
-                        name: 'Jim Green jr.',
-                        age: 25,
-                        address: 'London No. 3 Lake Park',
-                    }, {
-                        key: 1312,
-                        name: 'Jimmy Green sr.',
-                        age: 18,
-                        address: 'London No. 4 Lake Park',
-                    }],
-                }],
-            }],
-        }, {
-            key: 2,
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        }];
-
+        debugger;
+        const props = this.props.menu;
+        const dataSource = props.menuList;
         const rowSelection = {
-            // onChange: (selectedRowKeys, selectedRows) => {
-            //     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            // },
-            // onSelect: (record, selected, selectedRows) => {
-            //     console.log(record, selected, selectedRows);
-            // },
-            // onSelectAll: (selected, selectedRows, changeRows) => {
-            //     console.log(selected, selectedRows, changeRows);
-            // },
+            onChange: (selectedRowKeys, selectedRows) => {
+                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            },
+            onSelect: (record, selected, selectedRows) => {
+                console.log(record, selected, selectedRows);
+            },
+            onSelectAll: (selected, selectedRows, changeRows) => {
+                console.log(selected, selectedRows, changeRows);
+            },
         };
 
         return (
@@ -122,7 +73,7 @@ class MenuComponent extends React.Component{
                 </Button>
                 <Table
                     columns={this.state.columns}
-                    dataSource={data}
+                    dataSource={dataSource}
                     rowSelection = {rowSelection}
                     bordered
                 />

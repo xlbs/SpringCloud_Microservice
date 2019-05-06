@@ -11,18 +11,22 @@ class handleMenuManagement extends React.Component{
     }
 
     render(){
+        const menu = this.props;
         return(
-            <MenuComponent/>
+            <MenuComponent menu={menu}/>
         )
     }
 }
 
 const mapStateToProps = state =>({
-
+    menuList: state.menu.menuList,
 })
 
-const mapDispatchToProps = dispatch =>({
-    actions: bindActionCreators(actions, dispatch)
-})
+const mapDispatchToProps = dispatch =>{
+    return {
+        ...bindActionCreators(actions, dispatch),
+        dispatch
+    }
+}
 
 export default connect(mapStateToProps,mapDispatchToProps)(handleMenuManagement);

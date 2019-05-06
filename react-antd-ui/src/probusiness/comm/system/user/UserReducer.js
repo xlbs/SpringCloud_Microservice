@@ -1,8 +1,7 @@
 import {USER_LIST,ADD_USER,EDIT_USER,ROLES,USER_INFO,USER_ROLES,CLOSE_DIALOG} from "./UserAction";
 
-const initialState = {
+const initialState = {};
 
-}
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case USER_LIST:

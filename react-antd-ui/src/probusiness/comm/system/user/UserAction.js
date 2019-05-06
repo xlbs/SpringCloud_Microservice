@@ -1,6 +1,10 @@
 import {Ajax} from "../../../../commutils/utils/Ajax";
 import {showConfirm, showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 
+const BASE_URL = $requestContext.path;
+const API_SERVICE = BASE_URL + "/api_service";
+const EXCEL_SERVICE = BASE_URL + "/excel_service";
+
 export const USER_LIST = "USER_LIST";
 export const ADD_USER = "ADD_USER";
 export const EDIT_USER = "EDIT_USER";
@@ -8,11 +12,6 @@ export const ROLES = "ROLES";
 export const USER_INFO = "USER_INFO";
 export const USER_ROLES = "USER_ROLES";
 export const CLOSE_DIALOG = "CLOSE_DIALOG";
-
-const BASE_URL = $requestContext.path;
-const API_SERVICE = BASE_URL + "/api_service";
-const EXCEL_SERVICE = BASE_URL + "/excel_service";
-
 
 /**
  * 查询用户数据列表
