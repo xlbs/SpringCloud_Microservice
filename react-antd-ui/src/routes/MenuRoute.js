@@ -39,7 +39,7 @@ class MenuRoute extends React.Component{
                        }
                        const routeSub = rSub => {
                            return(
-                               rSub.childMenu.map( r => {
+                               rSub.children.map( r => {
                                    const Component = menuComponent[r.menuId];
                                    const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
                                    return (
@@ -54,7 +54,7 @@ class MenuRoute extends React.Component{
                            )
 
                        }
-                       return item.childMenu.length === 0 ? route(item) : routeSub(item);
+                       return item.children.length === 0 ? route(item) : routeSub(item);
                    })
                 }
                 <Redirect exact from='/' to='/home'/>

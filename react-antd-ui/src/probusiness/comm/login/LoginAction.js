@@ -30,10 +30,10 @@ function login(user) {
                             if(menu.data){
                                 CurrentSessionCache.set("MENU",menu.data);
                                 let path;
-                                if(menu.data[0].childMenu.length===0){
+                                if(menu.data[0].children.length===0){
                                     path = menu.data[0].url;
                                 }else{
-                                    path = menu.data[0].url+menu[0].childMenu[0].url;
+                                    path = menu.data[0].url+menu[0].children[0].url;
                                 }
                                 CurrentSessionCache.set("LOGIN_STATUS",true);//已登入
                                 dispatch(push(path));//跳转第一个菜单

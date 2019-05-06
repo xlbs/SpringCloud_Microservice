@@ -13,7 +13,7 @@ class MainComponent extends React.Component {
         const menu = CurrentSessionCache.get("MENU");
         const routes = [];
         const routeSub = subItem => {
-            subItem.childMenu.map(item => {
+            subItem.children.map(item => {
                 let temp = {
                     path: subItem.url+item.url,
                     value: subItem.name+'/'+item.name
@@ -29,7 +29,7 @@ class MainComponent extends React.Component {
             routes.push(temp);
         }
         menu.map(item => {
-            item.childMenu.length === 0 ? route(item) : routeSub(item)
+            item.children.length === 0 ? route(item) : routeSub(item)
         })
         this.state =  {
             collapsed: false,

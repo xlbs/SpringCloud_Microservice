@@ -21,7 +21,7 @@ const renderSubMenu = subItem => (
             </span>
         }
     >
-        {subItem.childMenu.map( item => {
+        {subItem.children.map( item => {
             return(
                 <Menu.Item key={item.menuId}>
                     <Link to={subItem.url+item.url}>
@@ -37,7 +37,7 @@ const renderSubMenu = subItem => (
 export default ({ menus, ...props }) => (
     <Menu {...props}>
         {menus && menus.map(item =>
-            item.childMenu.length === 0 ? renderMenuItem(item) : renderSubMenu(item)
+            item.children.length === 0 ? renderMenuItem(item) : renderSubMenu(item)
         )}
     </Menu>
 );
