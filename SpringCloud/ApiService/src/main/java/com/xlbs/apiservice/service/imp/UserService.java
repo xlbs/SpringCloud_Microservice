@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class UserService implements I_UserService {
@@ -45,7 +46,7 @@ public class UserService implements I_UserService {
     @Transactional
     public void saveUserInfo(User user, Boolean isEdit) {
         Long id  = null;
-        if(isEdit){
+        if(!Objects.isNull(isEdit) && isEdit){
             id = user.getUserId();
             roleDao.deleteUserRoles(id);
             userDao.updateUser(user);
