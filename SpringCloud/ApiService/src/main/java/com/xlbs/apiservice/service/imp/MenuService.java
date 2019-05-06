@@ -52,7 +52,7 @@ public class MenuService implements I_MenuService {
         for (Menu parenMenu : parenMenuList){
             List<Menu> childMenuList = new ArrayList<>();
             for (Menu childMenu : menuList){
-                if(parenMenu.getMenuId().equals(childMenu.getParentId())){
+                if(parenMenu.getId().equals(childMenu.getParentId())){
                     childMenuList.add(childMenu);
                 }
             }

@@ -9,7 +9,7 @@ import java.util.List;
 @Getter @Setter
 public class Menu extends Entity {
 
-    private Integer menuId;
+    private Integer id;
 
     private String name;
 
