@@ -1,6 +1,5 @@
 import React from 'react';
-import { Table, Divider } from 'antd';
-import Button from "antd/es/button/button";
+import { Button, Table, Divider, Pagination } from 'antd';
 import CreateTable from '../../../../commutils/components/CreateTable';
 import '../../../../statics/css/system/user/user.css';
 import {DataDict} from "../../../../commutils/utils/CommUtils"
@@ -67,6 +66,7 @@ class UserComponent extends React.Component{
     render() {
         const props = this.props.user;
         const dataSource = props.userList;
+        debugger;
         return (
             <div id="user" className="user">
                 <Button type="primary" onClick={this.addUser.bind(this)}>新增</Button>
@@ -77,11 +77,20 @@ class UserComponent extends React.Component{
                 <CreateTable
                     columns={this.state.columns}
                     dataSource={dataSource}
+                    pagination={false}
                     bordered
                 />
+                <Pagination
+                    showSizeChanger
+                    // onShowSizeChange={onShowSizeChange}
+                    defaultCurrent={6}
+                    total={500}
+                />
+
                 {/*<Table*/}
                     {/*columns={this.state.columns}*/}
                     {/*dataSource={dataSource}*/}
+                    {/*pagination={{ pageSize: 5 }}*/}
                     {/*bordered*/}
                 {/*/>*/}
             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Divider, Button } from 'antd';
+import { Table, Divider, Button,Pagination } from 'antd';
 import {DataDict} from "../../../../commutils/utils/CommUtils";
 
 class MenuComponent extends React.Component{
@@ -51,7 +51,6 @@ class MenuComponent extends React.Component{
     }
 
     render() {
-        debugger;
         const props = this.props.menu;
         const dataSource = props.menuList;
         const rowSelection = {
@@ -66,17 +65,49 @@ class MenuComponent extends React.Component{
             },
         };
 
+        const columns = [{
+            title: 'Name',
+            dataIndex: 'name',
+            width: 150,
+        }, {
+            title: 'Age',
+            dataIndex: 'age',
+            width: 150,
+        }, {
+            title: 'Address',
+            dataIndex: 'address',
+        }];
+
+        const data = [];
+        for (let i = 0; i < 100; i++) {
+            data.push({
+                key: i,
+                name: `Edward King ${i}`,
+                age: 32,
+                address: `London, Park Lane no. ${i}`,
+            });
+        }
+
         return (
             <div>
                 <Button type="primary">
-                    菜单管理
+                    新增
                 </Button>
                 <Table
-                    columns={this.state.columns}
-                    dataSource={dataSource}
-                    rowSelection = {rowSelection}
-                    bordered
+                    columns={columns}
+                    dataSource={data}
+                    pagination={{ pageSize: 50 }}
+                    scroll={{ y: 240 }}
                 />
+                {/*<Table*/}
+
+                    {/*columns={this.state.columns}*/}
+                    {/*dataSource={dataSource}*/}
+                    {/*pagination={{ pageSize: 10 }}*/}
+                    {/*// scroll={{ x: 1500, y: 800 }}*/}
+                    {/*// rowSelection = {rowSelection}*/}
+                    {/*bordered*/}
+                {/*/>*/}
             </div>
         )
     }
