@@ -27,7 +27,7 @@ public class UserController extends ResponseResult {
     @PostMapping(value = "/findUserList")
     public ResponseResult findUserList(@RequestBody UserQuery userQuery){
         PageInfo<Map<Object,Object>> pageInfo = userService.findUserList(userQuery);
-        return success(pageInfo.getList());
+        return success(pageInfo);
     }
 
     /**
