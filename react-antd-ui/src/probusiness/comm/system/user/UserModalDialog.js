@@ -2,6 +2,7 @@ import React from 'react';
 import {Modal, Form, Input, Checkbox, Tooltip, Icon, Cascader, Select, Row, Col, Button, AutoComplete,} from 'antd';
 import {DictSelect} from '../../../../commutils/components/utils/Select';
 import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
+import {DataDict} from "../../../../commutils/utils/CommUtils";
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -9,6 +10,7 @@ class UserModalDialog extends React.Component {
 
     constructor(props){
         super(props);
+        DataDict("USER_TYPE",props.modalDialog.dispatch);
         this.state = {
             hasFeedback: {
                 name: false,
@@ -38,6 +40,7 @@ class UserModalDialog extends React.Component {
             buttonDisabled: true,
             clickCheckbox: false,
         };
+
     }
 
     componentWillMount() {
