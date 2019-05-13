@@ -7,7 +7,7 @@ const Option = Select.Option;
 
 const select = ({ items, ...props }) => {
     const { defaultValue } = props;
-    if(!defaultValue){
+    if(!defaultValue && items.length != 0){
         props.defaultValue=items[0].code;
     }
     if(items.length===0){
@@ -40,15 +40,17 @@ const select = ({ items, ...props }) => {
 export const DictSelect = ({ category, ...props }) => {
     let items = [];
     const dataDict = CurrentSessionCache.get("DATA_DICT");
-    if(dataDict instanceof Array){
-        dataDict.map( item => {
-            if(item.category == category){
-                items = item.list;
+    if(dataDict){
+        if(dataDict instanceof Array){
+            dataDict.map( item => {
+                if(item.category == category){
+                    items = item.list;
+                }
+            })
+        }else{
+            if(dataDict.category == category){
+                items = dataDict.list;
             }
-        })
-    }else{
-        if(dataDict.category == category){
-            items = dataDict.list;
         }
     }
     return(
