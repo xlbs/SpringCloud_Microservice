@@ -1,6 +1,5 @@
 package com.xlbs.apiservice.controller;
 
-import com.xlbs.apiservice.dao.imp.DataDictDao;
 import com.xlbs.apiservice.entity.DataDictInfo;
 import com.xlbs.apiservice.service.intf.I_DataDictService;
 import com.xlbs.constantjar.ResponseResult;

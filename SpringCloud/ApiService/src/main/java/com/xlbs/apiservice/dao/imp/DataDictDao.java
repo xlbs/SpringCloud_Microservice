@@ -2,12 +2,13 @@ package com.xlbs.apiservice.dao.imp;
 
 import com.xlbs.apiservice.dao.intf.I_DataDictDao;
 import com.xlbs.apiservice.entity.DataDict;
+import com.xlbs.constantjar.CacheConstant;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class DataDictDao implements I_DataDictDao {
@@ -16,6 +17,7 @@ public class DataDictDao implements I_DataDictDao {
     private SqlSession sqlSession;
 
     @Override
+    @Cacheable(value = CacheConstant.DATA_DICT, key = "#category")
     public List<DataDict> findDataDict(String category) {
         return sqlSession.selectList("findDataDictByCategory",category);
     }
