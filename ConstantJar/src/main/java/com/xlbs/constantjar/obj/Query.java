@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter @Getter @NoArgsConstructor
 public class Query {
 
-    private int pageNum=0;
+    private int currentPage=1;
 
     private int pageSize=10;
 
