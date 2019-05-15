@@ -44,6 +44,25 @@ export const Ajax = {
                     showInfo("未知错误,请求支援");
                 }
             })
+    },
+    delete: (url, callBack, dispatch) => {
+        axios.delete(url)
+            .then(function (response) {
+                if(response.data.code===1){
+                    callBack && callBack(response.data);
+                }else if(response.data.code===20001 || response.data.code===20002){
+                    dispatch(setErrorMsg(response.data.msg));
+                }else{
+                    showInfo(response.data.msg);
+                }
+            })
+            .catch(function (error) {
+                if(error.response.data.status===10000){
+                    dispatch(showLoginBox());
+                }else{
+                    showInfo("未知错误,请求支援");
+                }
+            })
     }
 }
 
