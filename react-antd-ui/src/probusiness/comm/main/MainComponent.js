@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout,Icon } from 'antd';
+import { Layout, Icon, Button } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import history from '../../../history';
 import VerticalInlineMenu from "../../../commutils/components/menu/VerticalInlineMenu";
@@ -41,8 +41,12 @@ class MainComponent extends React.Component {
         this.setState({ collapsed });
     }
 
-    exitLogin(){
-        this.props.main.actions.exitLogin();
+    exit(){
+        this.props.main.actions.exit();
+    }
+
+    clearCache(){
+        this.props.main.actions.clearCache();
     }
 
     render() {
@@ -57,13 +61,13 @@ class MainComponent extends React.Component {
             <div id="main" className="global">
                 <Layout className='global'>
                     <Header className='header'>
-                        <div className="logo"></div>
-                        <div className='left-div'>
-                            <span className='text'>REACT & SPRING BOOT</span>
+                        <div className="header-left-logo"></div>
+                        <div className='header-center-div'>
+                            <span className='header-center-text'>REACT & SPRING BOOT</span>
                         </div>
-                        <div className='right-div'>
-                            <span className='right-text'>{name}，欢迎您！</span>
-                            <span className='exit'><Icon type="poweroff" onClick={this.exitLogin.bind(this)}/></span>
+                        <div className='header-right-div'>
+                            <span className='header-right-text'>{name}，欢迎您！</span>
+                            <span className='exit'><Icon type="poweroff" onClick={this.exit.bind(this)}/></span>
                         </div>
                     </Header>
                     <Layout>
@@ -74,8 +78,9 @@ class MainComponent extends React.Component {
                         </Sider>
                         <Layout>
                             <div id='location' className='location'>
-                                <span className='locationText'>当前位置：<Icon type="environment" className='locationIcon'/></span>
-                                <span className='locationText2'> {location}</span>
+                                <span className='location-left'>当前位置：<Icon type="environment" className='locationIcon'/></span>
+                                <span className='location-center'> {location}</span>
+                                <Button className='location-right' size="small" type="dashed" onClick={this.clearCache.bind(this)}>清理缓存</Button>
                             </div>
                             <Content className='content'>
                                 {this.props.main.isTimeOut?

@@ -46,10 +46,10 @@ function login(user) {
 }
 
 /**
- * 退出登入
+ * 退出
  * @returns {Function}
  */
-function exitLogin() {
+function exit() {
     return (dispatch) => {
         showConfirm("是否确定退出？",
             ()=>{//确定
@@ -63,12 +63,39 @@ function exitLogin() {
     }
 }
 
+/**
+ * 清理缓存
+ * @returns {Function}
+ */
+function clearCache() {
+    return (dispatch) => {
+        showConfirm("是否确定清理缓存？",
+            ()=>{//确定
+                let url = API_SERVICE + "/system/clearCache";
+                Ajax.delete(
+                    url,
+                    (res) =>{
+                        alert(res.msg);
+                    },
+                    dispatch
+                )
+                CurrentSessionCache.clear();
+                // dispatch(push("/login"));//跳转到登入页
+            },
+            ()=>{//取消
+
+            }
+        )
+    }
+}
+
 
 
 
 export const actions = {
     login,
-    exitLogin,
+    exit,
+    clearCache,
     setErrorMsg,
     hiddenLoginBox
 }
