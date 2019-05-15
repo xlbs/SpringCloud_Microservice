@@ -24,7 +24,7 @@ public class UserDao implements I_UserDao {
 
     @Override
     public PageInfo<Map<Object, Object>> findUserList(UserQuery userQuery) {
-        return PageHelper.startPage(userQuery.getPageNum(),userQuery.getPageSize())
+        return PageHelper.startPage(userQuery.getCurrentPage(),userQuery.getPageSize())
                 .doSelectPageInfo(()->sqlSession.selectList("findUserList",userQuery));
     }
 
