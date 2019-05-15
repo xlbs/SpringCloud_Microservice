@@ -8,10 +8,14 @@ export function showConfirm(msg, onOk, onCancel) {
         okText: '确定',
         cancelText: '取消',
         onOk() {
-            onOk();
+            if(onOk){
+                onOk();
+            }
         },
         onCancel() {
-            onCancel();
+            if(onCancel){
+                onCancel();
+            }
         }
     });
 }

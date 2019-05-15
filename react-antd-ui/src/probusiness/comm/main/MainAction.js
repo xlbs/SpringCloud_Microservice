@@ -2,7 +2,7 @@ import {push} from "react-router-redux";
 import {Ajax} from "../../../commutils/utils/Ajax";
 import {CurrentSessionCache} from "../../../commutils/utils/CurrentCache";
 import {setErrorMsg, hiddenLoginBox} from "../../../commutils/actions/Login";
-import {showConfirm} from "../../../commutils/components/dialog/MessageDialog";
+import {showConfirm,showInfo} from "../../../commutils/components/dialog/MessageDialog";
 
 const BASE_URL = $requestContext.path;
 const API_SERVICE = BASE_URL + "/api_service";
@@ -75,15 +75,12 @@ function clearCache() {
                 Ajax.delete(
                     url,
                     (res) =>{
-                        alert(res.msg);
+                        showInfo(res.msg);
                     },
                     dispatch
                 )
                 CurrentSessionCache.clear();
                 // dispatch(push("/login"));//跳转到登入页
-            },
-            ()=>{//取消
-
             }
         )
     }
