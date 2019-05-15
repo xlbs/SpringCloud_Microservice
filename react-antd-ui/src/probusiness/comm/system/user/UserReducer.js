@@ -1,14 +1,6 @@
-import {
-    USER_LIST,
-    ADD_USER,
-    EDIT_USER,
-    ROLES,
-    USER_INFO,
-    USER_ROLES,
-    CLOSE_DIALOG,
-    SET_CURRENT_PAGE,
-    SET_PAGE_SIZE,
-} from "./UserAction";
+import {SET_CURRENT_PAGE, SET_PAGE_SIZE} from "../../../../commutils/actions/Pagination";
+import {OPEN_DIALOG, CLOSE_DIALOG} from "../../../../commutils/actions/Dialog";
+import {USER_LIST,ROLES,USER_INFO,USER_ROLES} from "./UserAction";
 
 const initialState = {};
 
@@ -18,23 +10,6 @@ const userReducer = (state = initialState, action) => {
             return{
                 ...state,
                 userList: action.userList
-            }
-        case ADD_USER:
-            return{
-                ...state,
-                dialog: {
-                    open: action.open,
-                    content: action.content
-                }
-            }
-        case EDIT_USER:
-            return{
-                ...state,
-                dialog: {
-                    open: action.open,
-                    content: action.content,
-                    userId: action.userId
-                }
             }
         case ROLES:
             return{
@@ -51,13 +26,6 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 userRoles: action.userRoles
             }
-        case CLOSE_DIALOG:
-            return{
-                ...state,
-                dialog: {
-                    open: action.open,
-                }
-            }
         case SET_CURRENT_PAGE:
             return{
                 ...state,
@@ -67,6 +35,22 @@ const userReducer = (state = initialState, action) => {
             return{
                 ...state,
                 pageSize: action.pageSize
+            }
+        case OPEN_DIALOG:
+            return{
+                ...state,
+                dialog: {
+                    open: action.open,
+                    title: action.title,
+                    content: action.content,
+                }
+            }
+        case CLOSE_DIALOG:
+            return{
+                ...state,
+                dialog: {
+                    open: action.open,
+                }
             }
         default:
             return state;

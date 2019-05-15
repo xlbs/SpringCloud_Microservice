@@ -21,14 +21,14 @@ class UserComponent extends React.Component{
                     )
                 }
             },
-            {title: '账号',dataIndex: 'username'},
-            {title: '姓名',dataIndex: 'name'},
-            {title: '类型',dataIndex: 'type'},
+            {title: '账号',dataIndex: 'username',width:200},
+            {title: '姓名',dataIndex: 'name',width:150},
+            {title: '类型',dataIndex: 'type',width:100},
             {title: '所拥有角色',dataIndex: 'roleNames'},
-            {title: '创建人',dataIndex: 'createdBy'},
-            {title: '创建时间',dataIndex: 'createdDate'},
-            {title: '最后修改人',dataIndex: 'lastModifyBy'},
-            {title: '最后修改时间',dataIndex: 'lastModifyDate'},
+            {title: '创建人',dataIndex: 'createdBy',width:150},
+            {title: '创建时间',dataIndex: 'createdDate',width:200},
+            {title: '最后修改人',dataIndex: 'lastModifyBy',width:150},
+            {title: '最后修改时间',dataIndex: 'lastModifyDate',width:200},
         ];
         DataDict("USER_TYPE",this.props.user.dispatch);
         this.state = {
@@ -113,9 +113,11 @@ class UserComponent extends React.Component{
                 {props.dialog && props.dialog.open? <UserModalDialog modalDialog={props}/> : ""}
 
                 <CreateTable
+                    className="user-table"
                     columns={this.state.columns}
                     dataSource={dataSource}
                     pagination={pagination}
+                    // scroll={{ x:"101%", y: 600 }}
                     bordered
                 />
 
@@ -134,7 +136,7 @@ class UserComponent extends React.Component{
                 {/*<Table*/}
                     {/*columns={this.state.columns}*/}
                     {/*dataSource={dataSource}*/}
-                    {/*pagination={{ pageSize: 5 }}*/}
+                    {/*pagination={pagination}*/}
                     {/*bordered*/}
                 {/*/>*/}
             </div>

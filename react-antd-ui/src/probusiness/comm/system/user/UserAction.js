@@ -1,33 +1,26 @@
 import {Ajax} from "../../../../commutils/utils/Ajax";
 import {showConfirm, showInfo} from "../../../../commutils/components/dialog/MessageDialog";
+import {currentPage, pageSize, setCurrentPage, setPageSize} from "../../../../commutils/actions/Pagination";
+import {openDialog, closeDialog} from "../../../../commutils/actions/Dialog";
 
 const BASE_URL = $requestContext.path;
 const API_SERVICE = BASE_URL + "/api_service";
 const EXCEL_SERVICE = BASE_URL + "/excel_service";
 
 export const USER_LIST = "USER_LIST";
-export const ADD_USER = "ADD_USER";
-export const EDIT_USER = "EDIT_USER";
 export const ROLES = "ROLES";
 export const USER_INFO = "USER_INFO";
 export const USER_ROLES = "USER_ROLES";
-export const CLOSE_DIALOG = "CLOSE_DIALOG";
-export const SET_CURRENT_PAGE = "SET_CURRENTPAGE";
-export const SET_PAGE_SIZE = "SET_PAGESIZE";
-
-let currentPage = 1;
-let pageSize = 10;
 
 /**
  * 查询用户数据列表
  * @returns {Function}
  */
 function findUserList() {
-    debugger;
     const url = API_SERVICE+"/user/findUserList";
     const params = {
-        pageSize: pageSize,
-        currentPage: currentPage
+        currentPage: currentPage,
+        pageSize: pageSize
     };
     return (dispatch) => {
         Ajax.post(
@@ -48,10 +41,8 @@ function findUserList() {
  * @returns {{type: string, open: boolean, content: string}}
  */
 function addUser() {
-    return {
-        type: ADD_USER,
-        open: true,
-        content: "新增"
+    return (dispatch) => {
+        dispatch(openDialog("新增"))
     }
 }
 
@@ -61,11 +52,11 @@ function addUser() {
  * @returns {{type: string, open: boolean, content: string, userId: *}}
  */
 function editUser(userId) {
-    return {
-        type: EDIT_USER,
-        open: true,
-        content: "编辑",
+    let content ={
         userId: userId
+    }
+    return (dispatch) => {
+        dispatch(openDialog("编辑",content))
     }
 }
 
@@ -177,42 +168,6 @@ function exportUserInfo() {
     }
 }
 
-/**
- * 关闭弹出框
- * @returns {{type: string, open: boolean, content: string}}
- */
-function closeDialog() {
-    return {
-        type: CLOSE_DIALOG,
-        open: false,
-    }
-}
-
-/**
- * 设置 当前页
- * @param data
- * @returns {{type: string, currentPage: *}}
- */
-function setCurrentPage(data) {
-    currentPage = data;
-    return {
-        type: SET_CURRENT_PAGE,
-        currentPage: currentPage,
-    }
-}
-
-/**
- * 设置 几条/每页
- * @param data
- * @returns {{type: string, pageSize: *}}
- */
-function setPageSize(data) {
-    pageSize = data;
-    return {
-        type: SET_PAGE_SIZE,
-        pageSize: pageSize,
-    }
-}
 
 export const actions = {
     findUserList,
@@ -223,7 +178,7 @@ export const actions = {
     findUserInfo,
     saveUserInfo,
     exportUserInfo,
-    closeDialog,
     setCurrentPage,
-    setPageSize
+    setPageSize,
+    closeDialog,
 }

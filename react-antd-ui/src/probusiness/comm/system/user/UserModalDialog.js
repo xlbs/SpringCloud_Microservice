@@ -45,8 +45,9 @@ class UserModalDialog extends React.Component {
 
     componentWillMount() {
         this.props.modalDialog.findRoles();
-        const userId = this.props.modalDialog.dialog.userId;
-        if(userId){
+        const content = this.props.modalDialog.dialog.content;
+        if(content){
+            const userId = content.userId;
             this.setState({
                 hasFeedback: {
                     name: true,
@@ -80,7 +81,7 @@ class UserModalDialog extends React.Component {
         }
         let checkedList = [];
         let indeterminate = false;
-        if(userRoles&&this.props.modalDialog.dialog.userId&&!this.state.clickCheckbox){
+        if(userRoles&&this.props.modalDialog.dialog.content&&!this.state.clickCheckbox){
             userRoles.map(userRole =>{
                 checkedList.push(userRole.roleId);
             })
@@ -195,9 +196,9 @@ class UserModalDialog extends React.Component {
     saveUserInfo(){
         this.props.form.validateFieldsAndScroll( (err, values) =>{
             if (!err) {
-                const userId = this.props.modalDialog.dialog.userId;
-                if(userId){
-                    values.userId =  userId;
+                const content = this.props.modalDialog.dialog.content;
+                if(content){
+                    values.userId =  content.userId;
                 }
                 const checkedRoles = this.state.checkedList;
                 let roles = [];
@@ -223,11 +224,11 @@ class UserModalDialog extends React.Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const title = this.props.modalDialog.dialog.content + '用户';
+        const title = this.props.modalDialog.dialog.title + '用户';
         const userInfo = this.props.modalDialog.userInfo;
         let isEdit = false;
         let {name,type,username} = {};
-        if(userInfo&&this.props.modalDialog.dialog.userId){
+        if(userInfo&&this.props.modalDialog.dialog.content){
             isEdit = true;
             name = userInfo.name;
             type = userInfo.type;
