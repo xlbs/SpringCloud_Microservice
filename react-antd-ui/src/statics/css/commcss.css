@@ -11,7 +11,7 @@
     display: flex;
     align-items:center;/*y轴对滴方式*/
 }
-.logo {
+.header-left-logo {
     width: 260px;
     height: 65px;
     margin-left: 20px;
@@ -19,18 +19,18 @@
     background-repeat: no-repeat;
     background-image: url("../images/logo.png");
 }
-.left-div {
+.header-center-div {
     text-align: center;
     flex: 1;
 }
-.right-div {
-    margin-right: 20px;
-}
-.text{
+.header-center-text{
     font-size: 30px;
     color: #54FF9F;
 }
-.right-text{
+.header-right-div {
+    margin-right: 20px;
+}
+.header-right-text{
     font-size: 20px;
     color: #54FF9F;
 }
@@ -43,7 +43,6 @@
     right: 0px;
     bottom: 0px;
 }
-
 .footer {
     background-color: #e2e2e2 !important;
     height: 50px;
@@ -51,7 +50,6 @@
     font-size: 16px !important;
     line-height: 1px;
 }
-
 .cover{
     position:absolute;left:0px;top:0px;
     background:rgba(0, 0, 0, 0.4);
@@ -69,14 +67,21 @@
     /*justify-content: center; !*水平居中*!*/
     align-items: center;     /*垂直居中*/
 }
-.locationText{
+.location-left{
     color: #00b2f9;
     font-size: 16px;
     font-weight: 700;
     margin-left: 10px;
 }
-.locationText2{
+.location-center{
+    flex: 1;
     font-size: 16px;
+}
+.location-right{
+    color: #00b2f9;
+    font-size: 16px;
+    font-weight: 700;
+    margin-right: 10px;
 }
 .locationIcon{
     color: #00E5EE;
