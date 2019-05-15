@@ -1,4 +1,14 @@
-import {USER_LIST,ADD_USER,EDIT_USER,ROLES,USER_INFO,USER_ROLES,CLOSE_DIALOG} from "./UserAction";
+import {
+    USER_LIST,
+    ADD_USER,
+    EDIT_USER,
+    ROLES,
+    USER_INFO,
+    USER_ROLES,
+    CLOSE_DIALOG,
+    SET_CURRENT_PAGE,
+    SET_PAGE_SIZE,
+} from "./UserAction";
 
 const initialState = {};
 
@@ -47,6 +57,16 @@ const userReducer = (state = initialState, action) => {
                 dialog: {
                     open: action.open,
                 }
+            }
+        case SET_CURRENT_PAGE:
+            return{
+                ...state,
+                currentPage: action.currentPage
+            }
+        case SET_PAGE_SIZE:
+            return{
+                ...state,
+                pageSize: action.pageSize
             }
         default:
             return state;

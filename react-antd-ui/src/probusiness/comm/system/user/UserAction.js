@@ -12,16 +12,22 @@ export const ROLES = "ROLES";
 export const USER_INFO = "USER_INFO";
 export const USER_ROLES = "USER_ROLES";
 export const CLOSE_DIALOG = "CLOSE_DIALOG";
+export const SET_CURRENT_PAGE = "SET_CURRENTPAGE";
+export const SET_PAGE_SIZE = "SET_PAGESIZE";
+
+let currentPage = 1;
+let pageSize = 10;
 
 /**
  * 查询用户数据列表
  * @returns {Function}
  */
 function findUserList() {
+    debugger;
     const url = API_SERVICE+"/user/findUserList";
     const params = {
-        username: "ff",
-        name: "dd"
+        pageSize: pageSize,
+        currentPage: currentPage
     };
     return (dispatch) => {
         Ajax.post(
@@ -156,17 +162,6 @@ function saveUserInfo(values) {
 }
 
 /**
- * 关闭弹出框
- * @returns {{type: string, open: boolean, content: string}}
- */
-function closeDialog() {
-    return {
-        type: CLOSE_DIALOG,
-        open: false,
-    }
-}
-
-/**
  * 导出
  * @returns {Function}
  */
@@ -182,6 +177,43 @@ function exportUserInfo() {
     }
 }
 
+/**
+ * 关闭弹出框
+ * @returns {{type: string, open: boolean, content: string}}
+ */
+function closeDialog() {
+    return {
+        type: CLOSE_DIALOG,
+        open: false,
+    }
+}
+
+/**
+ * 设置 当前页
+ * @param data
+ * @returns {{type: string, currentPage: *}}
+ */
+function setCurrentPage(data) {
+    currentPage = data;
+    return {
+        type: SET_CURRENT_PAGE,
+        currentPage: currentPage,
+    }
+}
+
+/**
+ * 设置 几条/每页
+ * @param data
+ * @returns {{type: string, pageSize: *}}
+ */
+function setPageSize(data) {
+    pageSize = data;
+    return {
+        type: SET_PAGE_SIZE,
+        pageSize: pageSize,
+    }
+}
+
 export const actions = {
     findUserList,
     addUser,
@@ -191,5 +223,7 @@ export const actions = {
     findUserInfo,
     saveUserInfo,
     exportUserInfo,
-    closeDialog
+    closeDialog,
+    setCurrentPage,
+    setPageSize
 }

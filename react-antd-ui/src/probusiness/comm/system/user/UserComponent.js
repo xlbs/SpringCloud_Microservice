@@ -1,10 +1,9 @@
 import React from 'react';
-import { Button, Table, Divider, Pagination } from 'antd';
+import { Form, Button, Table, Divider, Pagination } from 'antd';
 import CreateTable from '../../../../commutils/components/CreateTable';
 import '../../../../statics/css/system/user/user.css';
 import {DataDict} from "../../../../commutils/utils/CommUtils"
 import UserModalDialog from "./UserModalDialog";
-
 
 class UserComponent extends React.Component{
 
@@ -31,16 +30,38 @@ class UserComponent extends React.Component{
             {title: '最后修改人',dataIndex: 'lastModifyBy'},
             {title: '最后修改时间',dataIndex: 'lastModifyDate'},
         ];
-        const dataDict = ["USER_TYPE"];
+        DataDict("USER_TYPE",this.props.user.dispatch);
         this.state = {
             columns: columns,
-            dataDict: dataDict
         };
-        DataDict(dataDict,this.props.user.dispatch);
+        this.onChange = this.onChange.bind(this)
+        this.onShowSizeChange = this.onShowSizeChange.bind(this)
     }
 
     componentWillMount() {
         this.props.user.findUserList();
+    }
+
+    onChange(page, pageSize){
+        this.props.user.setCurrentPage(page);
+        this.props.user.setPageSize(pageSize);
+        this.props.user.findUserList();
+    }
+
+    onShowSizeChange(current, size){
+        this.props.user.setCurrentPage(current);
+        this.props.user.setPageSize(size);
+        this.props.user.findUserList();
+    }
+
+    showTotal(total, range){
+        return `${range[0]}-${range[1]} of ${total}`;
+    }
+
+    handleSubmit(e,values){
+        e.preventDefault();
+        this.props.user.findUserList();
+
     }
 
     //新增
@@ -65,10 +86,27 @@ class UserComponent extends React.Component{
 
     render() {
         const props = this.props.user;
-        const dataSource = props.userList;
-        debugger;
+        const pagination ={
+            pageSize: props.pageSize,
+            // pageSizeOptions:[2,4,6,8],
+            showSizeChanger: true,
+            showQuickJumper: true,
+            onChange: this.onChange,
+            onShowSizeChange: this.onShowSizeChange,
+            showTotal: this.showTotal,
+        };
+        let dataSource;
+        if(props.userList){
+            dataSource = props.userList.list;
+            pagination.total = props.userList.total;
+        }
+
         return (
             <div id="user" className="user">
+                <Form onSubmit={this.handleSubmit.bind(this)}>
+
+                </Form>
+
                 <Button type="primary" onClick={this.addUser.bind(this)}>新增</Button>
                 <Button type="primary" onClick={this.exportUserInfo.bind(this)}>导出</Button>
 
@@ -77,15 +115,21 @@ class UserComponent extends React.Component{
                 <CreateTable
                     columns={this.state.columns}
                     dataSource={dataSource}
-                    pagination={false}
+                    pagination={pagination}
                     bordered
                 />
-                <Pagination
-                    showSizeChanger
-                    // onShowSizeChange={onShowSizeChange}
-                    defaultCurrent={6}
-                    total={500}
-                />
+
+                {/*<Pagination*/}
+                    {/*showSizeChanger={true}*/}
+                    {/*showQuickJumper={true}*/}
+                    {/*defaultCurrent={3}*/}
+                    {/*pageSize={2}*/}
+                    {/*pageSizeOptions={[2,4,6,8]}*/}
+                    {/*onChange={this.onChange}*/}
+                    {/*onShowSizeChange={this.onShowSizeChange}*/}
+                    {/*showTotal={this.showTotal}*/}
+                    {/*total={props.userList?props.userList.total:""}*/}
+                {/*/>*/}
 
                 {/*<Table*/}
                     {/*columns={this.state.columns}*/}
@@ -100,4 +144,4 @@ class UserComponent extends React.Component{
 
 }
 
-export default UserComponent;
+export default Form.create({name:"user"})(UserComponent);

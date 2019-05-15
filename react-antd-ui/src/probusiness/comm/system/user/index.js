@@ -24,6 +24,8 @@ const mapStateToProps = state =>({
     roles: state.user.roles,
     userInfo: state.user.userInfo,
     userRoles: state.user.userRoles,
+    currentPage: state.user.currentPage,
+    pageSize: state.user.pageSize,
 })
 
 const mapDispatchToProps = dispatch =>{
