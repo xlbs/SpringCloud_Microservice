@@ -1,8 +1,11 @@
-import {SET_CURRENT_PAGE, SET_PAGE_SIZE} from "../../../../commutils/actions/Pagination";
+import {SET_CURRENT_PAGE, SET_PAGE_SIZE, currentPage, pageSize} from "../../../../commutils/actions/Pagination";
 import {OPEN_DIALOG, CLOSE_DIALOG} from "../../../../commutils/actions/Dialog";
 import {USER_LIST,ROLES,USER_INFO,USER_ROLES} from "./UserAction";
 
-const initialState = {};
+const initialState = {
+    currentPage,
+    pageSize
+};
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
