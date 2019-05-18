@@ -68,7 +68,7 @@ function deleteUser(userId,username) {
     return (dispatch) => {
         showConfirm("确定删除账号为: "+username+" 的用户？",
             ()=>{
-                if(username=="admin"){
+                if(userId===1){
                     showInfo("超级用户无法删除");
                     return;
                 }
