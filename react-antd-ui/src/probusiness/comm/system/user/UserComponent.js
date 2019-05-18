@@ -24,7 +24,7 @@ class UserComponent extends React.Component{
             {title: '账号',dataIndex: 'username',width:200},
             {title: '姓名',dataIndex: 'name',width:150},
             {title: '类型',dataIndex: 'type',width:100},
-            {title: '所拥有角色',dataIndex: 'roleNames'},
+            {title: '所拥有角色',dataIndex: 'roleNames',width:200},
             {title: '创建人',dataIndex: 'createdBy',width:150},
             {title: '创建时间',dataIndex: 'createdDate',width:200},
             {title: '最后修改人',dataIndex: 'lastModifyBy',width:150},
@@ -87,11 +87,11 @@ class UserComponent extends React.Component{
     render() {
         const props = this.props.user;
         const pagination ={
+            showSizeChanger: true,
+            showQuickJumper: true,
             pageSize: props.pageSize,
             defaultCurrent: props.currentPage,
             pageSizeOptions:[10,20,40,50],
-            showSizeChanger: true,
-            showQuickJumper: true,
             onChange: this.onChange,
             onShowSizeChange: this.onShowSizeChange,
             showTotal: this.showTotal,
@@ -113,26 +113,32 @@ class UserComponent extends React.Component{
 
                 {props.dialog && props.dialog.open? <UserModalDialog modalDialog={props}/> : ""}
 
-                <CreateTable
-                    className="user-table"
-                    columns={this.state.columns}
-                    dataSource={dataSource}
-                    pagination={pagination}
-                    // scroll={{ x:"101%", y: 600 }}
-                    bordered
-                />
+                <div className="user-table-div">
+                    <CreateTable
+                        className="user-table"
+                        columns={this.state.columns}
+                        dataSource={dataSource}
+                        // pagination={pagination}
+                        pagination={false}
+                        scroll={{x:1600,y:587}}
+                        bordered
+                    />
+                    <Pagination
+                        className="user-pagination"
+                        showSizeChanger={true}
+                        showQuickJumper={true}
+                        pageSize={props.pageSize}
+                        defaultCurrent={props.currentPage}
+                        pageSizeOptions={[10,20,40,50]}
+                        onChange={this.onChange}
+                        onShowSizeChange={this.onShowSizeChange}
+                        showTotal={this.showTotal}
+                        total={props.userList?props.userList.total:""}
+                    />
+                </div>
 
-                {/*<Pagination*/}
-                    {/*showSizeChanger={true}*/}
-                    {/*showQuickJumper={true}*/}
-                    {/*defaultCurrent={3}*/}
-                    {/*pageSize={2}*/}
-                    {/*pageSizeOptions={[2,4,6,8]}*/}
-                    {/*onChange={this.onChange}*/}
-                    {/*onShowSizeChange={this.onShowSizeChange}*/}
-                    {/*showTotal={this.showTotal}*/}
-                    {/*total={props.userList?props.userList.total:""}*/}
-                {/*/>*/}
+
+
 
                 {/*<Table*/}
                     {/*columns={this.state.columns}*/}
