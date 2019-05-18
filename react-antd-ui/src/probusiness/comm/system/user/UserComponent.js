@@ -118,6 +118,7 @@ class UserComponent extends React.Component{
                         className="user-table"
                         columns={this.state.columns}
                         dataSource={dataSource}
+                        format={{type:"DATA_DICT.USER_TYPE",createdDate:"DATE",lastModifyDate:"DATE"}}
                         // pagination={pagination}
                         pagination={false}
                         scroll={{x:1600,y:587}}
@@ -136,9 +137,6 @@ class UserComponent extends React.Component{
                         total={props.userList?props.userList.total:""}
                     />
                 </div>
-
-
-
 
                 {/*<Table*/}
                     {/*columns={this.state.columns}*/}
