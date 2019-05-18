@@ -1,6 +1,17 @@
 import axios from 'axios';
+import regeneratorRuntime from '../../../node_modules/regenerator-runtime/runtime.js';
 import { showInfo } from '../components/dialog/MessageDialog';
 import {setErrorMsg, showLoginBox} from "../actions/Login";
+
+//自动切换环境
+// debugger;
+// if (process().env.NODE_ENV == 'development'){
+//     axios.defaults.baseURL = '/api';
+// } else if (process.env.NODE_ENV == 'debug'){
+//     axios.defaults.baseURL = '/api';
+// } else if (process.env.NODE_ENV == 'production') {
+//     axios.defaults.baseURL = 'http://***********/';
+// }
 
 /**
  * ajax封装
@@ -47,6 +58,71 @@ export const Ajax = {
     },
     delete: (url, callBack, dispatch) => {
         axios.delete(url)
+            .then(function (response) {
+                if(response.data.code===1){
+                    callBack && callBack(response.data);
+                }else if(response.data.code===20001 || response.data.code===20002){
+                    dispatch(setErrorMsg(response.data.msg));
+                }else{
+                    showInfo(response.data.msg);
+                }
+            })
+            .catch(function (error) {
+                if(error.response.data.status===10000){
+                    dispatch(showLoginBox());
+                }else{
+                    showInfo("未知错误,请求支援");
+                }
+            })
+    }
+}
+
+
+/**
+ * 同步ajax封装
+ * @type {{get: SyncAjax.get, post: SyncAjax.post, delete: SyncAjax.delete}}
+ */
+export const syncAjax = {
+    get: async (url, callBack, dispatch) => {
+        await axios.get(url)
+            .then(function (response) {
+                if(response.data.code===1){
+                    callBack && callBack(response.data);
+                }else if(response.data.code===20001 || response.data.code===20002){
+                    dispatch(setErrorMsg(response.data.msg));
+                }else{
+                    showInfo(response.data.msg);
+                }
+            })
+            .catch(function (error) {
+                if(error.response.data.status===10000){
+                    dispatch(showLoginBox());
+                }else{
+                    showInfo("未知错误,请求支援");
+                }
+            })
+    },
+    post: async ({ url, params }, callBack, dispatch) => {
+        await axios.post(url, params)
+            .then(function (response) {
+                if(response.data.code===1){
+                    callBack && callBack(response.data);
+                }else if(response.data.code===20001 || response.data.code===20002){
+                    dispatch(setErrorMsg(response.data.msg));
+                }else{
+                    showInfo(response.data.msg);
+                }
+            })
+            .catch(function (error) {
+                if(error.response.data.status===10000){
+                    dispatch(showLoginBox());
+                }else{
+                    showInfo("未知错误,请求支援");
+                }
+            })
+    },
+    delete: async (url, callBack, dispatch) => {
+        await axios.delete(url)
             .then(function (response) {
                 if(response.data.code===1){
                     callBack && callBack(response.data);
