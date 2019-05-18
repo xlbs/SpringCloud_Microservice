@@ -89,7 +89,7 @@ class UserComponent extends React.Component{
         const pagination ={
             pageSize: props.pageSize,
             defaultCurrent: props.currentPage,
-            pageSizeOptions:[props.pageSize,2*props.pageSize,3*props.pageSize,4*props.pageSize],
+            pageSizeOptions:[10,20,40,50],
             showSizeChanger: true,
             showQuickJumper: true,
             onChange: this.onChange,
