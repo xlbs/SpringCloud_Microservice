@@ -83,71 +83,90 @@ export function formatDate(timestamp) {
 export function formatDataDict(category,value) {
     let result = "";
     const dataDict = CurrentSessionCache.get("DATA_DICT");
-    if(dataDict instanceof Array){
-        for (let i=0; i<dataDict.length; i++){
-            if(category==dataDict[i].category){
-                dataDict[i].list.map(item => {
+    if(dataDict){
+        if(dataDict instanceof Array){
+            for (let i=0; i<dataDict.length; i++){
+                if(category==dataDict[i].category){
+                    dataDict[i].list.map(item => {
+                        if(value == item.code){
+                            result = item.value
+                        }
+                    })
+                }
+            }
+        }else{
+            if(category==dataDict.category){
+                dataDict.list.map(item => {
                     if(value == item.code){
                         result = item.value
                     }
                 })
             }
         }
-    }else{
-        if(category==dataDict.category){
-            dataDict.list.map(item => {
-                if(value == item.code){
-                    result = item.value
-                }
-            })
-        }
     }
     return result
 }
 
+/**
+ * 查找字典表数据
+ * @param category
+ * @param dispatch
+ * @returns {Array} 返回数组
+ * @constructor
+ */
 export function DataDict(category,dispatch) {
-    let arr = [];
+    let result = [];
+    let objCategory = {};
+    if(category instanceof Array){
+        category.map(item => {
+            objCategory[item] = false;
+        })
+    }else{
+        objCategory[category] = false;
+    }
+    const objCategoryArr = objToArrayKey(objCategory);
     const historyDataDict = CurrentSessionCache.get("DATA_DICT");
     if(historyDataDict){
-        let historyCategoryArr = [];
         if(historyDataDict instanceof Array){
             for(let i=0; i<historyDataDict.length; i++){
-                historyCategoryArr.push(historyDataDict[i].category);
+                objCategoryArr.map(category => {
+                    if(category==historyDataDict[i].category){
+                        objCategory[category] = true;
+                        result.push(historyDataDict[i]);
+                    }
+                })
             }
         }else{
-            historyCategoryArr.push(historyDataDict.category);
-        }
-        if(category instanceof Array){
-            for (let j=0; j<category.length; j++){
-                if(!isInArray(historyCategoryArr,category[j])){
-                    arr.push(category[j]);
+            objCategoryArr.map(category => {
+                if(category==historyDataDict.category){
+                    objCategory[category] = true;
+                    result.push(historyDataDict)
                 }
-            }
-        }else{
-            if(!isInArray(historyCategoryArr,category)){
-                arr.push(category);
-            }
-        }
-    }else{
-        if(category instanceof Array){
-            arr = category;
-        }else{
-            arr.push(category);
+            })
         }
     }
-    if(arr.length>0){
-        let url = API_SERVICE + "/dataDict";
-        if(arr.length>1){
-            url = url+"/find?category="+arr;
-        }else{
-            url = url+"/"+arr[0];
+    let arr = [];
+    objCategoryArr.map(category => {
+        if(!objCategory[category]){
+            arr.push(category);
         }
+    });
+    if(arr.length>0){
+        let url = API_SERVICE + "/dataDict/find?category="+arr;
         Ajax.get(
             url,
             (res)=>{
                 CurrentSessionCache.add("DATA_DICT",res.data);
+                if(res.data instanceof Array){
+                    res.data.map(item => {
+                        result.push(item);
+                    })
+                }else{
+                    result.push(res.data);
+                }
             },
             dispatch
         );
     }
+    return result;
 }
