@@ -3,7 +3,9 @@ package com.xlbs.apiservice.service.imp;
 import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.dao.intf.I_RoleDao;
 import com.xlbs.apiservice.dao.intf.I_UserDao;
+import com.xlbs.apiservice.dao.intf.I_UserRoleDao;
 import com.xlbs.apiservice.entity.Role;
+import com.xlbs.apiservice.entity.UserRole;
 import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.entity.UserQuery;
 import com.xlbs.apiservice.service.intf.I_UserService;
@@ -14,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class UserService implements I_UserService {
@@ -26,7 +25,7 @@ public class UserService implements I_UserService {
     private I_UserDao userDao;
 
     @Autowired
-    private I_RoleDao roleDao;
+    private I_UserRoleDao userRoleDao;
 
 
     @Override
@@ -37,8 +36,8 @@ public class UserService implements I_UserService {
     @Override
     public User findUserInfoById(Long id) {
         User user = userDao.findUserInfoById(id);
-        List<Role> roles = roleDao.findRolesByUserId(id);
-        user.setRoles(roles);
+        List<Role> userRoles = userRoleDao.findRolesByUserId(id);
+        user.setRoles(userRoles);
         return user;
     }
 
@@ -48,7 +47,7 @@ public class UserService implements I_UserService {
         Long id  = null;
         if(!Objects.isNull(isEdit) && isEdit){
             id = user.getId();
-            roleDao.deleteUserRolesByUserId(id);
+            userRoleDao.deleteUserRolesByUserId(id);
             userDao.updateUser(user);
         }else{
             id = RandomCodeUtils.getRandomId();
@@ -58,18 +57,22 @@ public class UserService implements I_UserService {
             userDao.saveUser(user);
         }
         List<Role> roles = user.getRoles();
+        List<UserRole> userRoleList = new ArrayList<>();
         for (Role role : roles){
-            role.setUserId(id);
-            role.setCreatedBy(RequestContextUtils.getUserId());
-            role.setCreatedDate(new Date());
+            UserRole userRole = new UserRole();
+            userRole.setUserId(id);
+            userRole.setRoleId(role.getId());
+            userRole.setCreatedBy(RequestContextUtils.getUserId());
+            userRole.setCreatedDate(new Date());
+            userRoleList.add(userRole);
         }
-        roleDao.saveUserRoles(roles);
+        userRoleDao.saveUserRoles(userRoleList);
     }
 
     @Override
     @Transactional
     public void deleteUserInfo(Long id) {
-        roleDao.deleteUserRolesByUserId(id);
+        userRoleDao.deleteUserRolesByUserId(id);
         userDao.deleteUserById(id);
     }
 

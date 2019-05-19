@@ -41,7 +41,7 @@
         left join
           (select
             ur.`user_id` as userid,
-            group_concat(ur.`role_id`) as roles,
+            group_concat(ur.`role_id`) as userRoles,
             group_concat(r.`name`) as roleName
           from
             `t_user_role` ur,`t_role` r
@@ -107,7 +107,7 @@
           t1.`password` as `password`,
           t1.`name` as `name`,
           t1.`type` as `type`,
-          t4.roles,
+          t4.userRoles,
           t4.roleNames,
           t1.created_by as createdBy,
           t1.created_date as createdDate,
@@ -122,7 +122,7 @@
         left join
           (select
             ur.`user_id` as userid,
-            group_concat(ur.`role_id`) as roles,
+            group_concat(ur.`role_id`) as userRoles,
             group_concat(r.`name`) as rolenames
           from
             `t_user_role` ur,`t_role` r
