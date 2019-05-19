@@ -14,9 +14,9 @@ class UserComponent extends React.Component{
                 render: (row)=>{
                     return(
                         <span>
-                            <Button type="primary" size="small" onClick={this.editUser.bind(this,row.userId)} ghost>编辑</Button>
+                            <Button type="primary" size="small" onClick={this.editUser.bind(this,row.id)} ghost>编辑</Button>
                             <Divider type="vertical" />
-                            <Button type="primary" size="small" onClick={this.deleteUser.bind(this,row.userId,row.username)} ghost>删除</Button>
+                            <Button type="primary" size="small" onClick={this.deleteUser.bind(this,row.id,row.username)} ghost>删除</Button>
                         </span>
                     )
                 }
