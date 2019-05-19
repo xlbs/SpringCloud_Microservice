@@ -30,7 +30,7 @@ public class UserService implements I_UserService {
 
 
     @Override
-    public PageInfo<Map<Object, Object>> findUserList(UserQuery userQuery) {
+    public PageInfo<User> findUserList(UserQuery userQuery) {
         return userDao.findUserList(userQuery);
     }
 
@@ -47,12 +47,12 @@ public class UserService implements I_UserService {
     public void saveUserInfo(User user, Boolean isEdit) {
         Long id  = null;
         if(!Objects.isNull(isEdit) && isEdit){
-            id = user.getUserId();
+            id = user.getId();
             roleDao.deleteUserRoles(id);
             userDao.updateUser(user);
         }else{
             id = RandomCodeUtils.getRandomId();
-            user.setUserId(id);
+            user.setId(id);
             String password = DigestUtils.sha1Hex(user.getPassword());
             user.setPassword(password);
             userDao.saveUser(user);

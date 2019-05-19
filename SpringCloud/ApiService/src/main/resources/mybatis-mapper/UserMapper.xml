@@ -21,18 +21,19 @@
     </sql>
 
     <!--查询用户信息-->
-    <select id="findUserList" resultType="java.util.Map">
+    <select id="findUserList" resultType="com.xlbs.apiservice.entity.User">
         select
-          t1.id as userId,
+          t1.id as `key`,
+          t1.id,
           t1.user_name as username,
           t1.`password` as `password`,
           t1.`name` as `name`,
           t1.`type` as `type`,
           t4.roles,
-          t4.roleNames,
-          t2.name AS createdBy,
+          t4.roleName,
+          t2.name AS createdByName,
           t1.created_date AS createdDate,
-          t3.name AS lastModifyBy,
+          t3.name AS lastModifyByName,
           t1.last_modify_date AS lastModifyDate
         from
           t_user t1
@@ -42,7 +43,7 @@
           (select
             ur.`user_id` as userid,
             group_concat(ur.`role_id`) as roles,
-            group_concat(r.`name`) as roleNames
+            group_concat(r.`name`) as roleName
           from
             `t_user_role` ur,`t_role` r
           where
@@ -67,7 +68,7 @@
         insert into t_user
           (id,user_name,`password`,`name`,`type`,created_by,created_date,last_modify_by,last_modify_date)
         values
-          (#{userId},#{username},#{password},#{name},#{type},#{createdBy},#{createdDate},#{lastModifyBy},#{lastModifyDate})
+          (#{id},#{username},#{password},#{name},#{type},#{createdBy},#{createdDate},#{lastModifyBy},#{lastModifyDate})
 
     </insert>
 

@@ -9,7 +9,7 @@ import java.util.List;
 @Getter @Setter
 public class User extends Entity {
 
-    private Long userId;
+    private Long id;
 
     private String username;
 
@@ -20,5 +20,7 @@ public class User extends Entity {
     private Integer type;
 
     private List<Role> roles;
+
+    private String roleName;
 
 }

@@ -26,7 +26,7 @@ public class UserController extends ResponseResult {
     @ApiOperation(value="查找系统中的用户数据")
     @PostMapping(value = "/findUserList")
     public ResponseResult findUserList(@RequestBody UserQuery userQuery){
-        PageInfo<Map<Object,Object>> pageInfo = userService.findUserList(userQuery);
+        PageInfo<User> pageInfo = userService.findUserList(userQuery);
         return success(pageInfo);
     }
 

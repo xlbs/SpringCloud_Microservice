@@ -13,7 +13,7 @@ public interface I_UserDao {
      * 查询用户信息
      * @return
      */
-    public PageInfo<Map<Object, Object>> findUserList(UserQuery userQuery);
+    public PageInfo<User> findUserList(UserQuery userQuery);
 
     /**
      * 通过userId查询用户信息
