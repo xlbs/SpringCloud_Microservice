@@ -1,4 +1,4 @@
-import {Ajax} from "./Ajax";
+import {Ajax,syncAjax} from "./Ajax";
 import {CurrentSessionCache} from "./CurrentCache";
 
 const BASE_URL = $requestContext.path;
@@ -114,7 +114,7 @@ export function formatDataDict(category,value) {
  * @returns {Array} 返回数组
  * @constructor
  */
-export function DataDict(category,dispatch) {
+export async function DataDict(category,dispatch) {
     let result = [];
     let objCategory = {};
     if(category instanceof Array){
@@ -153,7 +153,7 @@ export function DataDict(category,dispatch) {
     });
     if(arr.length>0){
         let url = API_SERVICE + "/dataDict/find?category="+arr;
-        Ajax.get(
+        await syncAjax.get(
             url,
             (res)=>{
                 CurrentSessionCache.add("DATA_DICT",res.data);
