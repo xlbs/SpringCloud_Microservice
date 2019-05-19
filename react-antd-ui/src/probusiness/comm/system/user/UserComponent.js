@@ -134,7 +134,7 @@ class UserComponent extends React.Component{
                     {/*/>*/}
 
                     <Pagination
-                        className="user-pagination"
+                        className="pagination"
                         showSizeChanger={true}
                         showQuickJumper={true}
                         pageSize={props.pageSize}
