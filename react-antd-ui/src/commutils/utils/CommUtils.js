@@ -108,13 +108,77 @@ export function formatDataDict(category,value) {
 }
 
 /**
- * 查找字典表数据
+ * 查询字典表数据
+ * @param category
+ * @param dispatch
+ * @returns {Array}
+ * @constructor
+ */
+export function DataDict(category,dispatch) {
+    let result = [];
+    let objCategory = {};
+    if(category instanceof Array){
+        category.map(item => {
+            objCategory[item] = false;
+        })
+    }else{
+        objCategory[category] = false;
+    }
+    const objCategoryArr = objToArrayKey(objCategory);
+    const historyDataDict = CurrentSessionCache.get("DATA_DICT");
+    if(historyDataDict){
+        if(historyDataDict instanceof Array){
+            for(let i=0; i<historyDataDict.length; i++){
+                objCategoryArr.map(category => {
+                    if(category==historyDataDict[i].category){
+                        objCategory[category] = true;
+                        result.push(historyDataDict[i]);
+                    }
+                })
+            }
+        }else{
+            objCategoryArr.map(category => {
+                if(category==historyDataDict.category){
+                    objCategory[category] = true;
+                    result.push(historyDataDict)
+                }
+            })
+        }
+    }
+    let arr = [];
+    objCategoryArr.map(category => {
+        if(!objCategory[category]){
+            arr.push(category);
+        }
+    });
+    if(arr.length>0){
+        let url = API_SERVICE + "/dataDict/find?category="+arr;
+        Ajax.get(
+            url,
+            (res)=>{
+                CurrentSessionCache.add("DATA_DICT",res.data);
+                if(res.data instanceof Array){
+                    res.data.map(item => {
+                        result.push(item);
+                    })
+                }else{
+                    result.push(res.data);
+                }
+            },
+            dispatch
+        );
+    }
+    return result;
+}
+
+/**
+ * 同步查找字典表数据
  * @param category
  * @param dispatch
  * @returns {Array} 返回数组
  * @constructor
  */
-export async function DataDict(category,dispatch) {
+export async function syncDataDict(category,dispatch) {
     let result = [];
     let objCategory = {};
     if(category instanceof Array){

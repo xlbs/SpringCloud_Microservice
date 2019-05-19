@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import history from "./src/history";
 import 'antd/dist/antd.css';
 import './src/statics/css/commcss.css';
+import regeneratorRuntime from 'regenerator-runtime/runtime';
 import reducers from './src/reducers/index';
 import App from "./src/App";
 
