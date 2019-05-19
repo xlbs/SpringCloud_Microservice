@@ -15,24 +15,8 @@ public class RoleDao implements I_RoleDao {
     private SqlSession sqlSession;
 
     @Override
-    public List<Role> findRoles() {
-        return sqlSession.selectList("findAllRole");
+    public List<Role> findRole() {
+        return sqlSession.selectList("findRole");
     }
-
-    @Override
-    public List<Role> findRolesByUserId(Long userId) {
-        return sqlSession.selectList("findRolesByUserId",userId);
-    }
-
-    @Override
-    public void saveUserRoles(List<Role> roles) {
-        sqlSession.insert("saveUserRoles",roles);
-    }
-
-    @Override
-    public void deleteUserRolesByUserId(Long userId) {
-        sqlSession.delete("deleteUserRolesByUserId",userId);
-    }
-
 
 }

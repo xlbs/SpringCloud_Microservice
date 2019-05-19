@@ -7,11 +7,10 @@ import lombok.Setter;
 @Getter @Setter
 public class Role extends Entity {
 
-    private Integer roleId;
+    private Integer id;
 
     private String name;
 
-    private Long userId;
 
 
 }

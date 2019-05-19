@@ -10,14 +10,7 @@ public interface I_RoleService {
      * 查找角色信息
      * @return
      */
-    public List<Role> findRoles();
-
-    /**
-     * 查找某个用户的角色信息
-     * @return
-     */
-    public List<Role> findRolesByUserId(Long userId);
-
+    public List<Role> findRole();
 
 
 }

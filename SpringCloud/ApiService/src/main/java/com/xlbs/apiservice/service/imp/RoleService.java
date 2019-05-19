@@ -15,14 +15,8 @@ public class RoleService implements I_RoleService {
     private I_RoleDao roleDao;
 
     @Override
-    public List<Role> findRoles() {
-        return roleDao.findRoles();
+    public List<Role> findRole() {
+        return roleDao.findRole();
     }
-
-    @Override
-    public List<Role> findRolesByUserId(Long userId) {
-        return roleDao.findRolesByUserId(userId);
-    }
-
 
 }

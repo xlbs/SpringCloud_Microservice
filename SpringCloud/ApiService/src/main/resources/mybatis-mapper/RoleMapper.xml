@@ -5,6 +5,7 @@
 <mapper namespace="com.xlbs.apiservice.dao.imp.RoleDao">
 
     <sql id="entity">
+        id as `key`,
         created_by as createdBy,
         created_date as createdDate,
         last_modify_by as lastModifyBy,
@@ -12,44 +13,17 @@
     </sql>
 
     <sql id="roleField">
-        id as roleId,
-        `name` AS `name`,
+        id as id,
+        `name` as `name`,
         <include refid="entity"/>
     </sql>
 
     <!--查询所有角色信息-->
-    <select id="findAllRole" resultType="com.xlbs.apiservice.entity.Role">
+    <select id="findRole" resultType="com.xlbs.apiservice.entity.Role">
         select
           <include refid="roleField"/>
         from
           t_role
     </select>
-
-    <!--通过userId查询用户信息-->
-    <select id="findRolesByUserId" resultType="com.xlbs.apiservice.entity.Role">
-        select
-          user_id as userId,
-          role_id as roleId,
-          <include refid="entity"/>
-        from
-          t_user_role
-        where
-          user_id = #{userId}
-    </select>
-
-    <!--批量保存用户角色信息-->
-    <insert id="saveUserRoles">
-        insert into t_user_role
-          (user_id, role_id, created_by, created_date,last_modify_by,last_modify_date)
-        values
-          <foreach collection ="list" item="role" separator =",">
-            (#{role.userId}, #{role.roleId}, #{role.createdBy}, #{role.createdDate}, #{role.lastModifyBy}, #{role.lastModifyDate})
-          </foreach >
-    </insert>
-
-    <!--删除用户角色信息-->
-    <delete id="deleteUserRolesByUserId" >
-        delete from t_user_role where user_id = #{userId}
-    </delete>
 
 </mapper>
