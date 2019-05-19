@@ -1,5 +1,6 @@
 import axios from 'axios';
-import regeneratorRuntime from '../../../node_modules/regenerator-runtime/runtime.js';
+// import regeneratorRuntime from '../../../node_modules/regenerator-runtime/runtime.js';
+import regeneratorRuntime from 'regenerator-runtime/runtime';
 import { showInfo } from '../components/dialog/MessageDialog';
 import {setErrorMsg, showLoginBox} from "../actions/Login";
 
