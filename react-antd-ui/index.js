@@ -4,9 +4,10 @@ import { applyMiddleware, createStore } from 'redux';
 import {routerMiddleware} from 'react-router-redux';
 import thunk from 'redux-thunk';
 import history from "./src/history";
+import regeneratorRuntime from 'regenerator-runtime/runtime';
 import 'antd/dist/antd.css';
 import './src/statics/css/commcss.css';
-import regeneratorRuntime from 'regenerator-runtime/runtime';
+import './src/statics/css/utils.css';
 import reducers from './src/reducers/index';
 import App from "./src/App";
 
