@@ -48,7 +48,7 @@ public class UserService implements I_UserService {
         Long id  = null;
         if(!Objects.isNull(isEdit) && isEdit){
             id = user.getId();
-            roleDao.deleteUserRoles(id);
+            roleDao.deleteUserRolesByUserId(id);
             userDao.updateUser(user);
         }else{
             id = RandomCodeUtils.getRandomId();
@@ -68,9 +68,9 @@ public class UserService implements I_UserService {
 
     @Override
     @Transactional
-    public void deleteUserInfo(Long userId) {
-        roleDao.deleteUserRoles(userId);
-        userDao.deleteUser(userId);
+    public void deleteUserInfo(Long id) {
+        roleDao.deleteUserRolesByUserId(id);
+        userDao.deleteUserById(id);
     }
 
     @Override

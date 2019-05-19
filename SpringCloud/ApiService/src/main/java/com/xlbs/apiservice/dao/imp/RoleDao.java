@@ -30,8 +30,8 @@ public class RoleDao implements I_RoleDao {
     }
 
     @Override
-    public void deleteUserRoles(Long userId) {
-        sqlSession.delete("deleteUserRoles",userId);
+    public void deleteUserRolesByUserId(Long userId) {
+        sqlSession.delete("deleteUserRolesByUserId",userId);
     }
 
 

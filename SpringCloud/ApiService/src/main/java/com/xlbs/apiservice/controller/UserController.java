@@ -57,9 +57,9 @@ public class UserController extends ResponseResult {
      * @return
      */
     @ApiOperation(value="删除用户信息")
-    @GetMapping(value = "delete/{userId}")
-    public ResponseResult deleteUserInfo(@PathVariable(value = "userId") Long userId){
-        userService.deleteUserInfo(userId);
+    @GetMapping(value = "delete/{id}")
+    public ResponseResult deleteUserInfo(@PathVariable(value = "id") Long id){
+        userService.deleteUserInfo(id);
         return success();
     }
 

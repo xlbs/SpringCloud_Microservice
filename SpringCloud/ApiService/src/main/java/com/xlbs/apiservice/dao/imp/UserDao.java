@@ -48,8 +48,8 @@ public class UserDao implements I_UserDao {
     }
 
     @Override
-    public void deleteUser(Long userId) {
-        sqlSession.delete("deleteUser",userId);
+    public void deleteUserById(Long id) {
+        sqlSession.delete("deleteUser",id);
     }
 
     @Override

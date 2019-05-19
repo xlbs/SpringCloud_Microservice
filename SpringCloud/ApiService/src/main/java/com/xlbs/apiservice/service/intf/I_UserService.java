@@ -32,9 +32,9 @@ public interface I_UserService {
 
     /**
      * 删除用户信息
-     * @param userId 用户ID
+     * @param id 用户ID
      */
-    public void deleteUserInfo(Long userId);
+    public void deleteUserInfo(Long id);
 
     /**
      * 导出用户信息

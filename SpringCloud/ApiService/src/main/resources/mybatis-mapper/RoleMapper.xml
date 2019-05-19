@@ -48,7 +48,7 @@
     </insert>
 
     <!--删除用户角色信息-->
-    <delete id="deleteUserRoles" >
+    <delete id="deleteUserRolesByUserId" >
         delete from t_user_role where user_id = #{userId}
     </delete>
 

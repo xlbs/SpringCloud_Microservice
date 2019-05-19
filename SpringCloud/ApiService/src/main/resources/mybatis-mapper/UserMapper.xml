@@ -12,7 +12,7 @@
     </sql>
 
     <sql id="userField">
-        id as userId,
+        id,
         user_name as username,
         `password` AS `password`,
         `name` AS `name`,
@@ -91,12 +91,12 @@
                 last_modify_date=#{lastModifyDate}
             </if>
         </set>
-        where id=#{userId}
+        where id=#{id}
     </update>
 
     <!--删除用户-->
     <delete id="deleteUser" >
-        delete from t_user where id=#{userId}
+        delete from t_user where id=#{id}
     </delete>
 
     <!--导出用户信息-->

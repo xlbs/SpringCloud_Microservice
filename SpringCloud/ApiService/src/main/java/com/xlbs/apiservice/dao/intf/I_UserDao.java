@@ -36,9 +36,9 @@ public interface I_UserDao {
 
     /**
      * 删除用户
-     * @param userId 用户Id
+     * @param id 用户ID
      */
-    public void deleteUser(Long userId);
+    public void deleteUserById(Long id);
 
     /**
      * 导出用户信息

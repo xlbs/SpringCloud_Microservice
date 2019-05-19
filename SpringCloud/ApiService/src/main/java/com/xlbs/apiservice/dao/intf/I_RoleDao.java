@@ -28,9 +28,9 @@ public interface I_RoleDao {
 
     /**
      * 删除用户角色信息
-     * @param userId
+     * @param userId 用户ID
      */
-    public void deleteUserRoles(Long userId);
+    public void deleteUserRolesByUserId(Long userId);
 
 
 
