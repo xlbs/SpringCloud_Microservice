@@ -18,11 +18,11 @@ public interface I_UserService {
     public PageInfo<User> findUserList(UserQuery userQuery);
 
     /**
-     * 通过userId查询用户信息
-     * @param userId 用户ID
+     * 通过用户ID查询用户信息
+     * @param id 用户ID
      * @return
      */
-    public User findUserInfoByUserId(Long userId);
+    public User findUserInfoById(Long id);
 
     /**
      * 保存用户信息

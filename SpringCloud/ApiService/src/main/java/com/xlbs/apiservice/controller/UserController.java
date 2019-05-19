@@ -35,9 +35,9 @@ public class UserController extends ResponseResult {
      * @return
      */
     @ApiOperation(value="查找某个用户的角色数据")
-    @GetMapping(value = "/{userId}")
-    public ResponseResult findUserInfoByUserId(@PathVariable(value = "userId") Long userId){
-        User user = userService.findUserInfoByUserId(userId);
+    @GetMapping(value = "/{id}")
+    public ResponseResult findUserInfoById(@PathVariable(value = "id") Long id){
+        User user = userService.findUserInfoById(id);
         return success(user);
     }
 

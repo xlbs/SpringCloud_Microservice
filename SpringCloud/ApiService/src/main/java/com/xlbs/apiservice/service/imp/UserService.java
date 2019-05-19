@@ -35,9 +35,9 @@ public class UserService implements I_UserService {
     }
 
     @Override
-    public User findUserInfoByUserId(Long userId) {
-        User user = userDao.findUserInfoByUserId(userId);
-        List<Role> roles = roleDao.findRolesByUserId(userId);
+    public User findUserInfoById(Long id) {
+        User user = userDao.findUserInfoById(id);
+        List<Role> roles = roleDao.findRolesByUserId(id);
         user.setRoles(roles);
         return user;
     }

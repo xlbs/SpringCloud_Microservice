@@ -29,8 +29,8 @@ public class UserDao implements I_UserDao {
     }
 
     @Override
-    public User findUserInfoByUserId(Long userId) {
-        return sqlSession.selectOne("findUserInfoByUserId", ImmutableMap.of("userId",userId));
+    public User findUserInfoById(Long id) {
+        return sqlSession.selectOne("findUserInfoById", ImmutableMap.of("id",id));
     }
 
     @Override

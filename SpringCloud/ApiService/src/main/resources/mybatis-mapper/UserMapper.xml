@@ -29,7 +29,6 @@
           t1.`password` as `password`,
           t1.`name` as `name`,
           t1.`type` as `type`,
-          t4.roles,
           t4.roleName,
           t2.name AS createdByName,
           t1.created_date AS createdDate,
@@ -53,14 +52,14 @@
         on t1.`id`=t4.userid
     </select>
 
-    <!--通过账号查询用户信息-->
-    <select id="findUserInfoByUserId" resultType="com.xlbs.apiservice.entity.User">
+    <!--通过用户ID查询用户信息-->
+    <select id="findUserInfoById" resultType="com.xlbs.apiservice.entity.User">
         select
           <include refid="userField"/>
         from
           t_user
         where
-          id = #{userId}
+          id = #{id}
     </select>
 
     <!--保存用户-->
