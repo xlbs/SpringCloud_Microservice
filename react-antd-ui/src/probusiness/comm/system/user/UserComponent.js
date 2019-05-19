@@ -24,10 +24,10 @@ class UserComponent extends React.Component{
             {title: '账号',dataIndex: 'username',key: 'username',width:200},
             {title: '姓名',dataIndex: 'name',key: 'name',width:150},
             {title: '类型',dataIndex: 'type',key: 'type',width:100},
-            {title: '所拥有角色',dataIndex: 'roleNames',key: 'roleNames',width:200},
-            {title: '创建人',dataIndex: 'createdBy',key: 'createdBy',width:150},
+            {title: '所拥有角色',dataIndex: 'roleName',key: 'roleName',width:200},
+            {title: '创建人',dataIndex: 'createdByName',key: 'createdByName',width:150},
             {title: '创建时间',dataIndex: 'createdDate',key: 'createdDate',width:200},
-            {title: '最后修改人',dataIndex: 'lastModifyBy',key: 'lastModifyBy',width:150},
+            {title: '最后修改人',dataIndex: 'lastModifyByName',key: 'lastModifyByName',width:150},
             {title: '最后修改时间',dataIndex: 'lastModifyDate',key: 'lastModifyDate',width:200},
         ];
         this.state = {

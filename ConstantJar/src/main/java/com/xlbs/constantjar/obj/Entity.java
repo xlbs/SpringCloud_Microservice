@@ -14,12 +14,18 @@ public class Entity {
 
     private Long createdBy;
 
+    private String createdByName;
+
     private Date createdDate;
+
+    private String createdDateStr;
 
     private Long lastModifyBy;
 
+    private String lastModifyByName;
+
     private Date lastModifyDate;
 
-
+    private String lastModifyDateStr;
 
 }
