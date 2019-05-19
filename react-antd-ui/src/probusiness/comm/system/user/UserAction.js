@@ -134,7 +134,7 @@ function findUserInfo(userId) {
  */
 function saveUserInfo(values) {
     let url = API_SERVICE+"/user/saveUserInfo";
-    if(values.userId){
+    if(values.id){
         url = url +"?isEdit=true"
     }
     const params = values;

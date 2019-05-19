@@ -196,9 +196,10 @@ class UserModalDialog extends React.Component {
     saveUserInfo(){
         this.props.form.validateFieldsAndScroll( (err, values) =>{
             if (!err) {
+                debugger;
                 const content = this.props.modalDialog.dialog.content;
                 if(content){
-                    values.userId =  content.userId;
+                    values.id =  content.userId;
                 }
                 const checkedRoles = this.state.checkedList;
                 let roles = [];
