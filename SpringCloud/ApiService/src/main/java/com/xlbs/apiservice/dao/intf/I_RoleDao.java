@@ -11,6 +11,6 @@ public interface I_RoleDao {
      *查询角色信息
      * @return
      */
-    public List<Role> findRole();
+    public List<Role> findRoles();
 
 }

@@ -10,7 +10,7 @@ public interface I_RoleService {
      * 查找角色信息
      * @return
      */
-    public List<Role> findRole();
+    public List<Role> findRoles();
 
 
 }
