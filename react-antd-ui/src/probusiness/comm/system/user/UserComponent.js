@@ -86,20 +86,20 @@ class UserComponent extends React.Component{
 
     render() {
         const props = this.props.user;
-        const pagination ={
-            showSizeChanger: true,
-            showQuickJumper: true,
-            pageSize: props.pageSize,
-            defaultCurrent: props.currentPage,
-            pageSizeOptions:["10","20","30","50"],
-            onChange: this.onChange,
-            onShowSizeChange: this.onShowSizeChange,
-            showTotal: this.showTotal,
-        };
+        // const pagination ={
+        //     showSizeChanger: true,
+        //     showQuickJumper: true,
+        //     pageSize: props.pageSize,
+        //     defaultCurrent: props.currentPage,
+        //     pageSizeOptions:["10","20","30","50"],
+        //     onChange: this.onChange,
+        //     onShowSizeChange: this.onShowSizeChange,
+        //     showTotal: this.showTotal,
+        // };
         let dataSource;
         if(props.userList){
             dataSource = props.userList.list;
-            pagination.total = props.userList.total;
+            // pagination.total = props.userList.total;
         }
 
         return (
