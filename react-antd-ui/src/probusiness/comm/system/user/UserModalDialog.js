@@ -73,7 +73,7 @@ class UserModalDialog extends React.Component {
         const options = [];
         roles.map(role=>{
             // const option = {label: role.name, value: role.roleId };
-            options.push(role.roleId);
+            options.push(role.id);
         });
         let userRoles ;
         if(this.props.modalDialog.userInfo){
@@ -83,7 +83,7 @@ class UserModalDialog extends React.Component {
         let indeterminate = false;
         if(userRoles&&this.props.modalDialog.dialog.content&&!this.state.clickCheckbox){
             userRoles.map(userRole =>{
-                checkedList.push(userRole.roleId);
+                checkedList.push(userRole.id);
             })
             if(checkedList.length != 0){
                 indeterminate = true;
@@ -114,7 +114,7 @@ class UserModalDialog extends React.Component {
                         {roles.map(role =>{
                             return(
                                 <Col span={8}>
-                                    <Checkbox value={role.roleId}>{role.name}</Checkbox>
+                                    <Checkbox value={role.id}>{role.name}</Checkbox>
                                 </Col>
                             )
                         })}
@@ -204,7 +204,7 @@ class UserModalDialog extends React.Component {
                 const checkedRoles = this.state.checkedList;
                 let roles = [];
                 for(let i=0; i<checkedRoles.length; i++){
-                    roles.push({roleId:checkedRoles[i]})
+                    roles.push({id:checkedRoles[i]})
                 }
                 if(roles.length!=0){
                     values.roles = roles;
