@@ -11,18 +11,27 @@ class handleRoleManagement extends React.Component{
     }
 
     render(){
+        const role = this.props;
         return(
-            <RoleComponent/>
+            <RoleComponent role={role}/>
         )
     }
 }
 
 const mapStateToProps = state =>({
+    currentPage: state.role.currentPage,
+    pageSize: state.role.pageSize,
+    dialog: state.role.dialog,
+    userList: state.role.userList,
+    roles: state.role.roles,
+    userInfo: state.role.userInfo,
+    userRoles: state.role.userRoles,
 
 })
 
 const mapDispatchToProps = dispatch =>({
-    actions: bindActionCreators(actions, dispatch)
+    ...bindActionCreators(actions, dispatch),
+    dispatch
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(handleRoleManagement);
