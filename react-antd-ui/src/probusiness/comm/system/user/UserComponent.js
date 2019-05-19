@@ -30,10 +30,10 @@ class UserComponent extends React.Component{
             {title: '最后修改人',dataIndex: 'lastModifyBy',key: 'lastModifyBy',width:150},
             {title: '最后修改时间',dataIndex: 'lastModifyDate',key: 'lastModifyDate',width:200},
         ];
-        DataDict("USER_TYPE",this.props.user.dispatch);
         this.state = {
             columns: columns,
         };
+        DataDict("USER_TYPE",this.props.user.dispatch);
         this.onChange = this.onChange.bind(this);
         this.onShowSizeChange = this.onShowSizeChange.bind(this);
     }
