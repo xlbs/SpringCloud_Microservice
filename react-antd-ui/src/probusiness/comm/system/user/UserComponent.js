@@ -104,16 +104,17 @@ class UserComponent extends React.Component{
 
         return (
             <div id="user" className="user">
-                <Form onSubmit={this.handleSubmit.bind(this)}>
+                <Form className="user-form" onSubmit={this.handleSubmit.bind(this)}>
 
                 </Form>
 
-                <Button type="primary" onClick={this.addUser.bind(this)}>新增</Button>
-                <Button type="primary" onClick={this.exportUserInfo.bind(this)}>导出</Button>
+                <div>
+                    <Button type="primary" className="primary-button" onClick={this.addUser.bind(this)}>新增</Button>
+                    <Button type="primary" className="primary-button" onClick={this.exportUserInfo.bind(this)}>导出</Button>
+                    <Button shape="circle" icon="search" className="search-button" />
+                </div>
 
-                {props.dialog && props.dialog.open? <UserModalDialog modalDialog={props}/> : ""}
-
-                <div className="user-table-div">
+                <div>
                     <CreateTable
                         className="user-table"
                         columns={this.state.columns}
@@ -124,6 +125,14 @@ class UserComponent extends React.Component{
                         scroll={{x:1600,y:587}}
                         bordered
                     />
+
+                    {/*<Table*/}
+                    {/*columns={this.state.columns}*/}
+                    {/*dataSource={dataSource}*/}
+                    {/*pagination={pagination}*/}
+                    {/*bordered*/}
+                    {/*/>*/}
+
                     <Pagination
                         className="user-pagination"
                         showSizeChanger={true}
@@ -138,13 +147,10 @@ class UserComponent extends React.Component{
                     />
                 </div>
 
-                {/*<Table*/}
-                    {/*columns={this.state.columns}*/}
-                    {/*dataSource={dataSource}*/}
-                    {/*pagination={pagination}*/}
-                    {/*bordered*/}
-                {/*/>*/}
+                {props.dialog && props.dialog.open? <UserModalDialog modalDialog={props}/> : ""}
+
             </div>
+
         )
     }
 

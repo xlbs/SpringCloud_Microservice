@@ -1,16 +1,9 @@
 .user{
-    /*position:relative;*/
-    /*width: 1500px;*/
-    /*height: 1200px;*/
+    width: 1200px;
+    margin: auto;
 }
-.user-button{
-    display: flex;           /*设置为flex布局*/
-    justify-content: center; /*水平居中*/
-    align-items: center;     /*垂直居中*/
-}
-.user-from{
-    width: 500px;
-    height: 800px;
+.user-form{
+    height: 45px;
     /*margin: auto;*/
     /*border: 1px solid #ccc;*/
     /*background: white;*/
@@ -19,12 +12,7 @@
     /*margin-bottom: 50%;*/
     /*left: 0px;*/
     /*right: 0px;*/
-    z-Index:1;
-}
-
-.user-table-div{
-    width: 1200px;
-    margin: auto;
+    /*z-Index:1;*/
 }
 .user-table{
     height: 645px;
