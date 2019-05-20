@@ -23,7 +23,7 @@ const mapStateToProps = state =>({
     pageSize: state.role.pageSize,
     dialog: state.role.dialog,
     userList: state.role.userList,
-    roles: state.role.roles,
+    menus: state.role.menus,
     userInfo: state.role.userInfo,
     userRoles: state.role.userRoles,
 

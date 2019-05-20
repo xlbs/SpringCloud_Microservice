@@ -1,6 +1,6 @@
 import {SET_CURRENT_PAGE, SET_PAGE_SIZE, currentPage, pageSize} from "../../../../commutils/actions/Pagination";
 import {OPEN_DIALOG, CLOSE_DIALOG} from "../../../../commutils/actions/Dialog";
-import {USER_LIST,ROLES,USER_INFO,USER_ROLES} from "./RoleAction";
+import {USER_LIST,MENUS,USER_INFO,USER_ROLES} from "./RoleAction";
 
 const initialState = {
     currentPage,
@@ -13,10 +13,10 @@ const roleReducer = (state = initialState, action) => {
                 ...state,
                 userList: action.userList
             }
-        case ROLES:
+        case MENUS:
             return{
                 ...state,
-                roles: action.roles
+                menus: action.menus
             }
         case USER_INFO:
             return{

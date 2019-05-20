@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
-import { objToArray, objToArrayKey, formatDate, formatDataDict } from "../utils/CommUtils";
+import { objToArray, objToArrayKey, formatDate, formatDataDict } from "../../utils/CommUtils";
 
 export default ({ ...props }) =>{
     const { dataSource, format} = props;
