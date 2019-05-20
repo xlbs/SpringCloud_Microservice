@@ -165,6 +165,65 @@ class UserModalDialog extends React.Component {
         this.setState({ selectedKeys });
     };
 
+    renderTree(){
+        const menus = this.props.modalDialog.menus;
+        const otherMenus = [];
+        for(let i=1; i<menus.length; i++){
+            otherMenus.push(menus[i]);
+        }
+        return(
+            <div id="menu">
+                <Row>
+                    <Tree
+                        checkable
+                        // defaultCheckedKeys={["1"]}
+                        // checkedKeys={["1"]}
+                        // autoExpandParent={true}
+                        // defaultExpandedKeys={["2"]}
+                        // expandedKeys={["2"]}
+
+                        // onExpand={this.onExpand.bind(this)}
+                        // onCheck={this.onCheck.bind(this)}
+                        // onSelect={this.onSelect.bind(this)}
+                        // selectedKeys={this.state.selectedKeys}
+                        treeData={menus[0]}
+                    />
+                </Row>
+                {otherMenus.length > 0?
+                    <Row>
+                        {
+                            otherMenus.map(menu =>{
+                                return(
+                                    <Col span={8}>
+                                        <Tree
+                                            checkable
+                                            // defaultCheckedKeys={["1"]}
+                                            // checkedKeys={["1"]}
+                                            // autoExpandParent={true}
+                                            // defaultExpandedKeys={["2"]}
+                                            // expandedKeys={["2"]}
+
+                                            // onExpand={this.onExpand.bind(this)}
+                                            // onCheck={this.onCheck.bind(this)}
+                                            // onSelect={this.onSelect.bind(this)}
+                                            // selectedKeys={this.state.selectedKeys}
+                                            treeData={menu}
+                                        />
+                                    </Col>
+                                )
+                            })
+                        }
+                    </Row>
+                    :
+                    ""
+                }
+
+
+            </div>
+
+        )
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const title = this.props.modalDialog.dialog.title + '用户';
@@ -218,25 +277,7 @@ class UserModalDialog extends React.Component {
                         </Form.Item>
                     </Form>
 
-                    {this.props.modalDialog.menus?
-                        <Tree
-                            checkable
-                            defaultCheckedKeys={["1"]}
-                            // checkedKeys={["1"]}
-                            // autoExpandParent={true}
-                            defaultExpandedKeys={["2"]}
-                            // expandedKeys={["2"]}
-
-                            onExpand={this.onExpand.bind(this)}
-                            onCheck={this.onCheck.bind(this)}
-                            onSelect={this.onSelect.bind(this)}
-                            selectedKeys={this.state.selectedKeys}
-                            treeData={this.props.modalDialog.menus}
-                        />
-                        :
-                        ""
-                    }
-
+                    {this.props.modalDialog.menus?this.renderTree.bind(this)():""}
 
                 </Modal>
             </div>
