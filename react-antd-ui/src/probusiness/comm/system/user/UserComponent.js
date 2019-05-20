@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Button, Table, Divider, Pagination } from 'antd';
-import CreateTable from '../../../../commutils/components/CreateTable';
+import CreateTable from '../../../../commutils/components/utils/CreateTable';
 import '../../../../statics/css/system/user/user.css';
 import {DataDict} from "../../../../commutils/utils/CommUtils"
 import UserModalDialog from "./UserModalDialog";
