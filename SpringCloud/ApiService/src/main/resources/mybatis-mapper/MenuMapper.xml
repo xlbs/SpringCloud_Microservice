@@ -10,6 +10,7 @@
           menu.id as `key`,
           menu.id,
           menu.name as name,
+          menu.name as title,
           menu.parent_id as parentId,
           menu.rank as `rank`,
           menu.url as url,

@@ -1,10 +1,8 @@
 import React from 'react';
 import {Modal, Form, Input, Checkbox, Row, Col, Button, Tree} from 'antd';
-import {DictSelect} from '../../../../commutils/components/utils/Select';
 import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 import {DataDict} from "../../../../commutils/utils/CommUtils";
 
-const CheckboxGroup = Checkbox.Group;
 const { TreeNode } = Tree;
 
 class UserModalDialog extends React.Component {
@@ -50,7 +48,7 @@ class UserModalDialog extends React.Component {
     }
 
     componentWillMount() {
-        this.props.modalDialog.findRoles();
+        this.props.modalDialog.findMenus();
         const content = this.props.modalDialog.dialog.content;
         if(content){
             const userId = content.userId;
@@ -72,83 +70,6 @@ class UserModalDialog extends React.Component {
             });
             this.props.modalDialog.findUserInfo(userId);
         }
-    }
-
-    roleCheckbox(){
-        const roles = this.props.modalDialog.roles;
-        const options = [];
-        roles.map(role=>{
-            // const option = {label: role.name, value: role.roleId };
-            options.push(role.id);
-        });
-        let userRoles ;
-        if(this.props.modalDialog.userInfo){
-            userRoles = this.props.modalDialog.userInfo.roles;
-        }
-        let checkedList = [];
-        let indeterminate = false;
-        if(userRoles&&this.props.modalDialog.dialog.content&&!this.state.clickCheckbox){
-            userRoles.map(userRole =>{
-                checkedList.push(userRole.id);
-            })
-            if(checkedList.length != 0){
-                indeterminate = true;
-            }else{
-                indeterminate = false;
-            }
-            this.state.checkedList = checkedList;
-            this.state.indeterminate = indeterminate;
-        }
-        return(
-            <div id="role">
-                <div style={{lineHeight:'39px'}}>
-                    <label><span style={{color:'red',marginRight:'4px',fontSize:'14px',fontFamily:'SimSun'}}>*</span>角色:</label>
-                </div>
-                <Checkbox
-                    indeterminate={this.state.indeterminate}
-                    onChange={this.onCheckAllChange.bind(this,options)}
-                    checked={this.state.checkAll}
-                >
-                    全选
-                </Checkbox>
-                <CheckboxGroup
-                    // options={options}
-                    value={this.state.checkedList}
-                    onChange={this.onChange.bind(this,options)}
-                >
-                    <Row>
-                        {roles.map(role =>{
-                            return(
-                                <Col span={8}>
-                                    <Checkbox value={role.id}>{role.name}</Checkbox>
-                                </Col>
-                            )
-                        })}
-                    </Row>
-                </CheckboxGroup>
-            </div>
-
-        )
-    }
-
-    onCheckAllChange(options,e){
-        this.setState({
-            checkedList: e.target.checked ? options : [],
-            indeterminate: false,
-            checkAll: e.target.checked,
-            clickCheckbox: true,
-            buttonDisabled: false || !e.target.checked,
-        });
-    }
-
-    onChange(options,checkedList){
-        this.setState({
-            checkedList,
-            indeterminate: !!checkedList.length && (checkedList.length < options.length),
-            checkAll: checkedList.length === options.length,
-            clickCheckbox: true,
-            buttonDisabled: false || !checkedList.length,
-        });
     }
 
     validateInputField(field, msg, rule, value, callback){
@@ -189,11 +110,6 @@ class UserModalDialog extends React.Component {
                 form.validateFields(['confirm'], { force: true });
             }
         }
-    }
-
-    handleConfirmBlur(e){
-        const value = e.target.value;
-        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
     /**
@@ -249,66 +165,66 @@ class UserModalDialog extends React.Component {
         this.setState({ selectedKeys });
     };
 
-    renderTreeNodes(data){
-        data.map(item => {
-            if (item.children) {
-                return (
-                    <TreeNode title={item.title} key={item.key} dataRef={item}>
-                        {this.renderTreeNodes(item.children)}
-                    </TreeNode>
-                );
-            }
-            return <TreeNode {...item} />;
-        })
+    renderTree(){
+        const menus = this.props.modalDialog.menus;
+        const otherMenus = [];
+        for(let i=1; i<menus.length; i++){
+            otherMenus.push(menus[i]);
+        }
+        return(
+            <div id="menu">
+                <Row>
+                    <Tree
+                        checkable
+                        // defaultCheckedKeys={["1"]}
+                        // checkedKeys={["1"]}
+                        // autoExpandParent={true}
+                        // defaultExpandedKeys={["2"]}
+                        // expandedKeys={["2"]}
+
+                        // onExpand={this.onExpand.bind(this)}
+                        // onCheck={this.onCheck.bind(this)}
+                        // onSelect={this.onSelect.bind(this)}
+                        // selectedKeys={this.state.selectedKeys}
+                        treeData={menus[0]}
+                    />
+                </Row>
+                {otherMenus.length > 0?
+                    <Row>
+                        {
+                            otherMenus.map(menu =>{
+                                return(
+                                    <Col span={8}>
+                                        <Tree
+                                            checkable
+                                            // defaultCheckedKeys={["1"]}
+                                            // checkedKeys={["1"]}
+                                            // autoExpandParent={true}
+                                            // defaultExpandedKeys={["2"]}
+                                            // expandedKeys={["2"]}
+
+                                            // onExpand={this.onExpand.bind(this)}
+                                            // onCheck={this.onCheck.bind(this)}
+                                            // onSelect={this.onSelect.bind(this)}
+                                            // selectedKeys={this.state.selectedKeys}
+                                            treeData={menu}
+                                        />
+                                    </Col>
+                                )
+                            })
+                        }
+                    </Row>
+                    :
+                    ""
+                }
+
+
+            </div>
+
+        )
     }
 
-
-
-
     render() {
-        const treeData = [
-            {
-                title: '0-0',
-                key: '0-0',
-                children: [
-                    {
-                        title: '0-0-0',
-                        key: '0-0-0',
-                        children: [
-                            { title: '0-0-0-0', key: '0-0-0-0' },
-                            { title: '0-0-0-1', key: '0-0-0-1' },
-                            { title: '0-0-0-2', key: '0-0-0-2' },
-                        ],
-                    },
-                    {
-                        title: '0-0-1',
-                        key: '0-0-1',
-                        children: [
-                            { title: '0-0-1-0', key: '0-0-1-0' },
-                            { title: '0-0-1-1', key: '0-0-1-1' },
-                            { title: '0-0-1-2', key: '0-0-1-2' },
-                        ],
-                    },
-                    {
-                        title: '0-0-2',
-                        key: '0-0-2',
-                    },
-                ],
-            },
-            {
-                title: '0-1',
-                key: '0-1',
-                children: [
-                    { title: '0-1-0-0', key: '0-1-0-0' },
-                    { title: '0-1-0-1', key: '0-1-0-1' },
-                    { title: '0-1-0-2', key: '0-1-0-2' },
-                ],
-            },
-            {
-                title: '0-2',
-                key: '0-2',
-            },
-        ];
         const { getFieldDecorator } = this.props.form;
         const title = this.props.modalDialog.dialog.title + '用户';
         const userInfo = this.props.modalDialog.userInfo;
@@ -329,9 +245,7 @@ class UserModalDialog extends React.Component {
                     visible={true}
                     okText="保存"
                     cancelText="取消"
-                    // onOk={this.saveUser.bind(this)}
                     onCancel={this.cancel.bind(this)}//右上角的关闭按钮
-                    // okButtonProps={{ disabled: this.state.buttonDisabled }}
                     destroyOnClose={true}
                     footer={[
                         <div className='user-button'>
@@ -344,113 +258,26 @@ class UserModalDialog extends React.Component {
                         </div>
                     ]}
                 >
-                    {/*<Form>*/}
-                        {/*<Form.Item*/}
-                            {/*label="姓名"*/}
-                            {/*hasFeedback={this.state.hasFeedback.name}*/}
-                            {/*validateStatus={this.state.validateStatus.name}*/}
-                            {/*help={this.state.help.name}*/}
-                        {/*>*/}
-                            {/*{getFieldDecorator('name',{*/}
-                                {/*rules: [{*/}
-                                    {/*required: true,*/}
-                                    {/*validator: this.validateInputField.bind(this,'name','Please input your name!'),*/}
-                                {/*}],*/}
-                                {/*initialValue: name? name : '',*/}
-                            {/*})(*/}
-                                {/*<Input type='text' placeholder="请输入姓名"/>*/}
-                            {/*)}*/}
-                        {/*</Form.Item>*/}
+                    <Form>
+                        <Form.Item
+                            label="角色名"
+                            hasFeedback={this.state.hasFeedback.name}
+                            validateStatus={this.state.validateStatus.name}
+                            help={this.state.help.name}
+                        >
+                            {getFieldDecorator('name',{
+                                rules: [{
+                                    required: true,
+                                    validator: this.validateInputField.bind(this,'name','请输入角色名称!'),
+                                }],
+                                initialValue: name? name : '',
+                            })(
+                                <Input type='text' placeholder="请输入角色名称"/>
+                            )}
+                        </Form.Item>
+                    </Form>
 
-                        {/*<Form.Item*/}
-                            {/*label="用户类型"*/}
-                            {/*hasFeedback={this.state.hasFeedback.type}*/}
-                            {/*validateStatus={this.state.validateStatus.type}*/}
-                            {/*help={this.state.help.type}*/}
-                        {/*>*/}
-                            {/*{getFieldDecorator('type',{*/}
-                                {/*rules: [{*/}
-                                    {/*required: true, message: 'Please select your type!',*/}
-                                {/*}],*/}
-                                {/*initialValue: type||type==0? type+'' : '2',*/}
-                            {/*})(*/}
-                                {/*<DictSelect*/}
-                                    {/*category="USER_TYPE"*/}
-                                    {/*placeholder="请选择用户类型"*/}
-                                {/*/>*/}
-                            {/*)}*/}
-                        {/*</Form.Item>*/}
-
-                        {/*<Form.Item*/}
-                            {/*label="账号"*/}
-                            {/*hasFeedback={this.state.hasFeedback.username}*/}
-                            {/*validateStatus={this.state.validateStatus.username}*/}
-                            {/*help={this.state.help.username}*/}
-                        {/*>*/}
-                            {/*{getFieldDecorator('username',{*/}
-                                {/*rules: [{*/}
-                                    {/*required: true,*/}
-                                    {/*validator: this.validateInputField.bind(this,'username','Please input your username!'),*/}
-                                {/*}],*/}
-                                {/*initialValue: username? username : '',*/}
-                            {/*})(*/}
-                                {/*<Input type='text' placeholder="请输入账号"/>*/}
-                            {/*)}*/}
-                        {/*</Form.Item>*/}
-                        {/*{!isEdit?*/}
-                            {/*<div>*/}
-                                {/*<Form.Item*/}
-                                    {/*label="密码"*/}
-                                    {/*hasFeedback={this.state.hasFeedback.password}*/}
-                                    {/*validateStatus={this.state.validateStatus.password}*/}
-                                    {/*help={this.state.help.password}*/}
-                                {/*>*/}
-                                    {/*{getFieldDecorator('password',{*/}
-                                        {/*rules: [{*/}
-                                            {/*required: true,*/}
-                                            {/*validator: this.validateInputField.bind(this,'password','Please input your password!'),*/}
-                                        {/*}],*/}
-                                    {/*})(*/}
-                                        {/*<Input type='password' placeholder="请输入密码"/>*/}
-                                    {/*)}*/}
-                                {/*</Form.Item>*/}
-
-                                {/*<Form.Item*/}
-                                    {/*label="确认密码"*/}
-                                    {/*hasFeedback={this.state.hasFeedback.confirm}*/}
-                                    {/*validateStatus={this.state.validateStatus.confirm}*/}
-                                    {/*help={this.state.help.confirm}*/}
-                                {/*>*/}
-                                    {/*{getFieldDecorator('confirm', {*/}
-                                        {/*rules: [{*/}
-                                            {/*required: true,*/}
-                                            {/*validator: this.validateInputField.bind(this,'confirm','Please confirm your password!'),*/}
-                                        {/*}],*/}
-                                    {/*})(*/}
-                                        {/*<Input type='password' placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/>*/}
-
-                                    {/*)}*/}
-                                {/*</Form.Item>*/}
-                            {/*</div>*/}
-                            {/*:*/}
-                            {/*""*/}
-                        {/*}*/}
-                    {/*</Form>*/}
-
-                    <Tree
-                        checkable
-                        onExpand={this.onExpand.bind(this)}
-                        expandedKeys={this.state.expandedKeys}
-                        autoExpandParent={this.state.autoExpandParent}
-                        onCheck={this.onCheck.bind(this)}
-                        checkedKeys={this.state.checkedKeys}
-                        onSelect={this.onSelect.bind(this)}
-                        selectedKeys={this.state.selectedKeys}
-                    >
-                        {this.renderTreeNodes(treeData)}
-                    </Tree>
-
-                    {/*{this.props.modalDialog.roles?this.roleCheckbox.bind(this)():""}*/}
+                    {this.props.modalDialog.menus?this.renderTree.bind(this)():""}
 
                 </Modal>
             </div>

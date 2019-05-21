@@ -8,7 +8,7 @@ const API_SERVICE = BASE_URL + "/api_service";
 const EXCEL_SERVICE = BASE_URL + "/excel_service";
 
 export const USER_LIST = "USER_LIST";
-export const ROLES = "ROLES";
+export const MENUS = "MENUS";
 export const USER_INFO = "USER_INFO";
 export const USER_ROLES = "USER_ROLES";
 
@@ -89,17 +89,17 @@ function deleteUser(userId,username) {
 
 
 /**
- * 查询所有角色
+ * 查询所有菜单
  */
-function findRoles() {
-    let url = API_SERVICE+"/role/findRoles";
+function findMenus() {
+    let url = API_SERVICE+"/menu";
     return (dispatch) => {
         Ajax.get(
             url,
             (res) =>{
                 dispatch({
-                    type: ROLES,
-                    roles: res.data
+                    type: MENUS,
+                    menus: res.data
                 })
             },
             dispatch
@@ -174,7 +174,7 @@ export const actions = {
     addUser,
     editUser,
     deleteUser,
-    findRoles,
+    findMenus,
     findUserInfo,
     saveUserInfo,
     exportUserInfo,

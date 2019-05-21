@@ -27,5 +27,7 @@ public class Menu extends Entity {
 
     private List<Menu> children;
 
+    private String title;
+
 
 }
