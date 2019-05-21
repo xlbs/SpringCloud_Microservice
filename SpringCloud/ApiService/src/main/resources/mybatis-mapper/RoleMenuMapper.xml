@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xlbs.apiservice.dao.imp.RoleMenuDao">
+
+    <sql id="entity">
+        created_by as createdBy,
+        created_date as createdDate,
+        last_modify_by as lastModifyBy,
+        last_modify_date as lastModifyDate
+    </sql>
+
+    <sql id="roleMenuField">
+        role_id AS roleId,
+        menu_id as menuId,
+        <include refid="entity"/>
+    </sql>
+
+    <!--通过userId查询用户信息-->
+    <select id="findRoleMenu" resultType="com.xlbs.apiservice.entity.Menu">
+        select
+          menu_id AS id,
+          <include refid="entity"/>
+        from
+          t_role_menu
+        <where>
+            <if test="roleId != null ">
+                role_id = #{roleId}
+            </if>
+        </where>
+    </select>
+
+    <!--批量保存用户角色信息-->
+    <insert id="saveUserRoles">
+        insert into t_user_role
+          (user_id, role_id, created_by, created_date,last_modify_by,last_modify_date)
+        values
+          <foreach collection ="list" item="userRole" separator =",">
+            (#{userRole.userId}, #{userRole.roleId}, #{userRole.createdBy}, #{userRole.createdDate}, #{userRole.lastModifyBy}, #{userRole.lastModifyDate})
+          </foreach >
+    </insert>
+
+    <!--删除用户角色信息-->
+    <delete id="deleteUserRolesByUserId" >
+        delete from t_user_role where user_id = #{userId}
+    </delete>
+
+</mapper>

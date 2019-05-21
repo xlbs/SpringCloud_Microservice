@@ -2,7 +2,7 @@ package com.xlbs.apiservice.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.entity.User;
-import com.xlbs.apiservice.entity.UserQuery;
+import com.xlbs.apiservice.entity.query.UserQuery;
 import com.xlbs.apiservice.service.intf.I_UserService;
 import com.xlbs.constantjar.ResponseResult;
 import io.swagger.annotations.ApiOperation;

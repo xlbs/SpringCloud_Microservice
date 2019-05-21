@@ -1,4 +1,4 @@
-package com.xlbs.apiservice.entity;
+package com.xlbs.apiservice.entity.query;
 
 import com.xlbs.constantjar.obj.Query;
 import lombok.Getter;

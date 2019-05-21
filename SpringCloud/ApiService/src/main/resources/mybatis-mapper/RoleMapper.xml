@@ -18,12 +18,46 @@
         <include refid="entity"/>
     </sql>
 
-    <!--查询所有角色信息-->
+    <!--查询角色列表-->
+    <select id="findList" resultType="com.xlbs.apiservice.entity.Role">
+        select
+          t1.id as `key`,
+          t1.id,
+          t1.`name` as `name`,
+          t4.menuName,
+          t2.name AS createdByName,
+          t1.created_date AS createdDate,
+          t3.name AS lastModifyByName,
+          t1.last_modify_date AS lastModifyDate
+        from
+          t_role t1
+        left join t_user t2 on t1.created_by = t2.id
+        left join t_user t3 on t1.last_modify_by = t3.id
+        left join
+          (select
+            rm.`role_id` as roleId,
+            group_concat(rm.`menu_id`) as roleMenu,
+            group_concat(m.`name`) as menuName
+          from
+            `t_role_menu` rm,`t_menu` m
+          where
+            rm.`menu_id`=m.`id`
+          group by
+            rm.`role_id`) as t4
+        on t1.`id`=t4.roleId
+    </select>
+
+    <!--查询角色信息-->
     <select id="findRole" resultType="com.xlbs.apiservice.entity.Role">
         select
           <include refid="roleField"/>
         from
           t_role
+        <where>
+            <if test="id != null">
+                id=#{id}
+            </if>
+        </where>
     </select>
 
 </mapper>

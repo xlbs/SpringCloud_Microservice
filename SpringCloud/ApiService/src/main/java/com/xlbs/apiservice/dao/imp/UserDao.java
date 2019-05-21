@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.ImmutableMap;
 import com.xlbs.apiservice.dao.intf.I_UserDao;
 import com.xlbs.apiservice.entity.User;
-import com.xlbs.apiservice.entity.UserQuery;
+import com.xlbs.apiservice.entity.query.UserQuery;
 import com.xlbs.constantjar.RequestContextUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;

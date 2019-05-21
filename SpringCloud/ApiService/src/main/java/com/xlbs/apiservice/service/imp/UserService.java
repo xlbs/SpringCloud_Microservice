@@ -1,13 +1,12 @@
 package com.xlbs.apiservice.service.imp;
 
 import com.github.pagehelper.PageInfo;
-import com.xlbs.apiservice.dao.intf.I_RoleDao;
 import com.xlbs.apiservice.dao.intf.I_UserDao;
 import com.xlbs.apiservice.dao.intf.I_UserRoleDao;
 import com.xlbs.apiservice.entity.Role;
 import com.xlbs.apiservice.entity.UserRole;
 import com.xlbs.apiservice.entity.User;
-import com.xlbs.apiservice.entity.UserQuery;
+import com.xlbs.apiservice.entity.query.UserQuery;
 import com.xlbs.apiservice.service.intf.I_UserService;
 import com.xlbs.commutils.utils.RandomCodeUtils;
 import com.xlbs.constantjar.RequestContextUtils;

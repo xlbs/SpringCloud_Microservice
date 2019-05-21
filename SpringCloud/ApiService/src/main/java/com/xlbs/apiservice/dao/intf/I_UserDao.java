@@ -2,7 +2,7 @@ package com.xlbs.apiservice.dao.intf;
 
 import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.entity.User;
-import com.xlbs.apiservice.entity.UserQuery;
+import com.xlbs.apiservice.entity.query.UserQuery;
 
 import java.util.List;
 import java.util.Map;
