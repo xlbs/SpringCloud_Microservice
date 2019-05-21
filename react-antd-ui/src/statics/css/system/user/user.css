@@ -2,11 +2,6 @@
     width: 1200px;
     margin: auto;
 }
-.user-button{
-    display: flex;           /*设置为flex布局*/
-    justify-content: center; /*水平居中*/
-    align-items: center;     /*垂直居中*/
-}
 .user-from{
     width: 500px;
     height: 800px;

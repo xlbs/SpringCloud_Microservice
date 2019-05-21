@@ -122,7 +122,7 @@ class UserComponent extends React.Component{
                         format={{type:"DATA_DICT.USER_TYPE",createdDate:"DATE",lastModifyDate:"DATE"}}
                         // pagination={pagination}
                         pagination={false}
-                        scroll={{x:1600,y:587}}
+                        scroll={{x:1500,y:587}}
                         bordered
                     />
 

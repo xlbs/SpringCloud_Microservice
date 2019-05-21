@@ -249,7 +249,7 @@ class UserModalDialog extends React.Component {
                     // okButtonProps={{ disabled: this.state.buttonDisabled }}
                     destroyOnClose={true}
                     footer={[
-                        <div className='user-button'>
+                        <div className='modal-button'>
                             <Button onClick={this.cancel.bind(this)}>
                                 取消
                             </Button>
