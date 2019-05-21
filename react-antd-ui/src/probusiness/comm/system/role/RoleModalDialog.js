@@ -1,15 +1,12 @@
 import React from 'react';
-import {Modal, Form, Input, Checkbox, Row, Col, Button, Tree} from 'antd';
+import {Modal, Form, Input, Row, Col, Button, Tree} from 'antd';
 import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 import {DataDict} from "../../../../commutils/utils/CommUtils";
-
-const { TreeNode } = Tree;
 
 class UserModalDialog extends React.Component {
 
     constructor(props){
         super(props);
-        DataDict("USER_TYPE",props.modalDialog.dispatch);
         this.state = {
             hasFeedback: {
                 name: false,
@@ -38,11 +35,6 @@ class UserModalDialog extends React.Component {
             checkedList: [],
             buttonDisabled: true,
             clickCheckbox: false,
-
-            expandedKeys: ['0-0-0', '0-0-1'],
-            autoExpandParent: true,
-            checkedKeys: ['0-0-0'],
-            selectedKeys: [],
         };
 
     }
@@ -50,8 +42,12 @@ class UserModalDialog extends React.Component {
     componentWillMount() {
         this.props.modalDialog.findMenus();
         const content = this.props.modalDialog.dialog.content;
+        this.setState({
+            checkedKeys: [],
+            selectedKeys: [],
+        });
         if(content){
-            const userId = content.userId;
+            const id = content.id;
             this.setState({
                 hasFeedback: {
                     name: true,
@@ -67,8 +63,10 @@ class UserModalDialog extends React.Component {
                     password: 'success',
                     confirm: 'success',
                 },
+                // checkedKeys: [],
+                // selectedKeys: [],
             });
-            this.props.modalDialog.findUserInfo(userId);
+            this.props.modalDialog.findRoleInfo(id);
         }
     }
 
@@ -155,7 +153,16 @@ class UserModalDialog extends React.Component {
         });
     };
 
-    onCheck(checkedKeys){
+    onCheck(checkedKeys,e){
+        console.log('checkedKeys', checkedKeys);
+        console.log('e.checked', e.checked);
+        console.log('e.checkedNodes', e.checkedNodes);
+        console.log('e.node', e.node);
+        console.log('e.event', e.event);
+        console.log('checkedKeys', checkedKeys);
+        if(e.checked){
+            checkedKeys.push(...this.state.checkedKeys);
+        }
         console.log('onCheck', checkedKeys);
         this.setState({ checkedKeys });
     };
@@ -167,46 +174,54 @@ class UserModalDialog extends React.Component {
 
     renderTree(){
         const menus = this.props.modalDialog.menus;
+        const homeMenus = [];
         const otherMenus = [];
-        for(let i=1; i<menus.length; i++){
-            otherMenus.push(menus[i]);
+        menus.map(menu => {
+            if(menu.isHome){
+                homeMenus.push(menu);
+            }else{
+                otherMenus.push(menu);
+            }
+        });
+
+        let roleMenus ;
+        if(this.props.modalDialog.roleInfo){
+            roleMenus = this.props.modalDialog.roleInfo.menus;
         }
+        let checkedKeys = [];
+        if(roleMenus&&this.props.modalDialog.dialog.content){
+            roleMenus.map(roleMenu => {
+                checkedKeys.push(roleMenu.id)
+            })
+            if(this.props.modalDialog.roleInfo.render){
+                checkedKeys.push(...this.state.checkedKeys);
+                this.setState({ checkedKeys });
+                this.props.modalDialog.roleInfo.render = false;
+            }
+        }
+        let i = 0;
         return(
             <div id="menu">
-                <Row>
-                    <Tree
-                        checkable
-                        // defaultCheckedKeys={["1"]}
-                        // checkedKeys={["1"]}
-                        // autoExpandParent={true}
-                        // defaultExpandedKeys={["2"]}
-                        // expandedKeys={["2"]}
-
-                        // onExpand={this.onExpand.bind(this)}
-                        // onCheck={this.onCheck.bind(this)}
-                        // onSelect={this.onSelect.bind(this)}
-                        // selectedKeys={this.state.selectedKeys}
-                        treeData={menus[0]}
-                    />
-                </Row>
-                {otherMenus.length > 0?
+                {homeMenus.length>0 ?
                     <Row>
                         {
-                            otherMenus.map(menu =>{
+                            homeMenus.map(menu =>{
+                                // let defaultCheckedKeys = [];
+                                // defaultCheckedKeys.push(menu.key);
                                 return(
                                     <Col span={8}>
                                         <Tree
                                             checkable
-                                            // defaultCheckedKeys={["1"]}
-                                            // checkedKeys={["1"]}
+                                            // defaultCheckedKeys={defaultCheckedKeys}
                                             // autoExpandParent={true}
                                             // defaultExpandedKeys={["2"]}
                                             // expandedKeys={["2"]}
 
                                             // onExpand={this.onExpand.bind(this)}
-                                            // onCheck={this.onCheck.bind(this)}
-                                            // onSelect={this.onSelect.bind(this)}
+                                            checkedKeys={this.state.checkedKeys}
+                                            onCheck={this.onCheck.bind(this)}
                                             // selectedKeys={this.state.selectedKeys}
+                                            // onSelect={this.onSelect.bind(this)}
                                             treeData={menu}
                                         />
                                     </Col>
@@ -217,8 +232,39 @@ class UserModalDialog extends React.Component {
                     :
                     ""
                 }
+                {otherMenus.length>0 ?
+                    <Row>
+                        {
+                            otherMenus.map(menu =>{
+                                // let defaultExpandedKeys = [];
+                                // if(i<3){
+                                //     defaultExpandedKeys.push(menu.key);
+                                //     i++;
+                                // }
+                                return(
+                                    <Col span={8}>
+                                        <Tree
+                                            checkable
+                                            // defaultCheckedKeys={defaultCheckedKeys}
+                                            // autoExpandParent={true}
+                                            // defaultExpandedKeys={defaultExpandedKeys}
+                                            // expandedKeys={["2"]}
 
-
+                                            // onExpand={this.onExpand.bind(this)}
+                                            checkedKeys={this.state.checkedKeys}
+                                            onCheck={this.onCheck.bind(this)}
+                                            // selectedKeys={this.state.selectedKeys}
+                                            // onSelect={this.onSelect.bind(this)}
+                                            treeData={menu}
+                                        />
+                                    </Col>
+                                )
+                            })
+                        }
+                    </Row>
+                    :
+                    ""
+                }
             </div>
 
         )
@@ -248,7 +294,7 @@ class UserModalDialog extends React.Component {
                     onCancel={this.cancel.bind(this)}//右上角的关闭按钮
                     destroyOnClose={true}
                     footer={[
-                        <div className='user-button'>
+                        <div className='modal-button'>
                             <Button onClick={this.cancel.bind(this)}>
                                 取消
                             </Button>
@@ -260,7 +306,7 @@ class UserModalDialog extends React.Component {
                 >
                     <Form>
                         <Form.Item
-                            label="角色名"
+                            label="角色"
                             hasFeedback={this.state.hasFeedback.name}
                             validateStatus={this.state.validateStatus.name}
                             help={this.state.help.name}

@@ -13,7 +13,7 @@ class handleRoleManagement extends React.Component{
     render(){
         const role = this.props;
         return(
-            <RoleComponent role={role}/>
+            <RoleComponent content={role}/>
         )
     }
 }
@@ -21,10 +21,10 @@ class handleRoleManagement extends React.Component{
 const mapStateToProps = state =>({
     currentPage: state.role.currentPage,
     pageSize: state.role.pageSize,
+    roleList: state.role.roleList,
     dialog: state.role.dialog,
-    userList: state.role.userList,
     menus: state.role.menus,
-    userInfo: state.role.userInfo,
+    roleInfo: state.role.roleInfo,
     userRoles: state.role.userRoles,
 
 })
