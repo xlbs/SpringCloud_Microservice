@@ -24,6 +24,7 @@
           t1.id as `key`,
           t1.id,
           t1.`name` as `name`,
+          t4.menuIds,
           t4.menuName,
           t2.name AS createdByName,
           t1.created_date AS createdDate,
@@ -36,7 +37,7 @@
         left join
           (select
             rm.`role_id` as roleId,
-            group_concat(rm.`menu_id`) as roleMenu,
+            group_concat(rm.`menu_id`) as menuIds,
             group_concat(m.`name`) as menuName
           from
             `t_role_menu` rm,`t_menu` m

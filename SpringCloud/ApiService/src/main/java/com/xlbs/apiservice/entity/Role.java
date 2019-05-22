@@ -13,6 +13,8 @@ public class Role extends Entity {
 
     private String name;
 
+    private List<Integer> menuIds;
+
     private List<Menu> menus;
 
     private String menuName;
