@@ -1,7 +1,6 @@
 import React from 'react';
-import {Modal, Form, Input, Row, Col, Button, Tree} from 'antd';
+import {Modal, Form, Input, Button, Tree} from 'antd';
 import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
-import {DataDict} from "../../../../commutils/utils/CommUtils";
 
 class UserModalDialog extends React.Component {
 
@@ -29,23 +28,20 @@ class UserModalDialog extends React.Component {
                 password: '',
                 confirm: '',
             },
-            confirmDirty: false,
-            indeterminate: false,
-            checkAll: false,
-            checkedList: [],
             buttonDisabled: true,
-            clickCheckbox: false,
-        };
 
+            autoExpandParent: false,
+            initCheckedKeys: [],
+            expandedKeys: [],
+            checkedKeys: [],
+            selectedKeys: [],
+            submitCheckedKeys: [],
+        };
     }
 
     componentWillMount() {
         this.props.modalDialog.findMenus();
         const content = this.props.modalDialog.dialog.content;
-        this.setState({
-            checkedKeys: [],
-            selectedKeys: [],
-        });
         if(content){
             const id = content.id;
             this.setState({
@@ -63,15 +59,18 @@ class UserModalDialog extends React.Component {
                     password: 'success',
                     confirm: 'success',
                 },
-                // checkedKeys: [],
-                // selectedKeys: [],
             });
             this.props.modalDialog.findRoleInfo(id);
         }
     }
 
+    cancel(){
+        this.props.modalDialog.closeDialog();
+    }
+
     validateInputField(field, msg, rule, value, callback){
         const form = this.props.form;
+        const roleInfo = this.props.modalDialog.roleInfo;
         let hasFeedback = this.state.hasFeedback;
         let validateStatus = this.state.validateStatus;
         let help = this.state.help;
@@ -80,73 +79,32 @@ class UserModalDialog extends React.Component {
             hasFeedback[field] = true;
             validateStatus[field] = 'error';
             help[field] = msg;
-            this.setState({hasFeedback,validateStatus,help,buttonDisabled:true});
+            this.setState({
+                hasFeedback,
+                validateStatus,
+                help,
+                buttonDisabled:true
+            });
             callback(this.state.help[field]);
         }else{
-            if(field=='confirm'){
-                if (fieldValue && fieldValue !== form.getFieldValue('password')) {
-                    hasFeedback[field] = true;
-                    validateStatus[field] = 'error';
-                    help[field] = '两次输入的密码不一致';
-                    this.setState({hasFeedback,validateStatus,help,buttonDisabled:true});
-                    callback(this.state.help[field]);
-                } else {
-                    hasFeedback[field] = true;
-                    validateStatus[field] = 'success';
-                    help[field] = '';
-                    this.setState({hasFeedback,validateStatus,help,buttonDisabled:false});
-                    callback();
-                }
-            }else{
-                hasFeedback[field] = true;
-                validateStatus[field] = 'success';
-                help[field] = '';
-                this.setState({hasFeedback,validateStatus,help,buttonDisabled:false});
-                callback();
+            let buttonDisabled = true;
+            if(roleInfo && roleInfo[field] != fieldValue){
+                buttonDisabled = false;
             }
-            if(field=='password' && this.state.confirmDirty){
-                form.validateFields(['confirm'], { force: true });
-            }
+            hasFeedback[field] = true;
+            validateStatus[field] = 'success';
+            help[field] = '';
+            this.setState({
+                hasFeedback,
+                validateStatus,
+                help,
+                buttonDisabled: buttonDisabled
+            });
+            callback();
         }
     }
 
-    /**
-     * 保存用户
-     */
-    saveUserInfo(){
-        this.props.form.validateFieldsAndScroll( (err, values) =>{
-            if (!err) {
-                debugger;
-                const content = this.props.modalDialog.dialog.content;
-                if(content){
-                    values.id =  content.userId;
-                }
-                const checkedRoles = this.state.checkedList;
-                let roles = [];
-                for(let i=0; i<checkedRoles.length; i++){
-                    roles.push({id:checkedRoles[i]})
-                }
-                if(roles.length!=0){
-                    values.roles = roles;
-                    this.props.modalDialog.saveUserInfo(values);
-                }else{
-                    showInfo("请为用户分配角色");
-                }
-            }
-        });
-    }
-
-    /**
-     * 取消
-     */
-    cancel(){
-        this.props.modalDialog.closeDialog();
-    }
-
     onExpand(expandedKeys) {
-        console.log('onExpand', expandedKeys);
-        // if not set autoExpandParent to false, if children expanded, parent can not collapse.
-        // or, you can remove all expanded children keys.
         this.setState({
             expandedKeys,
             autoExpandParent: false,
@@ -154,36 +112,36 @@ class UserModalDialog extends React.Component {
     };
 
     onCheck(checkedKeys,e){
-        console.log('checkedKeys', checkedKeys);
-        console.log('e.checked', e.checked);
-        console.log('e.checkedNodes', e.checkedNodes);
-        console.log('e.node', e.node);
-        console.log('e.event', e.event);
-        console.log('checkedKeys', checkedKeys);
-        if(e.checked){
-            checkedKeys.push(...this.state.checkedKeys);
+        console.log('checkedKeys前：', checkedKeys);
+        console.log('e.checkedNodes：', e.checkedNodes);
+        let submitCheckedKeys = [].concat(checkedKeys);
+        e.checkedNodes.map(checkedNode => {
+            if(checkedNode.props.parentId){
+                if(submitCheckedKeys.indexOf(checkedNode.props.parentId.toString()) == -1){ //不包含
+                    submitCheckedKeys.push(checkedNode.props.parentId.toString());
+                }
+                if(checkedKeys.indexOf(checkedNode.props.parentId.toString()) > -1){ //包含
+                    checkedKeys.splice(checkedKeys.indexOf(checkedNode.props.parentId.toString()),1);
+                }
+            }
+        });
+        console.log('checkedKeys后：', checkedKeys);
+        console.log('initCheckedKeys：', this.state.initCheckedKeys);
+        console.log('submitCheckedKeys：', submitCheckedKeys);
+        let buttonDisabled = true;
+        if(checkedKeys.length != 0 && checkedKeys.toString() != this.state.initCheckedKeys.toString()){
+            buttonDisabled = false;
         }
-        console.log('onCheck', checkedKeys);
-        this.setState({ checkedKeys });
-    };
-
-    onSelect(selectedKeys, info){
-        console.log('onSelect', info);
-        this.setState({ selectedKeys });
+        this.setState({
+            checkedKeys: checkedKeys,
+            submitCheckedKeys: submitCheckedKeys,
+            buttonDisabled: buttonDisabled,
+        });
+        console.log('-----------------');
     };
 
     renderTree(){
         const menus = this.props.modalDialog.menus;
-        const homeMenus = [];
-        const otherMenus = [];
-        menus.map(menu => {
-            if(menu.isHome){
-                homeMenus.push(menu);
-            }else{
-                otherMenus.push(menu);
-            }
-        });
-
         let roleMenus ;
         if(this.props.modalDialog.roleInfo){
             roleMenus = this.props.modalDialog.roleInfo.menus;
@@ -191,98 +149,82 @@ class UserModalDialog extends React.Component {
         let checkedKeys = [];
         if(roleMenus&&this.props.modalDialog.dialog.content){
             roleMenus.map(roleMenu => {
-                checkedKeys.push(roleMenu.id)
-            })
+                if(roleMenu.children.length === 0){
+                    checkedKeys.push(roleMenu.id);
+                }else{
+                    roleMenu.children.map(children => {
+                        checkedKeys.push(children.id);
+                    })
+                }
+
+            });
             if(this.props.modalDialog.roleInfo.render){
-                checkedKeys.push(...this.state.checkedKeys);
-                this.setState({ checkedKeys });
+                this.setState({
+                    autoExpandParent: true,
+                    checkedKeys: checkedKeys,
+                    expandedKeys: checkedKeys,
+                    initCheckedKeys: checkedKeys,
+                    submitCheckedKeys: checkedKeys,
+                });
                 this.props.modalDialog.roleInfo.render = false;
             }
         }
-        let i = 0;
         return(
             <div id="menu">
-                {homeMenus.length>0 ?
-                    <Row>
-                        {
-                            homeMenus.map(menu =>{
-                                // let defaultCheckedKeys = [];
-                                // defaultCheckedKeys.push(menu.key);
-                                return(
-                                    <Col span={8}>
-                                        <Tree
-                                            checkable
-                                            // defaultCheckedKeys={defaultCheckedKeys}
-                                            // autoExpandParent={true}
-                                            // defaultExpandedKeys={["2"]}
-                                            // expandedKeys={["2"]}
+                <Tree
+                    checkable
 
-                                            // onExpand={this.onExpand.bind(this)}
-                                            checkedKeys={this.state.checkedKeys}
-                                            onCheck={this.onCheck.bind(this)}
-                                            // selectedKeys={this.state.selectedKeys}
-                                            // onSelect={this.onSelect.bind(this)}
-                                            treeData={menu}
-                                        />
-                                    </Col>
-                                )
-                            })
-                        }
-                    </Row>
-                    :
-                    ""
-                }
-                {otherMenus.length>0 ?
-                    <Row>
-                        {
-                            otherMenus.map(menu =>{
-                                // let defaultExpandedKeys = [];
-                                // if(i<3){
-                                //     defaultExpandedKeys.push(menu.key);
-                                //     i++;
-                                // }
-                                return(
-                                    <Col span={8}>
-                                        <Tree
-                                            checkable
-                                            // defaultCheckedKeys={defaultCheckedKeys}
-                                            // autoExpandParent={true}
-                                            // defaultExpandedKeys={defaultExpandedKeys}
-                                            // expandedKeys={["2"]}
+                    // defaultCheckedKeys={this.state.checkedKeys}
+                    // defaultExpandedKeys={this.state.checkedKeys}
 
-                                            // onExpand={this.onExpand.bind(this)}
-                                            checkedKeys={this.state.checkedKeys}
-                                            onCheck={this.onCheck.bind(this)}
-                                            // selectedKeys={this.state.selectedKeys}
-                                            // onSelect={this.onSelect.bind(this)}
-                                            treeData={menu}
-                                        />
-                                    </Col>
-                                )
-                            })
-                        }
-                    </Row>
-                    :
-                    ""
-                }
+                    autoExpandParent={this.state.autoExpandParent}
+
+                    expandedKeys={this.state.expandedKeys}
+                    onExpand={this.onExpand.bind(this)}
+
+                    checkedKeys={this.state.checkedKeys}
+                    onCheck={this.onCheck.bind(this)}
+
+                    // selectedKeys={this.state.selectedKeys}
+                    // onSelect={this.onSelect.bind(this)}
+
+                    treeData={menus}
+                />
             </div>
 
         )
     }
 
+    save(){
+        this.props.form.validateFieldsAndScroll( (err, values) =>{
+            if (!err) {
+                const content = this.props.modalDialog.dialog.content;
+                if(content){
+                    values.id =  content.id;
+                }
+                if(this.state.submitCheckedKeys.length != 0){
+                    let menus =[];
+                    this.state.submitCheckedKeys.map( key => {
+                        menus.push({id: key});
+                    })
+                    values.menus = menus;
+                    this.props.modalDialog.save(values);
+                }else{
+                    showInfo("请为角色分配菜单");
+                }
+            }
+        });
+    }
+
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const title = this.props.modalDialog.dialog.title + '用户';
-        const userInfo = this.props.modalDialog.userInfo;
-        let isEdit = false;
-        let {name,type,username} = {};
-        if(userInfo&&this.props.modalDialog.dialog.content){
-            isEdit = true;
-            name = userInfo.name;
-            type = userInfo.type;
-            username = userInfo.username;
+        const roleInfo = this.props.modalDialog.roleInfo;
+        let {name} = {};
+        if(roleInfo && this.props.modalDialog.dialog.content){
+            name = roleInfo.name;
         }
-
         return (
             <div>
                 <Modal
@@ -298,7 +240,7 @@ class UserModalDialog extends React.Component {
                             <Button onClick={this.cancel.bind(this)}>
                                 取消
                             </Button>
-                            <Button type="primary" onClick={this.saveUserInfo.bind(this)} disabled={this.state.buttonDisabled}>
+                            <Button type="primary" onClick={this.save.bind(this)} disabled={this.state.buttonDisabled}>
                                 保存
                             </Button>
                         </div>

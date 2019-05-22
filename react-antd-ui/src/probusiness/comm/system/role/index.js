@@ -25,8 +25,6 @@ const mapStateToProps = state =>({
     dialog: state.role.dialog,
     menus: state.role.menus,
     roleInfo: state.role.roleInfo,
-    userRoles: state.role.userRoles,
-
 })
 
 const mapDispatchToProps = dispatch =>({

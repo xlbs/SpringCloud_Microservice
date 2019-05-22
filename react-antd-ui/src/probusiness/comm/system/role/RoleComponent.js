@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form, Button, Divider, Pagination} from 'antd';
 import CreateTable from '../../../../commutils/components/utils/CreateTable';
-import '../../../../statics/css/system/user/user.css';
+import '../../../../statics/css/system/menu/menu.css';
 import RoleModalDialog from "./RoleModalDialog";
 
 
@@ -16,7 +16,7 @@ class RoleComponent extends React.Component{
                         <span>
                             <Button type="primary" size="small" onClick={this.edit.bind(this,row.id)} ghost>编辑</Button>
                             <Divider type="vertical" />
-                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.username)} ghost>删除</Button>
+                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.name)} ghost>删除</Button>
                         </span>
                     )
                 }
@@ -113,7 +113,7 @@ class RoleComponent extends React.Component{
                         bordered
                     />
                     <Pagination
-                        className="user-pagination"
+                        className="pagination"
                         showSizeChanger={true}
                         showQuickJumper={true}
                         pageSize={props.pageSize}

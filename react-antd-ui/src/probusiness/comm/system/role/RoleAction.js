@@ -10,7 +10,6 @@ const EXCEL_SERVICE = BASE_URL + "/excel_service";
 export const ROLE_LIST = "ROLE_LIST";
 export const MENUS = "MENUS";
 export const ROLE_INFO = "ROLE_INFO";
-export const USER_ROLES = "USER_ROLES";
 
 /**
  * 查询角色数据列表
@@ -38,7 +37,7 @@ function find() {
 
 /**
  * 新增角色
- * @returns {{type: string, open: boolean, content: string}}
+ * @returns {Function}
  */
 function add() {
     return (dispatch) => {
@@ -62,17 +61,19 @@ function edit(id) {
 
 /**
  * 删除角色
- * @param userId
+ * @param id
+ * @param name
+ * @returns {Function}
  */
-function remove(userId,username) {
+function remove(id,name) {
     return (dispatch) => {
-        showConfirm("确定删除账号为: "+username+" 的用户？",
+        showConfirm("确定删除角色: "+name,
             ()=>{
-                if(userId===1){
-                    showInfo("超级用户无法删除");
+                if(id === 1){
+                    showInfo("超级管理员无法删除");
                     return;
                 }
-                const url = API_SERVICE+"/user/delete/"+userId;
+                const url = API_SERVICE+"/role/delete/"+id;
                 Ajax.get(
                     url,
                     (res) => {
@@ -87,6 +88,29 @@ function remove(userId,username) {
     }
 }
 
+/**
+ * 保存角色
+ * @param values
+ */
+function save(values) {
+    let url = API_SERVICE+"/role/save";
+    if(values.id){
+        url = url +"?isEdit=true"
+    }
+    const params = values;
+    return (dispatch) =>{
+        Ajax.post(
+            {url,params},
+            (res) => {
+                dispatch(find());
+                dispatch(closeDialog());
+                showInfo(res.msg);
+            },
+            dispatch
+        )
+
+    }
+}
 
 /**
  * 查询所有菜单
@@ -131,29 +155,7 @@ function findRoleInfo(id) {
     }
 }
 
-/**
- * 保存用户
- * @param values
- */
-function saveUserInfo(values) {
-    let url = API_SERVICE+"/user/saveUserInfo";
-    if(values.id){
-        url = url +"?isEdit=true"
-    }
-    const params = values;
-    return (dispatch) =>{
-        Ajax.post(
-            {url,params},
-            (res) => {
-                dispatch(find());
-                dispatch(closeDialog());
-                showInfo(res.msg);
-            },
-            dispatch
-        )
 
-    }
-}
 
 /**
  * 导出
@@ -179,7 +181,7 @@ export const actions = {
     remove,
     findMenus,
     findRoleInfo,
-    saveUserInfo,
+    save,
     exportUserInfo,
     setCurrentPage,
     setPageSize,
