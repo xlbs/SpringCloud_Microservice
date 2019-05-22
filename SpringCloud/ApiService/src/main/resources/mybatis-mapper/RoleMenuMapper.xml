@@ -5,6 +5,7 @@
 <mapper namespace="com.xlbs.apiservice.dao.imp.RoleMenuDao">
 
     <sql id="entity">
+        id as `key`,
         created_by as createdBy,
         created_date as createdDate,
         last_modify_by as lastModifyBy,
@@ -17,13 +18,15 @@
         <include refid="entity"/>
     </sql>
 
-    <!--通过userId查询用户信息-->
+    <!--通过roleId查询角色菜单信息-->
     <select id="findRoleMenu" resultType="com.xlbs.apiservice.entity.Menu">
         select
-          menu_id AS id,
-          <include refid="entity"/>
+          rm.menu_id as `key`,
+          rm.menu_id as id,
+          m.parent_id as parentId
         from
-          t_role_menu
+          t_role_menu rm
+        left join t_menu m on rm.menu_id=m.id
         <where>
             <if test="roleId != null ">
                 role_id = #{roleId}
@@ -31,19 +34,6 @@
         </where>
     </select>
 
-    <!--批量保存用户角色信息-->
-    <insert id="saveUserRoles">
-        insert into t_user_role
-          (user_id, role_id, created_by, created_date,last_modify_by,last_modify_date)
-        values
-          <foreach collection ="list" item="userRole" separator =",">
-            (#{userRole.userId}, #{userRole.roleId}, #{userRole.createdBy}, #{userRole.createdDate}, #{userRole.lastModifyBy}, #{userRole.lastModifyDate})
-          </foreach >
-    </insert>
 
-    <!--删除用户角色信息-->
-    <delete id="deleteUserRolesByUserId" >
-        delete from t_user_role where user_id = #{userId}
-    </delete>
 
 </mapper>

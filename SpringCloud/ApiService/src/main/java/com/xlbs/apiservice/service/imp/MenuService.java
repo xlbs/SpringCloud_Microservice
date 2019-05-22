@@ -48,7 +48,7 @@ public class MenuService implements I_MenuService {
      * @param menuList 菜单列表
      * @return
      */
-    private List<Menu> findChildMenu(List<Menu> parenMenuList, List<Menu> menuList){
+    public List<Menu> findChildMenu(List<Menu> parenMenuList, List<Menu> menuList){
         for (Menu parenMenu : parenMenuList){
             List<Menu> childMenuList = new ArrayList<>();
             for (Menu childMenu : menuList){
