@@ -5,14 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class UserRole extends Entity {
-
-    private Long userId;
+public class RoleMenu extends Entity {
 
     private Long roleId;
 
-//    private String name;
-
-
+    private Integer menuId;
 
 }

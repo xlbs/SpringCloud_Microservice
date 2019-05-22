@@ -34,6 +34,26 @@
         </where>
     </select>
 
+    <!--批量保存角色信息-->
+    <insert id="batchSaveRoleMenu">
+        insert into t_role_menu
+          (role_id, menu_id, created_by, created_date,last_modify_by,last_modify_date)
+        values
+          <foreach collection ="list" item="roleMenu" separator =",">
+            (#{roleMenu.roleId}, #{roleMenu.menuId}, #{roleMenu.createdBy}, #{roleMenu.createdDate}, #{roleMenu.lastModifyBy}, #{roleMenu.lastModifyDate})
+          </foreach >
+    </insert>
+
+    <!--删除角色菜单信息-->
+    <delete id="deleteRoleMenu" >
+        delete from t_role_menu
+        <where>
+            <if test="roleId != null">
+                role_id = #{roleId}
+            </if>
+        </where>
+    </delete>
+
 
 
 </mapper>

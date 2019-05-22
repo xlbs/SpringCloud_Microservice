@@ -5,12 +5,18 @@ import com.xlbs.apiservice.dao.intf.I_RoleDao;
 import com.xlbs.apiservice.dao.intf.I_RoleMenuDao;
 import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.entity.Role;
+import com.xlbs.apiservice.entity.RoleMenu;
+import com.xlbs.apiservice.entity.UserRole;
 import com.xlbs.apiservice.entity.query.RoleQuery;
 import com.xlbs.apiservice.service.intf.I_RoleService;
+import com.xlbs.commutils.utils.RandomCodeUtils;
+import com.xlbs.constantjar.RequestContextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,6 +51,40 @@ public class RoleService implements I_RoleService {
         List<Menu> roleMenus = menuService.findChildMenu(oneLevelMenuList,menuList);
         role.setMenus(roleMenus);
         return role;
+    }
+
+    @Override
+    @Transactional
+    public void save(Role role, Boolean isEdit) {
+        Long id  = null;
+        if(!Objects.isNull(isEdit) && isEdit){
+            id = role.getId();
+            roleMenuDao.deleteRoleMenuByRoleId(id);
+            roleDao.updateRole(role);
+        }else{
+            id = RandomCodeUtils.getRandomId();
+            role.setId(id);
+            roleDao.saveRole(role);
+        }
+        List<Menu> menus = role.getMenus();
+        List<RoleMenu> roleMenuList = new ArrayList<>();
+        for (Menu menu : menus){
+            RoleMenu roleMenu = new RoleMenu();
+            roleMenu.setRoleId(id);
+            roleMenu.setMenuId(menu.getId());
+            roleMenu.setCreatedBy(RequestContextUtils.getUserId());
+            roleMenu.setCreatedDate(new Date());
+            roleMenuList.add(roleMenu);
+        }
+        roleMenuDao.saveRoleMenus(roleMenuList);
+
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        roleMenuDao.deleteRoleMenuByRoleId(id);
+        roleDao.deleteRoleById(id);
     }
 
     @Override

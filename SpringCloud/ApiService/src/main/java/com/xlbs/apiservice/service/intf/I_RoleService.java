@@ -17,10 +17,22 @@ public interface I_RoleService {
 
     /**
      * 通过角色ID查询角色信息
-     * @param id 角色Id
+     * @param id 角色id
      * @return
      */
     public Role findRoleById(Long id);
+
+    /**
+     * 保存角色信息
+     * @param role 角色信息
+     */
+    public void save(Role role, Boolean isEdit);
+
+    /**
+     * 删除角色信息
+     * @param id 角色id
+     */
+    public void delete(Long id);
 
     /**
      * 查找角色信息

@@ -2,7 +2,6 @@ package com.xlbs.apiservice.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.entity.Role;
-import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.entity.query.RoleQuery;
 import com.xlbs.apiservice.service.intf.I_RoleService;
 import com.xlbs.constantjar.ResponseResult;
@@ -42,6 +41,28 @@ public class RoleController extends ResponseResult {
     }
 
     /**
+     * 保存角色信息
+     * @return
+     */
+    @ApiOperation(value="保存角色信息")
+    @PostMapping(value = "/save")
+    public ResponseResult save(@RequestBody Role role, @RequestParam(required = false) Boolean isEdit){
+        roleService.save(role,isEdit);
+        return success();
+    }
+
+    /**
+     * 删除角色信息
+     * @return
+     */
+    @ApiOperation(value="删除角色信息")
+    @GetMapping(value = "delete/{id}")
+    public ResponseResult delete(@PathVariable(value = "id") Long id){
+        roleService.delete(id);
+        return success();
+    }
+
+    /**
      * 查找系统中的角色数据
      * @return
      */
@@ -51,18 +72,5 @@ public class RoleController extends ResponseResult {
         List<Role> list = roleService.findRoles();
         return success(list);
     }
-
-    /**
-     * 查找某个用户的角色数据
-     * @return
-     */
-//    @ApiOperation(value="查找某个用户的角色数据")
-//    @GetMapping(value = "/findRoles/{userId}")
-//    public ResponseResult findRolesByUserId(@PathVariable(value = "userId") Long userId){
-//        List<UserRole> list = roleService.findRolesByUserId(userId);
-//        return success(list);
-//    }
-
-
 
 }

@@ -55,9 +55,48 @@
           t_role
         <where>
             <if test="id != null">
-                id=#{id}
+                id = #{id}
             </if>
         </where>
     </select>
+
+    <!--保存角色-->
+    <insert id="saveRole" parameterType="com.xlbs.apiservice.entity.Role">
+        insert into t_role
+          (id,`name`,created_by,created_date,last_modify_by,last_modify_date)
+        values
+          (#{id},#{name},#{createdBy},#{createdDate},#{lastModifyBy},#{lastModifyDate})
+
+    </insert>
+
+    <!--更新角色-->
+    <update id="updateRole" parameterType="com.xlbs.apiservice.entity.Role">
+        update t_role
+        <set>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="lastModifyBy != null">
+                last_modify_by = #{lastModifyBy},
+            </if>
+            <if test="lastModifyDate != null">
+                last_modify_date = #{lastModifyDate}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--删除角色-->
+    <delete id="deleteRole" >
+        delete from t_role
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </delete>
+
+
+
 
 </mapper>

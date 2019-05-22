@@ -1,7 +1,7 @@
 package com.xlbs.apiservice.dao.intf;
 
 import com.xlbs.apiservice.entity.Menu;
-import com.xlbs.apiservice.entity.UserRole;
+import com.xlbs.apiservice.entity.RoleMenu;
 
 import java.util.List;
 
@@ -9,23 +9,26 @@ public interface I_RoleMenuDao {
 
     /**
      * 通过roleId查询角色的菜单信息
-     * @param roleId 角色ID
+     * @param roleId 角色id
      * @return
      */
     public List<Menu> findMenusByRoleId(Long roleId);
 
 
     /**
-     * 批量保存用户角色信息
-     * @param userRoles
+     * 删除角色菜单信息
+     * @param roleId 角色id
      */
-    public void saveUserRoles(List<UserRole> userRoles);
+    public void deleteRoleMenuByRoleId(Long roleId);
+
 
     /**
-     * 删除用户角色信息
-     * @param userId 用户ID
+     * 批量保存角色菜单信息
+     * @param roleMenus
      */
-    public void deleteUserRolesByUserId(Long userId);
+    public void saveRoleMenus(List<RoleMenu> roleMenus);
+
+
 
 
 
