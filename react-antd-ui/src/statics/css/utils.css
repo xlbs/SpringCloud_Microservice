@@ -10,6 +10,21 @@
     justify-content: center; /*水平居中*/
     align-items: center;     /*垂直居中*/
 }
+
+.table-div{
+    width: 1200px;
+    margin: auto;
+}
+.table-from{
+    width: 500px;
+    height: 800px;
+}
+.table{
+    height: 645px;
+}
+.ant-table-body{
+    height: 587px;
+}
 .pagination{
     float: right;
 }

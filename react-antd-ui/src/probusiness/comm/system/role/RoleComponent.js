@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../../../statics/css/system/menu/menu.css';
 import {Form, Table, Button, Divider, Pagination, Tree} from 'antd';
 import {formatDate} from '../../../../commutils/utils/CommUtils';
 import RoleModalDialog from "./RoleModalDialog";
@@ -107,8 +106,8 @@ class RoleComponent extends React.Component{
 
 
         return (
-            <div id="user" className="user">
-                <Form className="user-form" onSubmit={this.handleSubmit.bind(this)}>
+            <div id="role" className="table-div">
+                <Form className="table-form" onSubmit={this.handleSubmit.bind(this)}>
 
                 </Form>
 
@@ -120,7 +119,7 @@ class RoleComponent extends React.Component{
 
                 <div>
                     <Table
-                        className="user-table"
+                        className="table"
                         columns={this.state.columns}
                         dataSource={dataSource}
                         pagination={false}
