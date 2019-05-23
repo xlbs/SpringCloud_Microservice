@@ -11,4 +11,6 @@ public class Query {
 
     private int pageSize=10;
 
+    private Long createdBy;
+
 }
