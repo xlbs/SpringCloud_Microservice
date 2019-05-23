@@ -112,8 +112,6 @@ class UserModalDialog extends React.Component {
     };
 
     onCheck(checkedKeys,e){
-        console.log('checkedKeys前：', checkedKeys);
-        console.log('e.checkedNodes：', e.checkedNodes);
         let submitCheckedKeys = [].concat(checkedKeys);
         e.checkedNodes.map(checkedNode => {
             if(checkedNode.props.parentId){
@@ -125,9 +123,6 @@ class UserModalDialog extends React.Component {
                 }
             }
         });
-        console.log('checkedKeys后：', checkedKeys);
-        console.log('initCheckedKeys：', this.state.initCheckedKeys);
-        console.log('submitCheckedKeys：', submitCheckedKeys);
         let buttonDisabled = true;
         if(checkedKeys.length != 0 && checkedKeys.toString() != this.state.initCheckedKeys.toString()){
             buttonDisabled = false;
@@ -137,7 +132,6 @@ class UserModalDialog extends React.Component {
             submitCheckedKeys: submitCheckedKeys,
             buttonDisabled: buttonDisabled,
         });
-        console.log('-----------------');
     };
 
     renderTree(){
@@ -147,15 +141,19 @@ class UserModalDialog extends React.Component {
             roleMenus = this.props.modalDialog.roleInfo.menus;
         }
         let checkedKeys = [];
+        let submitCheckedKeys = [];
         if(roleMenus&&this.props.modalDialog.dialog.content){
             roleMenus.map(roleMenu => {
+                submitCheckedKeys.push(roleMenu.id);
                 if(roleMenu.children.length === 0){
                     checkedKeys.push(roleMenu.id);
                 }else{
                     roleMenu.children.map(children => {
+                        submitCheckedKeys.push(children.id);
                         checkedKeys.push(children.id);
                     })
                 }
+
 
             });
             if(this.props.modalDialog.roleInfo.render){
@@ -164,7 +162,7 @@ class UserModalDialog extends React.Component {
                     checkedKeys: checkedKeys,
                     expandedKeys: checkedKeys,
                     initCheckedKeys: checkedKeys,
-                    submitCheckedKeys: checkedKeys,
+                    submitCheckedKeys: submitCheckedKeys,
                 });
                 this.props.modalDialog.roleInfo.render = false;
             }
@@ -172,21 +170,14 @@ class UserModalDialog extends React.Component {
         return(
             <div id="menu">
                 <Tree
-                    checkable
-
-                    // defaultCheckedKeys={this.state.checkedKeys}
-                    // defaultExpandedKeys={this.state.checkedKeys}
+                    checkable={true}
 
                     autoExpandParent={this.state.autoExpandParent}
-
                     expandedKeys={this.state.expandedKeys}
                     onExpand={this.onExpand.bind(this)}
 
                     checkedKeys={this.state.checkedKeys}
                     onCheck={this.onCheck.bind(this)}
-
-                    // selectedKeys={this.state.selectedKeys}
-                    // onSelect={this.onSelect.bind(this)}
 
                     treeData={menus}
                 />
