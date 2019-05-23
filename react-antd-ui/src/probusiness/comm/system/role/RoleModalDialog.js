@@ -40,7 +40,7 @@ class UserModalDialog extends React.Component {
     }
 
     componentWillMount() {
-        this.props.modalDialog.findMenus();
+        this.props.modalDialog.findAllMenu();
         const content = this.props.modalDialog.dialog.content;
         if(content){
             const id = content.id;

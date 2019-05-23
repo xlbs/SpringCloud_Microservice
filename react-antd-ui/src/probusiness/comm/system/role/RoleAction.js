@@ -114,8 +114,8 @@ function save(values) {
 /**
  * 查询所有菜单
  */
-function findMenus() {
-    let url = API_SERVICE+"/menu";
+function findAllMenu() {
+    let url = API_SERVICE+"/menu/all";
     return (dispatch) => {
         Ajax.get(
             url,
@@ -179,7 +179,7 @@ export const actions = {
     edit,
     remove,
     save,
-    findMenus,
+    findAllMenu,
     findRoleInfo,
     exportUserInfo,
     setCurrentPage,
