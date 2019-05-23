@@ -33,13 +33,17 @@ class RoleComponent extends React.Component{
             {title: '创建人',dataIndex: 'createdByName',key: 'createdByName',width:150},
             {title: '创建时间',dataIndex: 'createdDate',key: 'createdDate',width:200,
                 render: (row)=>{
-                    return formatDate(row);
+                    if(row){
+                        return formatDate(row);
+                    }
                 }
             },
             {title: '最后修改人',dataIndex: 'lastModifyByName',key: 'lastModifyByName',width:150},
             {title: '最后修改时间',dataIndex: 'lastModifyDate',key: 'lastModifyDate',width:200,
                 render: (row)=>{
-                    return formatDate(row);
+                    if(row){
+                        return formatDate(row);
+                    }
                 }
             },
         ];
