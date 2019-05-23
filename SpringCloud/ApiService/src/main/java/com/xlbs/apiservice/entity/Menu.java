@@ -19,8 +19,6 @@ public class Menu extends Entity {
 
     private String url;
 
-    private Boolean isHome;
-
     private Boolean isEnable;
 
     private String icon;

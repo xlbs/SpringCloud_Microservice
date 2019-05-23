@@ -4,17 +4,36 @@
 
 <mapper namespace="com.xlbs.apiservice.dao.imp.MenuDao">
 
+    <sql id="entity">
+        id as `key`,
+        created_by as createdBy,
+        created_date as createdDate,
+        last_modify_by as lastModifyBy,
+        last_modify_date as lastModifyDate
+    </sql>
+
+    <sql id="menuField">
+        id as id,
+        `name` as `name`,
+        parent_id as parentId,
+        `rank` as `rank`,
+        url as url,
+        is_enable as isEnable,
+        icon as icon,
+        `index` as `index`,
+        <include refid="entity"/>
+    </sql>
+
     <!--查询所有菜单-->
     <select id="findMenu" resultType="com.xlbs.apiservice.entity.Menu">
         select
           menu.id as `key`,
           menu.id,
-          menu.name as name,
+          menu.name as `name`,
           menu.name as title,
           menu.parent_id as parentId,
           menu.rank as `rank`,
           menu.url as url,
-          menu.is_home as isHome,
           menu.is_enable as isEnable,
           menu.icon as icon,
           menu.index as `index`,
@@ -50,6 +69,20 @@
           where ur.`user_id` = #{userId}
           and m.`is_enable` = 1) as menu
         order by menu.index
+    </select>
+
+    <select id="findMenuByIds" resultType="com.xlbs.apiservice.entity.Menu">
+        select
+        `name` as `title`,
+          <include refid="menuField"/>
+        from
+          t_menu
+        where
+          id
+        in
+          <foreach collection ="array" item="id" open="(" separator="," close=")">
+            #{id}
+          </foreach >
     </select>
 
 

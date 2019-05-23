@@ -17,7 +17,7 @@ public class MenuService implements I_MenuService {
     private I_MenuDao menuDao;
 
     @Override
-    public List<Menu> findMenu() {
+    public List<Menu> findMenus() {
         List<Menu> menuList = menuDao.findMenu();
         List<Menu> oneLevelMenuList = new ArrayList<>();
         for (Menu menu : menuList){
@@ -62,7 +62,23 @@ public class MenuService implements I_MenuService {
             }
         }
         return parenMenuList;
+    }
 
+    /**
+     * 通过菜单id集合查询菜单
+     * @param ids 菜单id集合
+     * @return
+     */
+    public List<Menu> findMenuByIds(String[] ids){
+        List<Menu> menuList = menuDao.findMenuByIds(ids);
+        List<Menu> oneLevelMenuList = new ArrayList<>();
+        for (Menu menu : menuList){
+            if(Objects.isNull(menu.getParentId())){
+                oneLevelMenuList.add(menu);
+            }
+        }
+        List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
+        return resList;
     }
 
 

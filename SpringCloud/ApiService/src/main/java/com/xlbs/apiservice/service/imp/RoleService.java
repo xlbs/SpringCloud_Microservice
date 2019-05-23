@@ -34,13 +34,19 @@ public class RoleService implements I_RoleService {
 
     @Override
     public PageInfo<Role> findList(RoleQuery roleQuery) {
-        return roleDao.findList(roleQuery);
+        PageInfo<Role> pageInfo = roleDao.findList(roleQuery);
+        List<Role> roleList = pageInfo.getList();
+        for (Role role : roleList){
+            String[] menuIds = role.getMenuIds().split(",");
+            List<Menu> res = menuService.findMenuByIds(menuIds);
+            role.setMenus(res);
+        }
+        return pageInfo;
     }
 
     @Override
     public Role findRoleById(Long id) {
         Role role = roleDao.findRoleById(id);
-//        List<Menu> roleMenus = new ArrayList<>();
         List<Menu> menuList = roleMenuDao.findMenusByRoleId(id);
         List<Menu> oneLevelMenuList = new ArrayList<>();
         for (Menu menu : menuList){

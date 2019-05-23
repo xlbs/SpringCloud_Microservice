@@ -23,7 +23,7 @@ public class MenuController extends ResponseResult {
     @ApiOperation(value="查询所有的菜单")
     @GetMapping
     public ResponseResult findMenu(){
-        List<Menu> list = menuService.findMenu();
+        List<Menu> list = menuService.findMenus();
         if(!list.isEmpty()){
             return super.success(list);
         }
@@ -32,10 +32,10 @@ public class MenuController extends ResponseResult {
 
     /**
      * 根据用户ID查找该用户所拥有的菜单
-     * @param userId 用户ID
+     * @param userId 用户id
      * @return
      */
-    @ApiOperation(value="根据用户ID查找该用户所拥有的菜单")
+    @ApiOperation(value="根据用户Id查找该用户所拥有的菜单")
     @GetMapping(value = "/{userId}")
     public ResponseResult findMenuByUserId(@PathVariable Long userId){
         List<Menu> list = menuService.findMenuByUserId(userId);
