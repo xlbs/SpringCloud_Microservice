@@ -28,7 +28,6 @@ function login(user) {
                         url,
                         (menu) =>{
                             if(menu.data){
-                                debugger;
                                 CurrentSessionCache.set("MENU",menu.data);
                                 let path;
                                 if(menu.data[0].children.length===0){
