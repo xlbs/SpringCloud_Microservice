@@ -88,7 +88,13 @@ class UserModalDialog extends React.Component {
             callback(this.state.help[field]);
         }else{
             let buttonDisabled = true;
-            if(roleInfo && roleInfo[field] != fieldValue){
+            const roleInfo = this.props.modalDialog.roleInfo;
+            const content = this.props.modalDialog.dialog.content;
+            if(content){ //编辑
+                if(roleInfo && roleInfo[field] != fieldValue){
+                    buttonDisabled = false;
+                }
+            }else{ //新增
                 buttonDisabled = false;
             }
             hasFeedback[field] = true;
