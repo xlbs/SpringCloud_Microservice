@@ -13,12 +13,14 @@ class handleMenuManagement extends React.Component{
     render(){
         const menu = this.props;
         return(
-            <MenuComponent menu={menu}/>
+            <MenuComponent content={menu}/>
         )
     }
 }
 
 const mapStateToProps = state =>({
+    currentPage: state.menu.currentPage,
+    pageSize: state.menu.pageSize,
     menuList: state.menu.menuList,
 })
 

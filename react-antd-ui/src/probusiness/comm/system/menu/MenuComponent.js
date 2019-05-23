@@ -1,58 +1,105 @@
 import React from 'react';
-import { Table, Divider, Button,Pagination } from 'antd';
-import {DataDict} from "../../../../commutils/utils/CommUtils";
+import { Form, Table, Divider, Button, Pagination } from 'antd';
+import {DataDict, formatDate} from "../../../../commutils/utils/CommUtils";
 
 class MenuComponent extends React.Component{
 
     constructor(props){
         super(props);
         const columns = [
-            {title: '菜单标识',dataIndex: 'id',width:150},
-            {title: '菜单名',dataIndex: 'name'},
-            {title: '菜单等级',dataIndex: 'rank'},
-            {title: 'URL',dataIndex: 'url'},
-            {title: '是否可用',dataIndex: 'isEnable'},
-            {title: '创建人',dataIndex: 'createdBy'},
-            {title: '创建时间',dataIndex: 'createdDate'},
-            {title: '最后修改人',dataIndex: 'lastModifyBy'},
-            {title: '最后修改时间',dataIndex: 'lastModifyDate'},
-            {title: '操作',key: 'action',width:150,
+            {title:'', key:'number', width:80},
+            {title:'操作', key:'action', width:150,
                 render: (row)=>{
                     return(
                         <span>
-                            <Button type="primary" size="small" onClick={this.editUser.bind(this,row.userId)} ghost>编辑</Button>
+                            <Button type="primary" size="small" onClick={this.edit.bind(this,row.id)} ghost>编辑</Button>
                             <Divider type="vertical" />
-                            <Button type="primary" size="small" onClick={this.deleteUser.bind(this,row.userId,row.username)} ghost>删除</Button>
+                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.name)} ghost>删除</Button>
                         </span>
                     )
                 }
             },
+            {title:'菜单标识', dataIndex:'id', key:'id', width:100},
+            {title:'菜单名', dataIndex:'name', key:'name', width:150},
+            {title:'菜单等级', dataIndex:'rank', key:'rank', width:100},
+            {title:'URL', dataIndex:'url', key:'url', width:200},
+            {title:'是否可用', dataIndex:'isEnable', key:'isEnable', width:100},
+            {title:'创建人', dataIndex:'createdByName', key:'createdByName', width:150},
+            {title:'创建时间', dataIndex:'createdDate', key:'createdDate', width:200,
+                render: (row)=>{
+                    if(row){
+                        return formatDate(row);
+                    }
+                }
+            },
+            {title:'最后修改人', dataIndex:'lastModifyByName', key:'lastModifyByName', width:150},
+            {title:'最后修改时间', dataIndex:'lastModifyDate', key:'lastModifyDate', width:200,
+                render: (row)=>{
+                    if(row){
+                        return formatDate(row);
+                    }
+                }
+            },
+
         ];
-        const dataDict = ["USER_TYPE"];
         this.state = {
             columns: columns,
-            dataDict: dataDict
         };
-        // DataDict(dataDict,this.props.user.dispatch);
+        this.onChange = this.onChange.bind(this);
+        this.onShowSizeChange = this.onShowSizeChange.bind(this);
     }
 
     componentWillMount() {
-        this.props.menu.findMenuList();
+        const category = ["ACTION","MENU_RANK"];
+        const dataDict = DataDict(category,this.props.content.dispatch);
+        console.log(dataDict);
+        this.props.content.find();
+    }
+
+    onChange(page, pageSize){
+        this.props.content.setCurrentPage(page);
+        this.props.content.setPageSize(pageSize);
+        this.props.content.find();
+    }
+
+    onShowSizeChange(current, size){
+        this.props.content.setCurrentPage(current);
+        this.props.content.setPageSize(size);
+        this.props.content.find();
+    }
+
+    showTotal(total, range){
+        return `${range[0]}-${range[1]} of ${total}`;
+    }
+
+    handleSubmit(e,values){
+        e.preventDefault();
+        this.props.content.find();
+
+    }
+
+    //新增
+    add(){
+        this.props.content.add();
     }
 
     //编辑
-    editUser(userId){
-        // this.props.user.editUser(userId);
+    edit(id){
+        this.props.content.edit(id);
     }
 
     //删除
-    deleteUser(userId,username){
-        // this.props.user.deleteUser(userId,username);
+    remove(id,name){
+        this.props.content.remove(id,name);
     }
 
     render() {
-        const props = this.props.menu;
-        const dataSource = props.menuList;
+        const props = this.props.content;
+        let dataSource,total;
+        if(props.menuList){
+            dataSource = props.menuList.list;
+            total = props.menuList.total
+        }
         const rowSelection = {
             onChange: (selectedRowKeys, selectedRows) => {
                 console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -65,49 +112,45 @@ class MenuComponent extends React.Component{
             },
         };
 
-        const columns = [{
-            title: 'Name',
-            dataIndex: 'name',
-            width: 150,
-        }, {
-            title: 'Age',
-            dataIndex: 'age',
-            width: 150,
-        }, {
-            title: 'Address',
-            dataIndex: 'address',
-        }];
-
-        const data = [];
-        for (let i = 0; i < 100; i++) {
-            data.push({
-                key: i,
-                name: `Edward King ${i}`,
-                age: 32,
-                address: `London, Park Lane no. ${i}`,
-            });
-        }
 
         return (
-            <div>
-                <Button type="primary">
-                    新增
-                </Button>
-                <Table
-                    columns={columns}
-                    dataSource={data}
-                    pagination={{ pageSize: 50 }}
-                    scroll={{ y: 240 }}
-                />
-                {/*<Table*/}
+            <div id="menu" className="table-div">
+                <Form className="table-form" onSubmit={this.handleSubmit.bind(this)}>
 
-                    {/*columns={this.state.columns}*/}
-                    {/*dataSource={dataSource}*/}
-                    {/*pagination={{ pageSize: 10 }}*/}
-                    {/*// scroll={{ x: 1500, y: 800 }}*/}
-                    {/*// rowSelection = {rowSelection}*/}
-                    {/*bordered*/}
-                {/*/>*/}
+                </Form>
+
+                <div>
+                    <Button type="primary" className="primary-button" onClick={this.add.bind(this)}>新增</Button>
+                    <Button shape="circle" icon="search" className="search-button" />
+                </div>
+
+                <div>
+                    <Table
+                        className="table"
+                        columns={this.state.columns}
+                        dataSource={dataSource}
+                        pagination={false}
+                        scroll={{x:1600,y:587}}
+                        defaultExpandAllRows={true}
+                        rowSelection={rowSelection}
+                        bordered
+                    />
+                    <Pagination
+                        className="pagination"
+                        showSizeChanger={true}
+                        showQuickJumper={true}
+                        pageSize={props.pageSize}
+                        defaultCurrent={props.currentPage}
+                        pageSizeOptions={["10","20","30","50"]}
+                        onChange={this.onChange}
+                        onShowSizeChange={this.onShowSizeChange}
+                        showTotal={this.showTotal}
+                        total={total?total:0}
+                    />
+                </div>
+
+                {/*{props.dialog && props.dialog.open? <RoleModalDialog modalDialog={props}/> : ""}*/}
+
             </div>
         )
     }
