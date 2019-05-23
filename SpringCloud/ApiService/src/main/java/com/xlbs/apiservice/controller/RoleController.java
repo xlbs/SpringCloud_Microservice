@@ -24,8 +24,8 @@ public class RoleController extends ResponseResult {
      */
     @ApiOperation(value="查找系统中的角色列表")
     @PostMapping(value = "/find")
-    public ResponseResult findList(@RequestBody RoleQuery userQuery){
-        PageInfo<Role> pageInfo = roleService.findList(userQuery);
+    public ResponseResult findList(@RequestBody RoleQuery roleQuery){
+        PageInfo<Role> pageInfo = roleService.findList(roleQuery);
         return success(pageInfo);
     }
 
