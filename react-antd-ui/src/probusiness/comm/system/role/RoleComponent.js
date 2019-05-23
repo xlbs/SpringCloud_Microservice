@@ -1,7 +1,7 @@
 import React from 'react';
-import {Form, Button, Divider, Pagination} from 'antd';
-import CreateTable from '../../../../commutils/components/utils/CreateTable';
 import '../../../../statics/css/system/menu/menu.css';
+import {Form, Table, Button, Divider, Pagination, Tree} from 'antd';
+import {formatDate} from '../../../../commutils/utils/CommUtils';
 import RoleModalDialog from "./RoleModalDialog";
 
 
@@ -22,11 +22,27 @@ class RoleComponent extends React.Component{
                 }
             },
             {title: '角色',dataIndex: 'name',key: 'name',width:200},
-            {title: '所拥有菜单',dataIndex: 'menuName',key: 'roleName',width:250},
+            {title: '所拥有菜单',dataIndex: 'menus',key: 'menus',width:250,
+                render: (row)=>{
+                    return(
+                        <Tree
+                            treeData={row}
+                        />
+                    )
+                }
+            },
             {title: '创建人',dataIndex: 'createdByName',key: 'createdByName',width:150},
-            {title: '创建时间',dataIndex: 'createdDate',key: 'createdDate',width:200},
+            {title: '创建时间',dataIndex: 'createdDate',key: 'createdDate',width:200,
+                render: (row)=>{
+                    return formatDate(row);
+                }
+            },
             {title: '最后修改人',dataIndex: 'lastModifyByName',key: 'lastModifyByName',width:150},
-            {title: '最后修改时间',dataIndex: 'lastModifyDate',key: 'lastModifyDate',width:200},
+            {title: '最后修改时间',dataIndex: 'lastModifyDate',key: 'lastModifyDate',width:200,
+                render: (row)=>{
+                    return formatDate(row);
+                }
+            },
         ];
         this.state = {
             columns: columns,
@@ -103,11 +119,10 @@ class RoleComponent extends React.Component{
                 </div>
 
                 <div>
-                    <CreateTable
+                    <Table
                         className="user-table"
                         columns={this.state.columns}
                         dataSource={dataSource}
-                        format={{createdDate:"DATE",lastModifyDate:"DATE"}}
                         pagination={false}
                         scroll={{x:1300,y:587}}
                         bordered
