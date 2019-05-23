@@ -103,8 +103,6 @@ class RoleComponent extends React.Component{
         if(props.roleList){
             dataSource = props.roleList.list;
         }
-
-
         return (
             <div id="role" className="table-div">
                 <Form className="table-form" onSubmit={this.handleSubmit.bind(this)}>
