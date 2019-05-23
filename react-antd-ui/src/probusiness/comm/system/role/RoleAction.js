@@ -108,7 +108,6 @@ function save(values) {
             },
             dispatch
         )
-
     }
 }
 
@@ -179,9 +178,9 @@ export const actions = {
     add,
     edit,
     remove,
+    save,
     findMenus,
     findRoleInfo,
-    save,
     exportUserInfo,
     setCurrentPage,
     setPageSize,
