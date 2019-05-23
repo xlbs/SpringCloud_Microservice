@@ -1,7 +1,9 @@
 package com.xlbs.apiservice.service.imp;
 
+import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.dao.intf.I_MenuDao;
 import com.xlbs.apiservice.entity.Menu;
+import com.xlbs.apiservice.entity.query.MenuQuery;
 import com.xlbs.apiservice.service.intf.I_MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,19 +19,6 @@ public class MenuService implements I_MenuService {
     private I_MenuDao menuDao;
 
     @Override
-    public List<Menu> findMenus() {
-        List<Menu> menuList = menuDao.findMenu();
-        List<Menu> oneLevelMenuList = new ArrayList<>();
-        for (Menu menu : menuList){
-            if(Objects.isNull(menu.getParentId())){
-                oneLevelMenuList.add(menu);
-            }
-        }
-        List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
-        return resList;
-    }
-
-    @Override
     public List<Menu> findMenuByUserId(Long userId) {
         List<Menu> menuList = menuDao.findMenuByUserId(userId);
         List<Menu> oneLevelMenuList = new ArrayList<>();
@@ -41,6 +30,38 @@ public class MenuService implements I_MenuService {
         List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
         return resList;
     }
+
+    @Override
+    public List<Menu> findAllMenu() {
+        List<Menu> menuList = menuDao.findAllMenu();
+        List<Menu> oneLevelMenuList = new ArrayList<>();
+        for (Menu menu : menuList){
+            if(Objects.isNull(menu.getParentId())){
+                oneLevelMenuList.add(menu);
+            }
+        }
+        List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
+        return resList;
+    }
+
+    @Override
+    public PageInfo<Menu> findList(MenuQuery menuQuery) {
+        PageInfo<Menu> pageInfo = menuDao.findList(menuQuery);
+        List<Menu> menuList = pageInfo.getList();
+        List<Menu> oneLevelMenuList = new ArrayList<>();
+        for (Menu menu : menuList){
+            if(Objects.isNull(menu.getParentId())){
+                oneLevelMenuList.add(menu);
+            }
+        }
+        List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
+        pageInfo.setList(resList);
+        return pageInfo;
+    }
+
+
+
+
 
     /**
      * 找到子菜单

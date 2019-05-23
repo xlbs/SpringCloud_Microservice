@@ -1,6 +1,8 @@
 package com.xlbs.apiservice.dao.intf;
 
+import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.entity.Menu;
+import com.xlbs.apiservice.entity.query.MenuQuery;
 
 import java.util.List;
 
@@ -10,7 +12,7 @@ public interface I_MenuDao {
      * 查询所有菜单
      * @return
      */
-    public List<Menu>  findMenu();
+    public List<Menu>  findAllMenu();
 
     /**
      * 通过用户id查询该用户所拥有的菜单
@@ -25,5 +27,11 @@ public interface I_MenuDao {
      * @return
      */
     public List<Menu>  findMenuByIds(String[] ids);
+
+    /**
+     * 查询菜单列表信息
+     * @return
+     */
+    public PageInfo<Menu> findList(MenuQuery menuQuery);
 
 }
