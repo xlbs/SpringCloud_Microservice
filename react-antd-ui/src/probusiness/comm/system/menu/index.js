@@ -22,6 +22,7 @@ const mapStateToProps = state =>({
     currentPage: state.menu.currentPage,
     pageSize: state.menu.pageSize,
     menuList: state.menu.menuList,
+    dialog: state.menu.dialog,
 })
 
 const mapDispatchToProps = dispatch =>{

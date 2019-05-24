@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Table, Divider, Button, Pagination } from 'antd';
 import {DataDict, formatDate} from "../../../../commutils/utils/CommUtils";
+import MenuModalDialog from "./MenuModalDialog";
 
 class MenuComponent extends React.Component{
 
@@ -20,7 +21,7 @@ class MenuComponent extends React.Component{
                 }
             },
             {title:'菜单标识', dataIndex:'id', key:'id', width:100},
-            {title:'菜单名', dataIndex:'name', key:'name', width:150},
+            {title:'菜单名称', dataIndex:'name', key:'name', width:150},
             {title:'菜单等级', dataIndex:'rank', key:'rank', width:100,
                 render: (row)=>{
                     return this.state.menuRank.map(item => {
@@ -170,11 +171,11 @@ class MenuComponent extends React.Component{
                     />
                 </div>
 
-                {/*{props.dialog && props.dialog.open? <RoleModalDialog modalDialog={props}/> : ""}*/}
+                {props.dialog && props.dialog.open? <MenuModalDialog modalDialog={props}/> : ""}
 
             </div>
         )
     }
 }
 
-export default MenuComponent;
+export default Form.create()(MenuComponent);

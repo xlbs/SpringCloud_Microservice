@@ -2,6 +2,7 @@ import {Ajax} from "../../../../commutils/utils/Ajax";
 import {showConfirm, showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 import {currentPage, pageSize, setCurrentPage, setPageSize} from "../../../../commutils/actions/Pagination";
 import {openDialog, closeDialog} from "../../../../commutils/actions/Dialog";
+import {ROLE_INFO} from "../role/RoleAction";
 
 const BASE_URL = $requestContext.path;
 const API_SERVICE = BASE_URL + "/api_service";
@@ -109,12 +110,33 @@ function save(values) {
     }
 }
 
+function findMenuByRank(rank){
+    let url = API_SERVICE+"/menu/findMenuByRank/"+rank;
+    return (dispatch) =>{
+        Ajax.get(
+            url,
+            (res) =>{
+                if(res.data){
+                    res.data.render = true;
+                    dispatch({
+                        type: ROLE_INFO,
+                        roleInfo: res.data
+                    })
+                }
+
+            }
+        )
+    }
+
+}
+
 export const actions = {
     find,
     add,
     edit,
     remove,
     save,
+    findMenuByRank,
     setCurrentPage,
     setPageSize,
     closeDialog,
