@@ -215,7 +215,7 @@ class RoleModalDialog extends React.Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const title = this.props.modalDialog.dialog.title + '用户';
+        const title = this.props.modalDialog.dialog.title + '角色';
         const roleInfo = this.props.modalDialog.roleInfo;
         let {name} = {};
         if(roleInfo && this.props.modalDialog.dialog.content){
