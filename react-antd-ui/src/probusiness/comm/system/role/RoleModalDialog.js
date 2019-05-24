@@ -70,7 +70,6 @@ class UserModalDialog extends React.Component {
 
     validateInputField(field, msg, rule, value, callback){
         const form = this.props.form;
-        const roleInfo = this.props.modalDialog.roleInfo;
         let hasFeedback = this.state.hasFeedback;
         let validateStatus = this.state.validateStatus;
         let help = this.state.help;
