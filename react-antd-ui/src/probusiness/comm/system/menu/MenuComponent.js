@@ -21,9 +21,25 @@ class MenuComponent extends React.Component{
             },
             {title:'菜单标识', dataIndex:'id', key:'id', width:100},
             {title:'菜单名', dataIndex:'name', key:'name', width:150},
-            {title:'菜单等级', dataIndex:'rank', key:'rank', width:100},
+            {title:'菜单等级', dataIndex:'rank', key:'rank', width:100,
+                render: (row)=>{
+                    return this.state.menuRank.map(item => {
+                        if(row == item.code){
+                            return item.value;
+                        }
+                    });
+                }
+            },
             {title:'URL', dataIndex:'url', key:'url', width:200},
-            {title:'是否可用', dataIndex:'isEnable', key:'isEnable', width:100},
+            {title:'是否可用', dataIndex:'isEnable', key:'isEnable', width:100,
+                render: (row)=>{
+                    if(row){
+                        return "是";
+                    }else{
+                        return "否";
+                    }
+                }
+            },
             {title:'创建人', dataIndex:'createdByName', key:'createdByName', width:150},
             {title:'创建时间', dataIndex:'createdDate', key:'createdDate', width:200,
                 render: (row)=>{
@@ -52,7 +68,12 @@ class MenuComponent extends React.Component{
     componentWillMount() {
         const category = ["ACTION","MENU_RANK"];
         const dataDict = DataDict(category,this.props.content.dispatch);
-        console.log(dataDict);
+        if(dataDict){
+            this.setState({
+                action: dataDict["ACTION"],
+                menuRank: dataDict["MENU_RANK"],
+            });
+        }
         this.props.content.find();
     }
 
