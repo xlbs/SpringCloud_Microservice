@@ -6,7 +6,6 @@ import com.xlbs.apiservice.dao.intf.I_RoleMenuDao;
 import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.entity.Role;
 import com.xlbs.apiservice.entity.RoleMenu;
-import com.xlbs.apiservice.entity.UserRole;
 import com.xlbs.apiservice.entity.query.RoleQuery;
 import com.xlbs.apiservice.service.intf.I_RoleService;
 import com.xlbs.commutils.utils.RandomCodeUtils;
@@ -37,8 +36,11 @@ public class RoleService implements I_RoleService {
         PageInfo<Role> pageInfo = roleDao.findList(roleQuery);
         List<Role> roleList = pageInfo.getList();
         for (Role role : roleList){
-            String[] menuIds = role.getMenuIds().split(",");
-            List<Menu> res = menuService.findMenuByIds(menuIds);
+            List<Menu> res = new ArrayList<>();
+            if(!Objects.isNull(role.getMenuIds())){
+                String[] menuIds = role.getMenuIds().split(",");
+                res = menuService.findMenuByIds(menuIds);
+            }
             role.setMenus(res);
         }
         return pageInfo;
