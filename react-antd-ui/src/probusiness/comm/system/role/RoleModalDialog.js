@@ -2,7 +2,7 @@ import React from 'react';
 import {Modal, Form, Input, Button, Tree} from 'antd';
 import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 
-class UserModalDialog extends React.Component {
+class RoleModalDialog extends React.Component {
 
     constructor(props){
         super(props);
@@ -269,4 +269,4 @@ class UserModalDialog extends React.Component {
     }
 }
 
-export default Form.create()(UserModalDialog);
+export default Form.create()(RoleModalDialog);

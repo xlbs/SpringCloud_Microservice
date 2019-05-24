@@ -150,4 +150,4 @@ class RoleComponent extends React.Component{
     }
 }
 
-export default RoleComponent;
+export default Form.create()(RoleComponent);
