@@ -115,54 +115,35 @@ export function formatDataDict(category,value) {
  * @constructor
  */
 export function DataDict(category,dispatch) {
-    let result = [];
-    let objCategory = {};
+    let result = {};
+    let arr = [];
     if(category instanceof Array){
         category.map(item => {
-            objCategory[item] = false;
+            let dataDict = CurrentSessionCache.get("D_"+item);
+            if(dataDict){
+                result[item] = dataDict;
+            }else{
+                arr.push(item);
+            }
         })
     }else{
-        objCategory[category] = false;
-    }
-    const objCategoryArr = objToArrayKey(objCategory);
-    const historyDataDict = CurrentSessionCache.get("DATA_DICT");
-    if(historyDataDict){
-        if(historyDataDict instanceof Array){
-            for(let i=0; i<historyDataDict.length; i++){
-                objCategoryArr.map(category => {
-                    if(category==historyDataDict[i].category){
-                        objCategory[category] = true;
-                        result.push(historyDataDict[i]);
-                    }
-                })
-            }
+        let dataDict = CurrentSessionCache.get("D_"+category);
+        if(dataDict){
+            result[category] = dataDict;
         }else{
-            objCategoryArr.map(category => {
-                if(category==historyDataDict.category){
-                    objCategory[category] = true;
-                    result.push(historyDataDict)
-                }
-            })
-        }
-    }
-    let arr = [];
-    objCategoryArr.map(category => {
-        if(!objCategory[category]){
             arr.push(category);
         }
-    });
+    }
     if(arr.length>0){
         let url = API_SERVICE + "/dataDict/find?category="+arr;
         Ajax.get(
             url,
             (res)=>{
-                CurrentSessionCache.add("DATA_DICT",res.data);
-                if(res.data instanceof Array){
+                if(res.data){
                     res.data.map(item => {
-                        result.push(item);
-                    })
-                }else{
-                    result.push(res.data);
+                        CurrentSessionCache.set("D_"+item.category, item.list);
+                        result[item.category] = item.list;
+                    });
                 }
             },
             dispatch
