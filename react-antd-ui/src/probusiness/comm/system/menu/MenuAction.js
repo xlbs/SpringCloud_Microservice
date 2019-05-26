@@ -117,16 +117,16 @@ function save(values) {
  * @param rank
  * @returns {Function}
  */
-function findMenuByRank(rank){
+function findMenuByRank(rank,onChange){
     let url = API_SERVICE+"/menu/findMenuByRank?rank="+rank;
     return (dispatch) =>{
         Ajax.get(
             url,
             (res) =>{
+                let parentMenus = {};
+                parentMenus.onChange = onChange;
+                parentMenus.list = res.data;
                 if(res.data){
-                    let parentMenus ={};
-                    parentMenus.render = true;
-                    parentMenus.list = res.data;
                     dispatch({
                         type: PARENT_MENUS,
                         parentMenus: parentMenus

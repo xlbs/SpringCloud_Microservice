@@ -122,7 +122,7 @@ class MenuModalDialog extends React.Component {
 
     onChange(value){
         if(value != 1){
-            this.props.modalDialog.findMenuByRank(value-1);
+            this.props.modalDialog.findMenuByRank(value-1,true);
         }
         this.setState({
             rank: value,
@@ -130,34 +130,30 @@ class MenuModalDialog extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        const content = this.props.modalDialog.dialog.content;
-        if(!content){
-            const parentMenus = nextProps.modalDialog.parentMenus;
-            if(parentMenus){
-                this.setState({
-                    parentId: parentMenus.list[0].id,
-                })
+        const parentMenus = nextProps.modalDialog.parentMenus;
+        if(parentMenus && parentMenus.onChange){
+            this.setState({
+                parentId: parentMenus.list[0].id,
+            })
+        }
+        const info = nextProps.modalDialog.info;
+        if(info && info.render){
+            this.props.modalDialog.findMenuByRank(info.rank-1,false);
+            let isEnable = "";
+            if(info.isEnable){
+                isEnable = "1";
+            }else{
+                isEnable = "1";
             }
-        }else{
-            const info = nextProps.modalDialog.info;
-            if(info && info.render){
-                this.props.modalDialog.findMenuByRank(info.rank-1);
-                let isEnable = "";
-                if(info.isEnable){
-                    isEnable = "1";
-                }else{
-                    isEnable = "1";
-                }
-                this.setState({
-                    id: info.id,
-                    name: info.name,
-                    url: info.url,
-                    rank: info.rank+"",
-                    parentId: info.parentId,
-                    isEnable: isEnable,
-                });
-                info.render = false;
-            }
+            this.setState({
+                id: info.id,
+                name: info.name,
+                url: info.url,
+                rank: info.rank+"",
+                parentId: info.parentId,
+                isEnable: isEnable,
+            });
+            info.render = false;
         }
     }
 
