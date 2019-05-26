@@ -2,15 +2,16 @@ import {Ajax} from "../../../../commutils/utils/Ajax";
 import {showConfirm, showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 import {currentPage, pageSize, setCurrentPage, setPageSize} from "../../../../commutils/actions/Pagination";
 import {openDialog, closeDialog} from "../../../../commutils/actions/Dialog";
-import {ROLE_INFO} from "../role/RoleAction";
 
 const BASE_URL = $requestContext.path;
 const API_SERVICE = BASE_URL + "/api_service";
 
 export const MENU_LIST = "MENU_LIST";
+export const PARENT_MENUS = "PARENT_MENUS";
+export const INFO = "INFO";
 
 /**
- * 查找所有菜单
+ * 分页查询菜单
  * @returns {Function}
  */
 function find() {
@@ -34,7 +35,7 @@ function find() {
 }
 
 /**
- * 新增角色
+ * 新增
  * @returns {Function}
  */
 function add() {
@@ -44,8 +45,8 @@ function add() {
 }
 
 /**
- * 编辑角色
- * @param id 角色Id
+ * 编辑
+ * @param id
  * @returns {Function}
  */
 function edit(id) {
@@ -58,7 +59,7 @@ function edit(id) {
 }
 
 /**
- * 删除角色
+ * 删除
  * @param id
  * @param name
  * @returns {Function}
@@ -87,14 +88,15 @@ function remove(id,name) {
 }
 
 /**
- * 保存角色
+ * 保存
  * @param values
  */
 function save(values) {
-    let url = API_SERVICE+"/role/save";
+    let url = API_SERVICE+"/menu/save";
     if(values.id){
         url = url +"?isEdit=true"
     }
+    values.isEnable = parseInt(values.isEnable);
     const params = values;
     return (dispatch) =>{
         Ajax.post(
@@ -110,8 +112,38 @@ function save(values) {
     }
 }
 
+/**
+ * 通过等级查询菜单
+ * @param rank
+ * @returns {Function}
+ */
 function findMenuByRank(rank){
-    let url = API_SERVICE+"/menu/findMenuByRank/"+rank;
+    let url = API_SERVICE+"/menu/findMenuByRank?rank="+rank;
+    return (dispatch) =>{
+        Ajax.get(
+            url,
+            (res) =>{
+                if(res.data){
+                    let parentMenus ={};
+                    parentMenus.render = true;
+                    parentMenus.list = res.data;
+                    dispatch({
+                        type: PARENT_MENUS,
+                        parentMenus: parentMenus
+                    })
+                }
+
+            }
+        )
+    }
+}
+
+/**
+ * 通过id查询信息
+ * @param id
+ */
+function findInfoById(id) {
+    const url = API_SERVICE+"/menu/find/"+id;
     return (dispatch) =>{
         Ajax.get(
             url,
@@ -119,15 +151,14 @@ function findMenuByRank(rank){
                 if(res.data){
                     res.data.render = true;
                     dispatch({
-                        type: ROLE_INFO,
-                        roleInfo: res.data
+                        type: INFO,
+                        info: res.data
                     })
                 }
 
             }
         )
     }
-
 }
 
 export const actions = {
@@ -137,6 +168,7 @@ export const actions = {
     remove,
     save,
     findMenuByRank,
+    findInfoById,
     setCurrentPage,
     setPageSize,
     closeDialog,

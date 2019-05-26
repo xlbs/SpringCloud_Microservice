@@ -23,6 +23,8 @@ const mapStateToProps = state =>({
     pageSize: state.menu.pageSize,
     menuList: state.menu.menuList,
     dialog: state.menu.dialog,
+    parentMenus: state.menu.parentMenus,
+    info: state.menu.info,
 })
 
 const mapDispatchToProps = dispatch =>{

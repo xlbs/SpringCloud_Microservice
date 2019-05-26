@@ -10,35 +10,38 @@ class MenuModalDialog extends React.Component {
         this.state = {
             hasFeedback: {
                 name: false,
-                rank: false,
-                type: true,
-                username: false,
-                password: false,
-                confirm: false,
+                url: false,
+                rank: true,
+                parentId: true,
+                isEnable: true,
             },
             validateStatus: {
                 name: '',
-                rank: '',
-                type: 'success',
-                username: '',
-                password: '',
-                confirm: '',
+                url: '',
+                rank: 'success',
+                parentId: 'success',
+                isEnable: 'success',
             },
             help: {
                 name: '',
+                url: '',
                 rank: '',
-                type: '',
-                username: '',
-                password: '',
-                confirm: '',
+                parentId: '',
+                isEnable: '',
             },
             buttonDisabled: true,
-            rank: "1",
-
         };
     }
 
     componentWillMount() {
+        this.setState({
+            id: "",
+            name: "",
+            url: "",
+            rank: "1",
+            parentId: "",
+            isEnable: "1",
+        });
         const content = this.props.modalDialog.dialog.content;
         if(content){
             const id = content.id;
@@ -46,21 +49,15 @@ class MenuModalDialog extends React.Component {
                 hasFeedback: {
                     name: true,
                     rank: true,
-                    type: true,
-                    username: true,
-                    password: true,
-                    confirm: true,
+                    parentId: true,
                 },
                 validateStatus: {
                     name: 'success',
                     rank: 'success',
-                    type: 'success',
-                    username: 'success',
-                    password: 'success',
-                    confirm: 'success',
+                    parentId: 'success',
                 },
             });
-            // this.props.modalDialog.findRoleInfo(id);
+            this.props.modalDialog.findInfoById(id);
         }
     }
 
@@ -118,16 +115,7 @@ class MenuModalDialog extends React.Component {
                 if(content){
                     values.id =  content.id;
                 }
-                if(this.state.submitCheckedKeys.length != 0){
-                    let menus =[];
-                    this.state.submitCheckedKeys.map( key => {
-                        menus.push({id: key});
-                    })
-                    values.menus = menus;
-                    this.props.modalDialog.save(values);
-                }else{
-                    showInfo("请为角色分配菜单");
-                }
+                this.props.modalDialog.save(values);
             }
         });
     }
@@ -141,15 +129,43 @@ class MenuModalDialog extends React.Component {
         })
     }
 
+    componentWillReceiveProps(nextProps){
+        const content = this.props.modalDialog.dialog.content;
+        if(!content){
+            const parentMenus = nextProps.modalDialog.parentMenus;
+            if(parentMenus){
+                this.setState({
+                    parentId: parentMenus.list[0].id,
+                })
+            }
+        }else{
+            const info = nextProps.modalDialog.info;
+            if(info && info.render){
+                this.props.modalDialog.findMenuByRank(info.rank-1);
+                let isEnable = "";
+                if(info.isEnable){
+                    isEnable = "1";
+                }else{
+                    isEnable = "1";
+                }
+                this.setState({
+                    id: info.id,
+                    name: info.name,
+                    url: info.url,
+                    rank: info.rank+"",
+                    parentId: info.parentId,
+                    isEnable: isEnable,
+                });
+                info.render = false;
+            }
+        }
+    }
+
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const title = this.props.modalDialog.dialog.title + '用户';
-        const roleInfo = this.props.modalDialog.roleInfo;
-        let {name,rank} = {};
-        if(roleInfo && this.props.modalDialog.dialog.content){
-            name = roleInfo.name;
-        }
+        const title = this.props.modalDialog.dialog.title + '菜单';
+        const parentMenus = this.props.modalDialog.parentMenus;
         return (
             <div>
                 <Modal
@@ -177,7 +193,7 @@ class MenuModalDialog extends React.Component {
                                 label="菜单标识"
                             >
                                 {getFieldDecorator('id',{
-                                    initialValue: name? name : '',
+                                    initialValue: this.state.id,
                                 })(
                                     <Input type='text' disabled={true}/>
                                 )}
@@ -197,9 +213,26 @@ class MenuModalDialog extends React.Component {
                                     required: true,
                                     validator: this.validateInputField.bind(this,'name','请输入菜单名称!'),
                                 }],
-                                initialValue: name? name : '',
+                                initialValue: this.state.name,
                             })(
                                 <Input type='text' placeholder="请输入菜单名称"/>
+                            )}
+                        </Form.Item>
+
+                        <Form.Item
+                            label="URL"
+                            hasFeedback={this.state.hasFeedback.url}
+                            validateStatus={this.state.validateStatus.url}
+                            help={this.state.help.url}
+                        >
+                            {getFieldDecorator('url',{
+                                rules: [{
+                                    required: true,
+                                    validator: this.validateInputField.bind(this,'url','请输入URL!'),
+                                }],
+                                initialValue: this.state.url,
+                            })(
+                                <Input type='text' placeholder="请输入URL"/>
                             )}
                         </Form.Item>
 
@@ -213,7 +246,7 @@ class MenuModalDialog extends React.Component {
                                 rules: [{
                                     required: true, message: '请选择菜单等级!',
                                 }],
-                                initialValue: rank ? rank+'' : this.state.rank,
+                                initialValue: this.state.rank,
                             })(
                                 <DictSelect
                                     category="MENU_RANK"
@@ -223,21 +256,21 @@ class MenuModalDialog extends React.Component {
                             )}
                         </Form.Item>
 
-                        {this.state.rank != 1?
+                        {this.state.rank != 1 && parentMenus?
                             <Form.Item
                                 label="上级菜单"
-                                hasFeedback={this.state.hasFeedback.type}
-                                validateStatus={this.state.validateStatus.type}
-                                help={this.state.help.type}
+                                hasFeedback={this.state.hasFeedback.parentId}
+                                validateStatus={this.state.validateStatus.parentId}
+                                help={this.state.help.parentId}
                             >
                                 {getFieldDecorator('parentId',{
                                     rules: [{
                                         required: true, message: '请选择上级菜单!',
                                     }],
-                                    // initialValue: type||type==0? type+'' : '2',
+                                    initialValue: this.state.parentId,
                                 })(
                                     <CommSelect
-                                        items={this.state.parentMenus}
+                                        items={parentMenus.list}
                                         placeholder="请选择上级菜单"
                                     />
                                 )}
@@ -246,21 +279,17 @@ class MenuModalDialog extends React.Component {
                             ""
                         }
 
-
-
-
-
                         <Form.Item
                             label="是否可用"
-                            hasFeedback={this.state.hasFeedback.type}
-                            validateStatus={this.state.validateStatus.type}
-                            help={this.state.help.type}
+                            hasFeedback={this.state.hasFeedback.isEnable}
+                            validateStatus={this.state.validateStatus.isEnable}
+                            help={this.state.help.isEnable}
                         >
                             {getFieldDecorator('isEnable',{
                                 rules: [{
                                     required: true, message: '请选择是否可用!',
                                 }],
-                                // initialValue: type||type==0? type+'' : '2',
+                                initialValue: this.state.isEnable,
                             })(
                                 <DictSelect
                                     category="ACTION"
