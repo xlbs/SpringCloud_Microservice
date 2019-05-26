@@ -7,6 +7,7 @@ import com.xlbs.apiservice.entity.query.MenuQuery;
 import com.xlbs.apiservice.service.intf.I_MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,21 +33,8 @@ public class MenuService implements I_MenuService {
     }
 
     @Override
-    public List<Menu> findAllMenu() {
-        List<Menu> menuList = menuDao.findAllMenu();
-        List<Menu> oneLevelMenuList = new ArrayList<>();
-        for (Menu menu : menuList){
-            if(Objects.isNull(menu.getParentId())){
-                oneLevelMenuList.add(menu);
-            }
-        }
-        List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
-        return resList;
-    }
-
-    @Override
-    public PageInfo<Menu> findList(MenuQuery menuQuery) {
-        PageInfo<Menu> pageInfo = menuDao.findList(menuQuery);
+    public PageInfo<Menu> find(MenuQuery menuQuery) {
+        PageInfo<Menu> pageInfo = menuDao.find(menuQuery);
         List<Menu> menuList = pageInfo.getList();
         List<Menu> oneLevelMenuList = new ArrayList<>();
         for (Menu menu : menuList){
@@ -59,7 +47,38 @@ public class MenuService implements I_MenuService {
         return pageInfo;
     }
 
+    @Override
+    public List<Menu> findMenuByRank(String rank) {
+        return menuDao.findMenuByRank(rank);
+    }
 
+    @Override
+    @Transactional
+    public void save(Menu menu, Boolean isEdit) {
+        if(!Objects.isNull(isEdit) && isEdit){
+
+        }else{
+            menuDao.save(menu);
+        }
+    }
+
+    @Override
+    public Menu findById(Long id) {
+        return menuDao.findById(id);
+    }
+
+    @Override
+    public List<Menu> findAllMenu() {
+        List<Menu> menuList = menuDao.findAllMenu();
+        List<Menu> oneLevelMenuList = new ArrayList<>();
+        for (Menu menu : menuList){
+            if(Objects.isNull(menu.getParentId())){
+                oneLevelMenuList.add(menu);
+            }
+        }
+        List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
+        return resList;
+    }
 
 
 

@@ -24,28 +24,6 @@
         <include refid="entity"/>
     </sql>
 
-    <!--查询所有菜单-->
-    <select id="findMenu" resultType="com.xlbs.apiservice.entity.Menu">
-        select
-          menu.id as `key`,
-          menu.id,
-          menu.name as `name`,
-          menu.name as title,
-          menu.parent_id as parentId,
-          menu.rank as `rank`,
-          menu.url as url,
-          menu.is_enable as isEnable,
-          menu.icon as icon,
-          menu.index as `index`,
-          menu.created_by as createdBy,
-          menu.created_date as createdDate,
-          menu.last_modify_by as lastModifyBy,
-          menu.last_modify_date as lastModifyDate
-        from
-          `t_menu` menu
-        order by menu.id
-    </select>
-
     <!--通过用户ID查询该用户拥有的菜单-->
     <select id="findMenuByUserId" resultType="com.xlbs.apiservice.entity.Menu">
         select
@@ -71,19 +49,47 @@
         order by menu.index
     </select>
 
-    <select id="findMenuByIds" resultType="com.xlbs.apiservice.entity.Menu">
+    <!--分页查询-->
+    <select id="find" resultType="com.xlbs.apiservice.entity.Menu">
         select
-        `name` as `title`,
+          `name` as `title`,
           <include refid="menuField"/>
         from
           t_menu
-        where
-          id
-        in
-          <foreach collection ="array" item="id" open="(" separator="," close=")">
-            #{id}
-          </foreach >
+        order by id
     </select>
+
+    <!--查询-->
+    <select id="select" resultType="com.xlbs.apiservice.entity.Menu">
+        select
+          `name` as `title`,
+          <include refid="menuField"/>
+        from
+          t_menu
+        <where>
+            <if test="ids != null">
+                id in
+                <foreach collection ="ids" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach >
+            </if>
+            <if test="id != null">
+                `id` = #{id}
+            </if>
+            <if test="rank != null">
+                `rank` = #{rank}
+            </if>
+        </where>
+        order by id
+    </select>
+
+    <!--保存-->
+    <insert id="save" parameterType="com.xlbs.apiservice.entity.Menu">
+        insert into t_menu
+          (`name`,`parent_id`,`rank`,`url`,`is_enable`,created_by,created_date,last_modify_by,last_modify_date)
+        values
+          (#{name},#{parentId},#{rank},#{url},#{isEnable},#{createdBy},#{createdDate},#{lastModifyBy},#{lastModifyDate})
+    </insert>
 
 
 

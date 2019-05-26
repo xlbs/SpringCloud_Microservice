@@ -9,5 +9,4 @@ public class MenuQuery extends Query {
 
     private String name;
 
-
 }
