@@ -21,19 +21,9 @@ public class MenuDao implements I_MenuDao {
     private SqlSession sqlSession;
 
     @Override
-    public List<Menu> findMenuByUserId(Long userId) {
-        return sqlSession.selectList("findMenuByUserId", userId);
-    }
-
-    @Override
     public PageInfo<Menu> find(MenuQuery menuQuery) {
         return PageHelper.startPage(menuQuery.getCurrentPage(),menuQuery.getPageSize())
                 .doSelectPageInfo(()->sqlSession.selectList("find", menuQuery));
-    }
-
-    @Override
-    public List<Menu> findMenuByRank(String rank) {
-        return sqlSession.selectList("select", ImmutableMap.of("rank",rank));
     }
 
     @Override
@@ -49,6 +39,11 @@ public class MenuDao implements I_MenuDao {
     }
 
     @Override
+    public List<Menu> findMenuByRank(String rank) {
+        return sqlSession.selectList("select", ImmutableMap.of("rank",rank));
+    }
+
+    @Override
     public List<Menu> findAllMenu() {
         return sqlSession.selectList("select");
     }
@@ -56,6 +51,11 @@ public class MenuDao implements I_MenuDao {
     @Override
     public List<Menu> findMenuByIds(String[] ids) {
         return sqlSession.selectList("select", ImmutableMap.of("ids",ids));
+    }
+
+    @Override
+    public List<Menu> findMenuByUserId(Long userId) {
+        return sqlSession.selectList("findMenuByUserId", userId);
     }
 
 

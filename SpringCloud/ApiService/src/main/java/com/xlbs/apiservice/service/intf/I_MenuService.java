@@ -9,25 +9,11 @@ import java.util.List;
 public interface I_MenuService {
 
     /**
-     * 通过用户id查询该用户所拥有的菜单
-     * @param userId 用户id
-     * @return 菜单列表
-     */
-    public List<Menu> findMenuByUserId(Long userId);
-
-    /**
      * 分页查找
      * @param menuQuery 条件
      * @return 分页结果对象
      */
     public PageInfo<Menu> find(MenuQuery menuQuery);
-
-    /**
-     * 根据等级查找菜单
-     * @param rank 等级
-     * @return 菜单列表
-     */
-    public List<Menu> findMenuByRank(String rank);
 
     /**
      * 保存对象
@@ -44,10 +30,27 @@ public interface I_MenuService {
     public Menu findById(Long id);
 
     /**
+     * 根据等级查找菜单
+     * @param rank 等级
+     * @return 菜单列表
+     */
+    public List<Menu> findMenuByRank(String rank);
+
+
+
+    /**
      * 查询所有菜单
      * @return 菜单列表
      */
     public List<Menu> findAllMenu();
+
+
+    /**
+     * 通过用户id查询该用户所拥有的菜单
+     * @param userId 用户id
+     * @return 菜单列表
+     */
+    public List<Menu> findMenuByUserId(Long userId);
 
 
 

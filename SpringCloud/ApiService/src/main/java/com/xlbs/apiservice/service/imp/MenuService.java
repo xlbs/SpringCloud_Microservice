@@ -20,19 +20,6 @@ public class MenuService implements I_MenuService {
     private I_MenuDao menuDao;
 
     @Override
-    public List<Menu> findMenuByUserId(Long userId) {
-        List<Menu> menuList = menuDao.findMenuByUserId(userId);
-        List<Menu> oneLevelMenuList = new ArrayList<>();
-        for (Menu menu : menuList){
-            if(Objects.isNull(menu.getParentId())){
-                oneLevelMenuList.add(menu);
-            }
-        }
-        List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
-        return resList;
-    }
-
-    @Override
     public PageInfo<Menu> find(MenuQuery menuQuery) {
         PageInfo<Menu> pageInfo = menuDao.find(menuQuery);
         List<Menu> menuList = pageInfo.getList();
@@ -45,11 +32,6 @@ public class MenuService implements I_MenuService {
         List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
         pageInfo.setList(resList);
         return pageInfo;
-    }
-
-    @Override
-    public List<Menu> findMenuByRank(String rank) {
-        return menuDao.findMenuByRank(rank);
     }
 
     @Override
@@ -68,8 +50,29 @@ public class MenuService implements I_MenuService {
     }
 
     @Override
+    public List<Menu> findMenuByRank(String rank) {
+        return menuDao.findMenuByRank(rank);
+    }
+
+
+
+    @Override
     public List<Menu> findAllMenu() {
         List<Menu> menuList = menuDao.findAllMenu();
+        List<Menu> oneLevelMenuList = new ArrayList<>();
+        for (Menu menu : menuList){
+            if(Objects.isNull(menu.getParentId())){
+                oneLevelMenuList.add(menu);
+            }
+        }
+        List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
+        return resList;
+    }
+
+
+    @Override
+    public List<Menu> findMenuByUserId(Long userId) {
+        List<Menu> menuList = menuDao.findMenuByUserId(userId);
         List<Menu> oneLevelMenuList = new ArrayList<>();
         for (Menu menu : menuList){
             if(Objects.isNull(menu.getParentId())){

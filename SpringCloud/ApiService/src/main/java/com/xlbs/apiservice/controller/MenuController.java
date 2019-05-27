@@ -19,21 +19,6 @@ public class MenuController extends ResponseResult {
     private I_MenuService menuService;
 
     /**
-     * 根据用户ID查找该用户所拥有的菜单
-     * @param userId 用户id
-     * @return 菜单列表
-     */
-    @ApiOperation(value="根据用户Id查找该用户所拥有的菜单")
-    @GetMapping(value = "/{userId}")
-    public ResponseResult findMenuByUserId(@PathVariable Long userId){
-        List<Menu> list = menuService.findMenuByUserId(userId);
-        if(!list.isEmpty()){
-            return super.success(list);
-        }
-        return super.success();
-    }
-
-    /**
      * 分页查找
      * @param menuQuery 条件
      * @return 分页结果对象
@@ -43,26 +28,6 @@ public class MenuController extends ResponseResult {
     public ResponseResult find(@RequestBody MenuQuery menuQuery){
         PageInfo<Menu> pageInfo = menuService.find(menuQuery);
         return success(pageInfo);
-    }
-
-    /**
-     * 根据等级查找菜单
-     * @param rank 等级
-     * @return 菜单列表
-     */
-    @ApiOperation(value="根据等级查找菜单")
-    @GetMapping(value = "/findMenuByRank")
-    public ResponseResult findMenuByRank(@RequestParam(value = "rank") String rank){
-        List<Menu> list = menuService.findMenuByRank(rank);
-//        try {
-//            Thread.sleep(10000);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-        if(!list.isEmpty()){
-            return super.success(list);
-        }
-        return super.success();
     }
 
     /**
@@ -91,6 +56,28 @@ public class MenuController extends ResponseResult {
     }
 
     /**
+     * 根据等级查找菜单
+     * @param rank 等级
+     * @return 菜单列表
+     */
+    @ApiOperation(value="根据等级查找菜单")
+    @GetMapping(value = "/findMenuByRank")
+    public ResponseResult findMenuByRank(@RequestParam(value = "rank") String rank){
+        List<Menu> list = menuService.findMenuByRank(rank);
+//        try {
+//            Thread.sleep(10000);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+        if(!list.isEmpty()){
+            return super.success(list);
+        }
+        return super.success();
+    }
+
+
+
+    /**
      * 查询所有的菜单
      * @return 菜单列表
      */
@@ -98,6 +85,23 @@ public class MenuController extends ResponseResult {
     @GetMapping(value = "/all")
     public ResponseResult findAllMenu(){
         List<Menu> list = menuService.findAllMenu();
+        if(!list.isEmpty()){
+            return super.success(list);
+        }
+        return super.success();
+    }
+
+
+
+    /**
+     * 根据用户ID查找该用户所拥有的菜单
+     * @param userId 用户id
+     * @return 菜单列表
+     */
+    @ApiOperation(value="根据用户Id查找该用户所拥有的菜单")
+    @GetMapping(value = "/{userId}")
+    public ResponseResult findMenuByUserId(@PathVariable Long userId){
+        List<Menu> list = menuService.findMenuByUserId(userId);
         if(!list.isEmpty()){
             return super.success(list);
         }
