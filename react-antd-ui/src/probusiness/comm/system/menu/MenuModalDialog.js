@@ -48,85 +48,23 @@ class MenuModalDialog extends React.Component {
             this.setState({
                 hasFeedback: {
                     name: true,
+                    url: true,
                     rank: true,
                     parentId: true,
+                    isEnable: true,
                 },
                 validateStatus: {
                     name: 'success',
+                    url: 'success',
                     rank: 'success',
                     parentId: 'success',
+                    isEnable: 'success',
                 },
             });
-            this.props.modalDialog.findInfoById(id);
+            this.props.modalDialog.findById(id);
+
+
         }
-    }
-
-    cancel(){
-        this.props.modalDialog.closeDialog();
-    }
-
-    validateInputField(field, msg, rule, value, callback){
-        const form = this.props.form;
-        let hasFeedback = this.state.hasFeedback;
-        let validateStatus = this.state.validateStatus;
-        let help = this.state.help;
-        const fieldValue = form.getFieldValue(field);
-        if(!fieldValue){
-            hasFeedback[field] = true;
-            validateStatus[field] = 'error';
-            help[field] = msg;
-            this.setState({
-                hasFeedback,
-                validateStatus,
-                help,
-                buttonDisabled: true
-            });
-            callback(this.state.help[field]);
-        }else{
-            let buttonDisabled = true;
-            const roleInfo = this.props.modalDialog.roleInfo;
-            const content = this.props.modalDialog.dialog.content;
-            if(content){ //编辑
-                if(roleInfo && roleInfo[field] != fieldValue){
-                    buttonDisabled = false;
-                }
-            }else{ //新增
-                buttonDisabled = false;
-            }
-            hasFeedback[field] = true;
-            validateStatus[field] = 'success';
-            help[field] = '';
-            this.setState({
-                hasFeedback,
-                validateStatus,
-                help,
-                buttonDisabled: buttonDisabled
-            });
-            callback();
-        }
-    }
-
-
-
-    save(){
-        this.props.form.validateFieldsAndScroll( (err, values) =>{
-            if (!err) {
-                const content = this.props.modalDialog.dialog.content;
-                if(content){
-                    values.id =  content.id;
-                }
-                this.props.modalDialog.save(values);
-            }
-        });
-    }
-
-    onChange(value){
-        if(value != 1){
-            this.props.modalDialog.findMenuByRank(value-1,true);
-        }
-        this.setState({
-            rank: value,
-        })
     }
 
     componentWillReceiveProps(nextProps){
@@ -156,6 +94,113 @@ class MenuModalDialog extends React.Component {
             info.render = false;
         }
     }
+
+    cancel(){
+        this.props.modalDialog.closeDialog();
+    }
+
+    save(){
+        this.props.form.validateFieldsAndScroll( (err, values) =>{
+            if (!err) {
+                const content = this.props.modalDialog.dialog.content;
+                if(content){
+                    values.id =  content.id;
+                }
+                this.props.modalDialog.save(values);
+            }
+        });
+    }
+
+    validateInputField(field, msg, rule, value, callback){
+        debugger;
+        const form = this.props.form;
+        let hasFeedback = this.state.hasFeedback;
+        let validateStatus = this.state.validateStatus;
+        let help = this.state.help;
+        const fieldValue = form.getFieldValue(field);
+        if(!fieldValue){
+            hasFeedback[field] = true;
+            validateStatus[field] = 'error';
+            help[field] = msg;
+            this.setState({
+                hasFeedback,
+                validateStatus,
+                help,
+                buttonDisabled: true
+            });
+            callback(this.state.help[field]);
+        }else{
+            let buttonDisabled = true;
+            const info = this.props.modalDialog.info;
+            const content = this.props.modalDialog.dialog.content;
+            if(content){ //编辑
+                if(info && info[field] != fieldValue){
+                    buttonDisabled = false;
+                }
+            }else{ //新增
+                buttonDisabled = false;
+            }
+            hasFeedback[field] = true;
+            validateStatus[field] = 'success';
+            help[field] = '';
+            this.setState({
+                hasFeedback,
+                validateStatus,
+                help,
+                buttonDisabled: buttonDisabled
+            });
+            callback();
+
+            // if(field=='rank' && fieldValue != 1){
+            //     form.validateFields(['parentId'], { force: true });
+            // }else{
+            //     if(content){ //编辑
+            //         if(info && info[field] != fieldValue){
+            //             buttonDisabled = false;
+            //         }
+            //     }else{ //新增
+            //         buttonDisabled = false;
+            //     }
+            //     hasFeedback[field] = true;
+            //     validateStatus[field] = 'success';
+            //     help[field] = '';
+            //     this.setState({
+            //         hasFeedback,
+            //         validateStatus,
+            //         help,
+            //         buttonDisabled: buttonDisabled
+            //     });
+            //     callback();
+            // }
+
+        }
+    }
+
+
+
+    onChange(value){
+        debugger;
+        this.setState({
+            rank: value,
+        })
+        if(value != 1){
+            var p1 = new Promise(function (resolve, reject) {
+                // setTimeout(resolve, 3000, "first");
+                this.props.modalDialog.findMenuByRank(value-1,true);
+            });
+
+            Promise.all([p1]).then(function(values) {
+                this.props.form.validateFields(['parentId'], { force: true });
+                console.log(values);
+            });
+
+
+
+
+        }
+    }
+
+
 
 
     render() {
@@ -240,7 +285,8 @@ class MenuModalDialog extends React.Component {
                         >
                             {getFieldDecorator('rank',{
                                 rules: [{
-                                    required: true, message: '请选择菜单等级!',
+                                    required: true,
+                                    validator: this.validateInputField.bind(this,'rank','请选择菜单等级!'),
                                 }],
                                 initialValue: this.state.rank,
                             })(
@@ -261,7 +307,8 @@ class MenuModalDialog extends React.Component {
                             >
                                 {getFieldDecorator('parentId',{
                                     rules: [{
-                                        required: true, message: '请选择上级菜单!',
+                                        required: true,
+                                        validator: this.validateInputField.bind(this,'parentId','请选择上级菜单!'),
                                     }],
                                     initialValue: this.state.parentId,
                                 })(
@@ -283,7 +330,8 @@ class MenuModalDialog extends React.Component {
                         >
                             {getFieldDecorator('isEnable',{
                                 rules: [{
-                                    required: true, message: '请选择是否可用!',
+                                    required: true,
+                                    validator: this.validateInputField.bind(this,'isEnable','请选择是否可用!'),
                                 }],
                                 initialValue: this.state.isEnable,
                             })(

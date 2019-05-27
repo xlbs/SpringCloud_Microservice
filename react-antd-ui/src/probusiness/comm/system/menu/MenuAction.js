@@ -113,6 +113,29 @@ function save(values) {
 }
 
 /**
+ * 通过id查询信息
+ * @param id
+ */
+function findById(id) {
+    const url = API_SERVICE+"/menu/find/"+id;
+    return (dispatch) =>{
+        Ajax.get(
+            url,
+            (res) =>{
+                if(res.data){
+                    res.data.render = true;
+                    dispatch({
+                        type: INFO,
+                        info: res.data
+                    })
+                }
+
+            }
+        )
+    }
+}
+
+/**
  * 通过等级查询菜单
  * @param rank
  * @returns {Function}
@@ -138,28 +161,6 @@ function findMenuByRank(rank,onChange){
     }
 }
 
-/**
- * 通过id查询信息
- * @param id
- */
-function findInfoById(id) {
-    const url = API_SERVICE+"/menu/find/"+id;
-    return (dispatch) =>{
-        Ajax.get(
-            url,
-            (res) =>{
-                if(res.data){
-                    res.data.render = true;
-                    dispatch({
-                        type: INFO,
-                        info: res.data
-                    })
-                }
-
-            }
-        )
-    }
-}
 
 export const actions = {
     find,
@@ -167,8 +168,8 @@ export const actions = {
     edit,
     remove,
     save,
+    findById,
     findMenuByRank,
-    findInfoById,
     setCurrentPage,
     setPageSize,
     closeDialog,
