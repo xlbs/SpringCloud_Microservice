@@ -41,7 +41,6 @@ class MenuModalDialog extends React.Component {
             rank: "1",
             parentId: "",
             isEnable: "1",
-            validateParentId: false
         });
         const content = this.props.modalDialog.dialog.content;
         if(content){
@@ -69,16 +68,11 @@ class MenuModalDialog extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        debugger;
         const parentMenus = nextProps.modalDialog.parentMenus;
         if(parentMenus && parentMenus.onChange){
             this.setState({
                 parentId: parentMenus.list[0].id,
             });
-            if(this.state.validateParentId){
-                this.props.form.validateFields(['parentId'], { force: true });
-            }
-
         }
         const info = nextProps.modalDialog.info;
         if(info && info.render){
@@ -118,17 +112,11 @@ class MenuModalDialog extends React.Component {
     }
 
     validateInputField(field, msg, rule, value, callback){
-        debugger;
         const form = this.props.form;
         let hasFeedback = this.state.hasFeedback;
         let validateStatus = this.state.validateStatus;
         let help = this.state.help;
         const fieldValue = form.getFieldValue(field);
-        if(field == "parentId"){
-            this.setState({
-                validateParentId: false,
-            })
-        }
         if(!fieldValue){
             hasFeedback[field] = true;
             validateStatus[field] = 'error';
@@ -151,6 +139,9 @@ class MenuModalDialog extends React.Component {
             }else{ //新增
                 buttonDisabled = false;
             }
+            if(field == "rank" && this.state.rank == "1"){
+                buttonDisabled = false;
+            }
             hasFeedback[field] = true;
             validateStatus[field] = 'success';
             help[field] = '';
@@ -165,14 +156,11 @@ class MenuModalDialog extends React.Component {
     }
 
     onChange(value){
-        let validateParentId = false;
-        if(value != 1){
+        if(value != "1"){
             this.props.modalDialog.findMenuByRank(value-1,true);
-            validateParentId = true;
         }
         this.setState({
             rank: value,
-            validateParentId: validateParentId,
         });
     }
 
