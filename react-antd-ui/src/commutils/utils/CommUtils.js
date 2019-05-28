@@ -82,26 +82,14 @@ export function formatDate(timestamp) {
  */
 export function formatDataDict(category,value) {
     let result = "";
-    const dataDict = CurrentSessionCache.get("DATA_DICT");
+    const dataDict = CurrentSessionCache.get("D_"+category);
     if(dataDict){
         if(dataDict instanceof Array){
-            for (let i=0; i<dataDict.length; i++){
-                if(category==dataDict[i].category){
-                    dataDict[i].list.map(item => {
-                        if(value == item.code){
-                            result = item.value
-                        }
-                    })
+            dataDict.map(item => {
+                if(value == item.code){
+                    result = item.value
                 }
-            }
-        }else{
-            if(category==dataDict.category){
-                dataDict.list.map(item => {
-                    if(value == item.code){
-                        result = item.value
-                    }
-                })
-            }
+            })
         }
     }
     return result

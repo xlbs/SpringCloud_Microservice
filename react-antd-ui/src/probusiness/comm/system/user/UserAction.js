@@ -7,17 +7,17 @@ const BASE_URL = $requestContext.path;
 const API_SERVICE = BASE_URL + "/api_service";
 const EXCEL_SERVICE = BASE_URL + "/excel_service";
 
-export const USER_LIST = "USER_LIST";
+export const LIST = "LIST";
+export const INFO = "INFO";
 export const ROLES = "ROLES";
-export const USER_INFO = "USER_INFO";
 export const USER_ROLES = "USER_ROLES";
 
 /**
- * 查询用户数据列表
+ * 分页查询
  * @returns {Function}
  */
-function findUserList() {
-    const url = API_SERVICE+"/user/findUserList";
+function find() {
+    const url = API_SERVICE+"/user/find";
     const params = {
         currentPage: currentPage,
         pageSize: pageSize
@@ -27,8 +27,8 @@ function findUserList() {
             {url,params},
             (res)=>{
                 dispatch({
-                    type: USER_LIST,
-                    userList: res.data
+                    type: LIST,
+                    list: res.data
                 })
             },
             dispatch
@@ -37,23 +37,23 @@ function findUserList() {
 }
 
 /**
- * 新增用户
- * @returns {{type: string, open: boolean, content: string}}
+ * 新增
+ * @returns {Function}
  */
-function addUser() {
+function add() {
     return (dispatch) => {
         dispatch(openDialog("新增"))
     }
 }
 
 /**
- * 编辑用户
- * @param userId
- * @returns {{type: string, open: boolean, content: string, userId: *}}
+ * 编辑
+ * @param id 标识
+ * @returns {Function}
  */
-function editUser(userId) {
+function edit(id) {
     let content ={
-        userId: userId
+        id: id
     }
     return (dispatch) => {
         dispatch(openDialog("编辑",content))
@@ -61,18 +61,20 @@ function editUser(userId) {
 }
 
 /**
- * 删除用户
- * @param userId
+ * 删除
+ * @param id 标识
+ * @param name 名称
+ * @returns {Function}
  */
-function deleteUser(userId,username) {
+function remove(id,name) {
     return (dispatch) => {
-        showConfirm("确定删除账号为: "+username+" 的用户？",
+        showConfirm("确定删除账号为: "+name+" 的用户？",
             ()=>{
                 if(userId===1){
                     showInfo("超级用户无法删除");
                     return;
                 }
-                const url = API_SERVICE+"/user/delete/"+userId;
+                const url = API_SERVICE+"/user/delete/"+id;
                 Ajax.get(
                     url,
                     (res) => {
@@ -87,12 +89,73 @@ function deleteUser(userId,username) {
     }
 }
 
+/**
+ * 保存
+ * @param values
+ * @returns {Function}
+ */
+function save(values) {
+    let url = API_SERVICE+"/user/save";
+    if(values.id){
+        url = url +"?isEdit=true"
+    }
+    const params = values;
+    return (dispatch) =>{
+        Ajax.post(
+            {url,params},
+            (res) => {
+                dispatch(find());
+                dispatch(closeDialog());
+                showInfo(res.msg);
+            },
+            dispatch
+        )
+
+    }
+}
+
+/**
+ * 导出
+ * @returns {Function}
+ */
+function outPut() {
+    return (dispatch) => {
+        Ajax.get(
+            EXCEL_SERVICE+"/user/export",
+            (res)=>{
+
+            },
+            dispatch
+        )
+    }
+}
+
+/**
+ * 通过标识查询信息
+ * @param id 标识
+ * @returns {Function}
+ */
+function findById(id) {
+    const url = API_SERVICE+"/user/find/"+id;
+    return (dispatch) =>{
+        Ajax.get(
+            url,
+            (res) =>{
+                dispatch({
+                    type: INFO,
+                    info: res.data
+                })
+            }
+        )
+    }
+}
+
 
 /**
  * 查询所有角色
  */
-function findRoles() {
-    let url = API_SERVICE+"/role/findRoles";
+function findAllRole() {
+    let url = API_SERVICE+"/role/all";
     return (dispatch) => {
         Ajax.get(
             url,
@@ -108,77 +171,9 @@ function findRoles() {
 }
 
 
-/**
- * 查询某个用户信息
- * @param userId
- * @returns {Function}
- */
-function findUserInfo(userId) {
-    const url = API_SERVICE+"/user/"+userId;
-    return (dispatch) =>{
-        Ajax.get(
-            url,
-            (res) =>{
-                dispatch({
-                    type: USER_INFO,
-                    userInfo: res.data
-                })
-            }
-        )
-    }
-}
-
-/**
- * 保存用户
- * @param values
- */
-function saveUserInfo(values) {
-    let url = API_SERVICE+"/user/saveUserInfo";
-    if(values.id){
-        url = url +"?isEdit=true"
-    }
-    const params = values;
-    return (dispatch) =>{
-        Ajax.post(
-            {url,params},
-            (res) => {
-                dispatch(findUserList());
-                dispatch(closeDialog());
-                showInfo(res.msg);
-            },
-            dispatch
-        )
-
-    }
-}
-
-/**
- * 导出
- * @returns {Function}
- */
-function exportUserInfo() {
-    return (dispatch) => {
-        Ajax.get(
-            EXCEL_SERVICE+"/user/export",
-            (res)=>{
-
-            },
-            dispatch
-        )
-    }
-}
-
-
 export const actions = {
-    findUserList,
-    addUser,
-    editUser,
-    deleteUser,
-    findRoles,
-    findUserInfo,
-    saveUserInfo,
-    exportUserInfo,
-    setCurrentPage,
-    setPageSize,
-    closeDialog,
+    find,add,edit,remove,save,outPut,findById,
+    setCurrentPage,setPageSize,closeDialog,
+
+    findAllRole,
 }

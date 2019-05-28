@@ -14,9 +14,9 @@ class UserComponent extends React.Component{
                 render: (row)=>{
                     return(
                         <span>
-                            <Button type="primary" size="small" onClick={this.editUser.bind(this,row.id)} ghost>编辑</Button>
+                            <Button type="primary" size="small" onClick={this.edit.bind(this,row.id)} ghost>编辑</Button>
                             <Divider type="vertical" />
-                            <Button type="primary" size="small" onClick={this.deleteUser.bind(this,row.id,row.username)} ghost>删除</Button>
+                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.username)} ghost>删除</Button>
                         </span>
                     )
                 }
@@ -33,59 +33,56 @@ class UserComponent extends React.Component{
         this.state = {
             columns: columns,
         };
-        DataDict("USER_TYPE",this.props.user.dispatch);
+        DataDict("USER_TYPE",this.props.content.dispatch);
         this.onChange = this.onChange.bind(this);
         this.onShowSizeChange = this.onShowSizeChange.bind(this);
     }
 
     componentWillMount() {
-        this.props.user.findUserList();
+        this.props.content.find();
     }
 
     onChange(page, pageSize){
-        this.props.user.setCurrentPage(page);
-        this.props.user.setPageSize(pageSize);
-        this.props.user.findUserList();
+        this.props.content.setCurrentPage(page);
+        this.props.content.setPageSize(pageSize);
+        this.props.content.find();
     }
-
     onShowSizeChange(current, size){
-        this.props.user.setCurrentPage(current);
-        this.props.user.setPageSize(size);
-        this.props.user.findUserList();
+        this.props.content.setCurrentPage(current);
+        this.props.content.setPageSize(size);
+        this.props.content.find();
     }
-
     showTotal(total, range){
         return `${range[0]}-${range[1]} of ${total}`;
     }
 
+    //新增
+    add(){
+        this.props.content.add();
+    }
+    //编辑
+    edit(id){
+        this.props.content.edit(id);
+    }
+    //删除
+    remove(id,name){
+        this.props.content.remove(id,name);
+    }
+    //导出
+    outPut(){
+        this.props.content.outPut();
+    }
+
+
     handleSubmit(e,values){
         e.preventDefault();
-        this.props.user.findUserList();
+        this.props.content.find();
 
     }
 
-    //新增
-    addUser(){
-        this.props.user.addUser();
-    }
-
-    //编辑
-    editUser(userId){
-        this.props.user.editUser(userId);
-    }
-
-    //删除
-    deleteUser(userId,username){
-        this.props.user.deleteUser(userId,username);
-    }
-
-    //导出
-    exportUserInfo(){
-        this.props.user.exportUserInfo();
-    }
 
     render() {
-        const props = this.props.user;
+        const props = this.props.content;
         // const pagination ={
         //     showSizeChanger: true,
         //     showQuickJumper: true,
@@ -96,10 +93,11 @@ class UserComponent extends React.Component{
         //     onShowSizeChange: this.onShowSizeChange,
         //     showTotal: this.showTotal,
         // };
-        let dataSource;
-        if(props.userList){
-            dataSource = props.userList.list;
-            // pagination.total = props.userList.total;
+        let dataSource,total;
+        if(props.list){
+            dataSource = props.list.list;
+            total = props.list.total;
+            // pagination.total = props.list.total;
         }
 
         return (
@@ -109,8 +107,8 @@ class UserComponent extends React.Component{
                 </Form>
 
                 <div>
-                    <Button type="primary" className="primary-button" onClick={this.addUser.bind(this)}>新增</Button>
-                    <Button type="primary" className="primary-button" onClick={this.exportUserInfo.bind(this)}>导出</Button>
+                    <Button type="primary" className="primary-button" onClick={this.add.bind(this)}>新增</Button>
+                    <Button type="primary" className="primary-button" onClick={this.outPut.bind(this)}>导出</Button>
                     <Button shape="circle" icon="search" className="search-button" />
                 </div>
 
@@ -143,7 +141,7 @@ class UserComponent extends React.Component{
                         onChange={this.onChange}
                         onShowSizeChange={this.onShowSizeChange}
                         showTotal={this.showTotal}
-                        total={props.userList?props.userList.total:0}
+                        total={total?total:0}
                     />
                 </div>
 

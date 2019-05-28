@@ -44,10 +44,10 @@ class UserModalDialog extends React.Component {
     }
 
     componentWillMount() {
-        this.props.modalDialog.findRoles();
+        this.props.modalDialog.findAllRole();
         const content = this.props.modalDialog.dialog.content;
         if(content){
-            const userId = content.userId;
+            const id = content.id;
             this.setState({
                 hasFeedback: {
                     name: true,
@@ -64,7 +64,47 @@ class UserModalDialog extends React.Component {
                     confirm: 'success',
                 },
             });
-            this.props.modalDialog.findUserInfo(userId);
+            this.props.modalDialog.findById(id);
+        }
+    }
+
+    validateInputField(field, msg, rule, value, callback){
+        const form = this.props.form;
+        let hasFeedback = this.state.hasFeedback;
+        let validateStatus = this.state.validateStatus;
+        let help = this.state.help;
+        const fieldValue = form.getFieldValue(field);
+        if(!fieldValue){
+            hasFeedback[field] = true;
+            validateStatus[field] = 'error';
+            help[field] = msg;
+            this.setState({hasFeedback,validateStatus,help,buttonDisabled:true});
+            callback(this.state.help[field]);
+        }else{
+            if(field=='confirm'){
+                if (fieldValue && fieldValue !== form.getFieldValue('password')) {
+                    hasFeedback[field] = true;
+                    validateStatus[field] = 'error';
+                    help[field] = '两次输入的密码不一致';
+                    this.setState({hasFeedback,validateStatus,help,buttonDisabled:true});
+                    callback(this.state.help[field]);
+                } else {
+                    hasFeedback[field] = true;
+                    validateStatus[field] = 'success';
+                    help[field] = '';
+                    this.setState({hasFeedback,validateStatus,help,buttonDisabled:false});
+                    callback();
+                }
+            }else{
+                hasFeedback[field] = true;
+                validateStatus[field] = 'success';
+                help[field] = '';
+                this.setState({hasFeedback,validateStatus,help,buttonDisabled:false});
+                callback();
+            }
+            if(field=='password' && this.state.confirmDirty){
+                form.validateFields(['confirm'], { force: true });
+            }
         }
     }
 
@@ -76,8 +116,8 @@ class UserModalDialog extends React.Component {
             options.push(role.id);
         });
         let userRoles ;
-        if(this.props.modalDialog.userInfo){
-            userRoles = this.props.modalDialog.userInfo.roles;
+        if(this.props.modalDialog.info){
+            userRoles = this.props.modalDialog.info.roles;
         }
         let checkedList = [];
         let indeterminate = false;
@@ -124,7 +164,6 @@ class UserModalDialog extends React.Component {
 
         )
     }
-
     onCheckAllChange(options,e){
         this.setState({
             checkedList: e.target.checked ? options : [],
@@ -134,7 +173,6 @@ class UserModalDialog extends React.Component {
             buttonDisabled: false || !e.target.checked,
         });
     }
-
     onChange(options,checkedList){
         this.setState({
             checkedList,
@@ -144,61 +182,21 @@ class UserModalDialog extends React.Component {
             buttonDisabled: false || !checkedList.length,
         });
     }
-
-    validateInputField(field, msg, rule, value, callback){
-        const form = this.props.form;
-        let hasFeedback = this.state.hasFeedback;
-        let validateStatus = this.state.validateStatus;
-        let help = this.state.help;
-        const fieldValue = form.getFieldValue(field);
-        if(!fieldValue){
-            hasFeedback[field] = true;
-            validateStatus[field] = 'error';
-            help[field] = msg;
-            this.setState({hasFeedback,validateStatus,help,buttonDisabled:true});
-            callback(this.state.help[field]);
-        }else{
-            if(field=='confirm'){
-                if (fieldValue && fieldValue !== form.getFieldValue('password')) {
-                    hasFeedback[field] = true;
-                    validateStatus[field] = 'error';
-                    help[field] = '两次输入的密码不一致';
-                    this.setState({hasFeedback,validateStatus,help,buttonDisabled:true});
-                    callback(this.state.help[field]);
-                } else {
-                    hasFeedback[field] = true;
-                    validateStatus[field] = 'success';
-                    help[field] = '';
-                    this.setState({hasFeedback,validateStatus,help,buttonDisabled:false});
-                    callback();
-                }
-            }else{
-                hasFeedback[field] = true;
-                validateStatus[field] = 'success';
-                help[field] = '';
-                this.setState({hasFeedback,validateStatus,help,buttonDisabled:false});
-                callback();
-            }
-            if(field=='password' && this.state.confirmDirty){
-                form.validateFields(['confirm'], { force: true });
-            }
-        }
-    }
-
     handleConfirmBlur(e){
         const value = e.target.value;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
-    /**
-     * 保存用户
-     */
-    saveUserInfo(){
+    cancel(){
+        this.props.modalDialog.closeDialog();
+    }
+
+    save(){
         this.props.form.validateFieldsAndScroll( (err, values) =>{
             if (!err) {
                 const content = this.props.modalDialog.dialog.content;
                 if(content){
-                    values.id =  content.userId;
+                    values.id =  content.id;
                 }
                 const checkedRoles = this.state.checkedList;
                 let roles = [];
@@ -207,7 +205,7 @@ class UserModalDialog extends React.Component {
                 }
                 if(roles.length!=0){
                     values.roles = roles;
-                    this.props.modalDialog.saveUserInfo(values);
+                    this.props.modalDialog.save(values);
                 }else{
                     showInfo("请为用户分配角色");
                 }
@@ -215,24 +213,17 @@ class UserModalDialog extends React.Component {
         });
     }
 
-    /**
-     * 取消
-     */
-    cancel(){
-        this.props.modalDialog.closeDialog();
-    }
-
     render() {
         const { getFieldDecorator } = this.props.form;
         const title = this.props.modalDialog.dialog.title + '用户';
-        const userInfo = this.props.modalDialog.userInfo;
+        const info = this.props.modalDialog.info;
         let isEdit = false;
         let {name,type,username} = {};
-        if(userInfo&&this.props.modalDialog.dialog.content){
+        if(info&&this.props.modalDialog.dialog.content){
             isEdit = true;
-            name = userInfo.name;
-            type = userInfo.type;
-            username = userInfo.username;
+            name = info.name;
+            type = info.type;
+            username = info.username;
         }
 
         return (
@@ -252,7 +243,7 @@ class UserModalDialog extends React.Component {
                             <Button onClick={this.cancel.bind(this)}>
                                 取消
                             </Button>
-                            <Button type="primary" onClick={this.saveUserInfo.bind(this)} disabled={this.state.buttonDisabled}>
+                            <Button type="primary" onClick={this.save.bind(this)} disabled={this.state.buttonDisabled}>
                                 保存
                             </Button>
                         </div>

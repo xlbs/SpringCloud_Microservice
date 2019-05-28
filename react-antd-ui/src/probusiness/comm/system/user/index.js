@@ -13,18 +13,19 @@ class handleUserManagement extends React.Component{
     render(){
         const user = this.props;
         return(
-            <UserComponent user={user}/>
+            <UserComponent content={user}/>
         )
     }
 }
 
 const mapStateToProps = state =>({
+    list: state.user.list,
     currentPage: state.user.currentPage,
     pageSize: state.user.pageSize,
     dialog: state.user.dialog,
-    userList: state.user.userList,
+    info: state.user.info,
+
     roles: state.user.roles,
-    userInfo: state.user.userInfo,
     userRoles: state.user.userRoles,
 })
 
