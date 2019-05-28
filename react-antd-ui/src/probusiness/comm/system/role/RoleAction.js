@@ -113,6 +113,22 @@ function save(values) {
 }
 
 /**
+ * 导出
+ * @returns {Function}
+ */
+function outPut() {
+    return (dispatch) => {
+        Ajax.get(
+            EXCEL_SERVICE+"/role/export",
+            (res)=>{
+
+            },
+            dispatch
+        )
+    }
+}
+
+/**
  * 通过标识查询信息
  * @param id 标识
  * @returns {Function}
@@ -137,23 +153,6 @@ function findById(id) {
 }
 
 /**
- * 导出
- * @returns {Function}
- */
-function outPut() {
-    return (dispatch) => {
-        Ajax.get(
-            EXCEL_SERVICE+"/role/export",
-            (res)=>{
-
-            },
-            dispatch
-        )
-    }
-}
-
-
-/**
  * 查询所有菜单
  * @returns {Function}
  */
@@ -175,7 +174,7 @@ function findAllMenu() {
 
 
 export const actions = {
-    find,add,edit,remove,save,findById,outPut,
+    find,add,edit,remove,save,outPut,findById,
     setCurrentPage,setPageSize,closeDialog,
 
     findAllMenu,
