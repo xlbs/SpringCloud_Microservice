@@ -64,10 +64,6 @@ class RoleModalDialog extends React.Component {
         }
     }
 
-    cancel(){
-        this.props.modalDialog.closeDialog();
-    }
-
     validateInputField(field, msg, rule, value, callback){
         const form = this.props.form;
         let hasFeedback = this.state.hasFeedback;
@@ -108,36 +104,6 @@ class RoleModalDialog extends React.Component {
             callback();
         }
     }
-
-    onExpand(expandedKeys) {
-        this.setState({
-            expandedKeys,
-            autoExpandParent: false,
-        });
-    };
-
-    onCheck(checkedKeys,e){
-        let submitCheckedKeys = [].concat(checkedKeys);
-        e.checkedNodes.map(checkedNode => {
-            if(checkedNode.props.parentId){
-                if(submitCheckedKeys.indexOf(checkedNode.props.parentId.toString()) == -1){ //不包含
-                    submitCheckedKeys.push(checkedNode.props.parentId.toString());
-                }
-                if(checkedKeys.indexOf(checkedNode.props.parentId.toString()) > -1){ //包含
-                    checkedKeys.splice(checkedKeys.indexOf(checkedNode.props.parentId.toString()),1);
-                }
-            }
-        });
-        let buttonDisabled = true;
-        if(checkedKeys.length != 0 && checkedKeys.toString() != this.state.initCheckedKeys.toString()){
-            buttonDisabled = false;
-        }
-        this.setState({
-            checkedKeys: checkedKeys,
-            submitCheckedKeys: submitCheckedKeys,
-            buttonDisabled: buttonDisabled,
-        });
-    };
 
     renderTree(){
         const menus = this.props.modalDialog.menus;
@@ -189,6 +155,38 @@ class RoleModalDialog extends React.Component {
             </div>
 
         )
+    }
+    onExpand(expandedKeys) {
+        this.setState({
+            expandedKeys,
+            autoExpandParent: false,
+        });
+    }
+    onCheck(checkedKeys,e){
+        let submitCheckedKeys = [].concat(checkedKeys);
+        e.checkedNodes.map(checkedNode => {
+            if(checkedNode.props.parentId){
+                if(submitCheckedKeys.indexOf(checkedNode.props.parentId.toString()) == -1){ //不包含
+                    submitCheckedKeys.push(checkedNode.props.parentId.toString());
+                }
+                if(checkedKeys.indexOf(checkedNode.props.parentId.toString()) > -1){ //包含
+                    checkedKeys.splice(checkedKeys.indexOf(checkedNode.props.parentId.toString()),1);
+                }
+            }
+        });
+        let buttonDisabled = true;
+        if(checkedKeys.length != 0 && checkedKeys.toString() != this.state.initCheckedKeys.toString()){
+            buttonDisabled = false;
+        }
+        this.setState({
+            checkedKeys: checkedKeys,
+            submitCheckedKeys: submitCheckedKeys,
+            buttonDisabled: buttonDisabled,
+        });
+    }
+
+    cancel(){
+        this.props.modalDialog.closeDialog();
     }
 
     save(){
