@@ -41,6 +41,7 @@ class MenuModalDialog extends React.Component {
             rank: "1",
             parentId: "",
             isEnable: "1",
+            validateParentId: false
         });
         const content = this.props.modalDialog.dialog.content;
         if(content){
@@ -68,11 +69,16 @@ class MenuModalDialog extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
+        debugger;
         const parentMenus = nextProps.modalDialog.parentMenus;
         if(parentMenus && parentMenus.onChange){
             this.setState({
                 parentId: parentMenus.list[0].id,
-            })
+            });
+            if(this.state.validateParentId){
+                this.props.form.validateFields(['parentId'], { force: true });
+            }
+
         }
         const info = nextProps.modalDialog.info;
         if(info && info.render){
@@ -118,6 +124,11 @@ class MenuModalDialog extends React.Component {
         let validateStatus = this.state.validateStatus;
         let help = this.state.help;
         const fieldValue = form.getFieldValue(field);
+        if(field == "parentId"){
+            this.setState({
+                validateParentId: false,
+            })
+        }
         if(!fieldValue){
             hasFeedback[field] = true;
             validateStatus[field] = 'error';
@@ -147,63 +158,26 @@ class MenuModalDialog extends React.Component {
                 hasFeedback,
                 validateStatus,
                 help,
-                buttonDisabled: buttonDisabled
+                buttonDisabled: buttonDisabled,
             });
             callback();
-
-            // if(field=='rank' && fieldValue != 1){
-            //     form.validateFields(['parentId'], { force: true });
-            // }else{
-            //     if(content){ //编辑
-            //         if(info && info[field] != fieldValue){
-            //             buttonDisabled = false;
-            //         }
-            //     }else{ //新增
-            //         buttonDisabled = false;
-            //     }
-            //     hasFeedback[field] = true;
-            //     validateStatus[field] = 'success';
-            //     help[field] = '';
-            //     this.setState({
-            //         hasFeedback,
-            //         validateStatus,
-            //         help,
-            //         buttonDisabled: buttonDisabled
-            //     });
-            //     callback();
-            // }
-
         }
     }
-
-
 
     onChange(value){
-        debugger;
+        let validateParentId = false;
+        if(value != 1){
+            this.props.modalDialog.findMenuByRank(value-1,true);
+            validateParentId = true;
+        }
         this.setState({
             rank: value,
-        })
-        if(value != 1){
-            var p1 = new Promise(function (resolve, reject) {
-                // setTimeout(resolve, 3000, "first");
-                this.props.modalDialog.findMenuByRank(value-1,true);
-            });
-
-            Promise.all([p1]).then(function(values) {
-                this.props.form.validateFields(['parentId'], { force: true });
-                console.log(values);
-            });
-
-
-
-
-        }
+            validateParentId: validateParentId,
+        });
     }
 
-
-
-
     render() {
+        debugger;
         const { getFieldDecorator } = this.props.form;
         const title = this.props.modalDialog.dialog.title + '菜单';
         const parentMenus = this.props.modalDialog.parentMenus;
