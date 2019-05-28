@@ -28,13 +28,13 @@ public class UserService implements I_UserService {
 
 
     @Override
-    public PageInfo<User> findUserList(UserQuery userQuery) {
-        return userDao.findUserList(userQuery);
+    public PageInfo<User> find(UserQuery userQuery) {
+        return userDao.find(userQuery);
     }
 
     @Override
-    public User findUserInfoById(Long id) {
-        User user = userDao.findUserInfoById(id);
+    public User findById(Long id) {
+        User user = userDao.findById(id);
         List<Role> userRoles = userRoleDao.findRolesByUserId(id);
         user.setRoles(userRoles);
         return user;
@@ -42,18 +42,18 @@ public class UserService implements I_UserService {
 
     @Override
     @Transactional
-    public void saveUserInfo(User user, Boolean isEdit) {
+    public void save(User user, Boolean isEdit) {
         Long id  = null;
         if(!Objects.isNull(isEdit) && isEdit){
             id = user.getId();
             userRoleDao.deleteUserRolesByUserId(id);
-            userDao.updateUser(user);
+            userDao.update(user);
         }else{
             id = RandomCodeUtils.getRandomId();
             user.setId(id);
             String password = DigestUtils.sha1Hex(user.getPassword());
             user.setPassword(password);
-            userDao.saveUser(user);
+            userDao.save(user);
         }
         List<Role> roles = user.getRoles();
         List<UserRole> userRoleList = new ArrayList<>();
@@ -70,9 +70,9 @@ public class UserService implements I_UserService {
 
     @Override
     @Transactional
-    public void deleteUserInfo(Long id) {
+    public void delete(Long id) {
         userRoleDao.deleteUserRolesByUserId(id);
-        userDao.deleteUserById(id);
+        userDao.delete(id);
     }
 
     @Override

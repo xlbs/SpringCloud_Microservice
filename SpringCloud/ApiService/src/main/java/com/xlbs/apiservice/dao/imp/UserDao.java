@@ -3,6 +3,7 @@ package com.xlbs.apiservice.dao.imp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.ImmutableMap;
+import com.xlbs.apiservice.dao.NameSpace;
 import com.xlbs.apiservice.dao.intf.I_UserDao;
 import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.entity.query.UserQuery;
@@ -23,33 +24,33 @@ public class UserDao implements I_UserDao {
 
 
     @Override
-    public PageInfo<User> findUserList(UserQuery userQuery) {
-        return PageHelper.startPage(userQuery.getCurrentPage(),userQuery.getPageSize())
-                .doSelectPageInfo(()->sqlSession.selectList("findUserList",userQuery));
+    public PageInfo<User> find(UserQuery query) {
+        return PageHelper.startPage(query.getCurrentPage(),query.getPageSize())
+                .doSelectPageInfo(()->sqlSession.selectList(NameSpace.USER_NAMESPACE+".find",query));
     }
 
     @Override
-    public User findUserInfoById(Long id) {
-        return sqlSession.selectOne("findUserInfoById", ImmutableMap.of("id",id));
+    public User findById(Long id) {
+        return sqlSession.selectOne(NameSpace.USER_NAMESPACE+".select", ImmutableMap.of("id",id));
     }
 
     @Override
-    public void saveUser(User user) {
-        user.setCreatedBy(RequestContextUtils.getUserId());
-        user.setCreatedDate(new Date());
-        sqlSession.insert("saveUser", user);
+    public void save(User obj) {
+        obj.setCreatedBy(RequestContextUtils.getUserId());
+        obj.setCreatedDate(new Date());
+        sqlSession.insert(NameSpace.USER_NAMESPACE+".save", obj);
     }
 
     @Override
-    public void updateUser(User user) {
-        user.setLastModifyBy(RequestContextUtils.getUserId());
-        user.setLastModifyDate(new Date());
-        sqlSession.update("updateUser", user);
+    public void update(User obj) {
+        obj.setLastModifyBy(RequestContextUtils.getUserId());
+        obj.setLastModifyDate(new Date());
+        sqlSession.update(NameSpace.USER_NAMESPACE+".update", obj);
     }
 
     @Override
-    public void deleteUserById(Long id) {
-        sqlSession.delete("deleteUser",id);
+    public void delete(Long id) {
+        sqlSession.delete(NameSpace.USER_NAMESPACE+".delete",ImmutableMap.of("id",id));
     }
 
     @Override

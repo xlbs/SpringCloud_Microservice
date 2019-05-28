@@ -20,8 +20,8 @@
         <include refid="entity"/>
     </sql>
 
-    <!--查询用户信息-->
-    <select id="findUserList" resultType="com.xlbs.apiservice.entity.User">
+    <!--分页查询-->
+    <select id="find" resultType="com.xlbs.apiservice.entity.User">
         select
           t1.id as `key`,
           t1.id,
@@ -52,18 +52,21 @@
         on t1.`id`=t4.userid
     </select>
 
-    <!--通过用户ID查询用户信息-->
-    <select id="findUserInfoById" resultType="com.xlbs.apiservice.entity.User">
+    <!--查询-->
+    <select id="select" resultType="com.xlbs.apiservice.entity.User">
         select
           <include refid="userField"/>
         from
           t_user
-        where
-          id = #{id}
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
     </select>
 
-    <!--保存用户-->
-    <insert id="saveUser" parameterType="com.xlbs.apiservice.entity.User">
+    <!--保存-->
+    <insert id="save" parameterType="com.xlbs.apiservice.entity.User">
         insert into t_user
           (id,user_name,`password`,`name`,`type`,created_by,created_date,last_modify_by,last_modify_date)
         values
@@ -71,8 +74,8 @@
 
     </insert>
 
-    <!--更新用户-->
-    <update id="updateUser" parameterType="com.xlbs.apiservice.entity.User">
+    <!--更新-->
+    <update id="update" parameterType="com.xlbs.apiservice.entity.User">
         update t_user
         <set>
             <if test="username != null">
@@ -94,9 +97,14 @@
         where id=#{id}
     </update>
 
-    <!--删除用户-->
-    <delete id="deleteUser" >
-        delete from t_user where id=#{id}
+    <!--删除-->
+    <delete id="delete" >
+        delete from t_user
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
     </delete>
 
     <!--导出用户信息-->

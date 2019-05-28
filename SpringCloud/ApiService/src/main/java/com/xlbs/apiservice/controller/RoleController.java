@@ -20,13 +20,13 @@ public class RoleController extends ResponseResult {
 
     /**
      * 分页查找
-     * @param roleQuery 条件
+     * @param query 条件
      * @return 分页结果对象
      */
     @ApiOperation(value="分页查找")
     @PostMapping(value = "/find")
-    public ResponseResult find(@RequestBody RoleQuery roleQuery){
-        PageInfo<Role> pageInfo = roleService.find(roleQuery);
+    public ResponseResult find(@RequestBody RoleQuery query){
+        PageInfo<Role> pageInfo = roleService.find(query);
         return success(pageInfo);
     }
 
@@ -44,14 +44,14 @@ public class RoleController extends ResponseResult {
 
     /**
      * 保存对象
-     * @param role 对象
+     * @param obj 对象
      * @param isEdit 是否编辑
      * @return 操作结果信息：成功/失败
      */
     @ApiOperation(value="保存角色信息")
     @PostMapping(value = "/save")
-    public ResponseResult save(@RequestBody Role role, @RequestParam(required = false) Boolean isEdit){
-        roleService.save(role,isEdit);
+    public ResponseResult save(@RequestBody Role obj, @RequestParam(required = false) Boolean isEdit){
+        roleService.save(obj,isEdit);
         return success();
     }
 
@@ -68,13 +68,13 @@ public class RoleController extends ResponseResult {
     }
 
     /**
-     * 查找系统中的角色数据
+     * 查找系统中所有的角色
      * @return
      */
-    @ApiOperation(value="查找系统中的角色数据")
-    @GetMapping(value = "/findRoles")
-    public ResponseResult findRoles(){
-        List<Role> list = roleService.findRoles();
+    @ApiOperation(value="查找系统中所有的角色")
+    @GetMapping(value = "/all")
+    public ResponseResult findAll(){
+        List<Role> list = roleService.findAll();
         return success(list);
     }
 

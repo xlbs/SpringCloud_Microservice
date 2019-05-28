@@ -10,10 +10,10 @@ public interface I_RoleService {
 
     /**
      * 分页查找
-     * @param roleQuery 条件
+     * @param query 条件
      * @return 分页结果对象
      */
-    public PageInfo<Role> find(RoleQuery roleQuery);
+    public PageInfo<Role> find(RoleQuery query);
 
     /**
      * 通过标识查找
@@ -24,10 +24,10 @@ public interface I_RoleService {
 
     /**
      * 保存对象
-     * @param role 对象
+     * @param obj 对象
      * @param isEdit 是否编辑
      */
-    public void save(Role role, Boolean isEdit);
+    public void save(Role obj, Boolean isEdit);
 
     /**
      * 删除对象
@@ -36,10 +36,10 @@ public interface I_RoleService {
     public void delete(Long id);
 
     /**
-     * 查找角色信息
-     * @return
+     * 查询所有菜角色
+     * @return 角色列表
      */
-    public List<Role> findRoles();
+    public List<Role> findAll();
 
 
 }

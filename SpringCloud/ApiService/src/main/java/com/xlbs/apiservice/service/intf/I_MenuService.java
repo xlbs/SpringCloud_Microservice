@@ -10,10 +10,10 @@ public interface I_MenuService {
 
     /**
      * 分页查找
-     * @param menuQuery 条件
+     * @param query 条件
      * @return 分页结果对象
      */
-    public PageInfo<Menu> find(MenuQuery menuQuery);
+    public PageInfo<Menu> find(MenuQuery query);
 
     /**
      * 通过标识查找
@@ -24,10 +24,10 @@ public interface I_MenuService {
 
     /**
      * 保存对象
-     * @param menu 对象
+     * @param obj 对象
      * @param isEdit 是否编辑
      */
-    public void save(Menu menu, Boolean isEdit);
+    public void save(Menu obj, Boolean isEdit);
 
     /**
      * 根据等级查找菜单

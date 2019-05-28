@@ -22,9 +22,9 @@ public class RoleDao implements I_RoleDao {
     private SqlSession sqlSession;
 
     @Override
-    public PageInfo<Role> find(RoleQuery roleQuery) {
-        return PageHelper.startPage(roleQuery.getCurrentPage(),roleQuery.getPageSize())
-                .doSelectPageInfo(()->sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".find",roleQuery));
+    public PageInfo<Role> find(RoleQuery query) {
+        return PageHelper.startPage(query.getCurrentPage(),query.getPageSize())
+                .doSelectPageInfo(()->sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".find",query));
     }
 
     @Override
@@ -33,17 +33,17 @@ public class RoleDao implements I_RoleDao {
     }
 
     @Override
-    public void save(Role role) {
-        role.setCreatedBy(RequestContextUtils.getUserId());
-        role.setCreatedDate(new Date());
-        sqlSession.insert(NameSpace.ROLE_NAMESPACE+".save", role);
+    public void save(Role obj) {
+        obj.setCreatedBy(RequestContextUtils.getUserId());
+        obj.setCreatedDate(new Date());
+        sqlSession.insert(NameSpace.ROLE_NAMESPACE+".save", obj);
     }
 
     @Override
-    public void update(Role role) {
-        role.setLastModifyBy(RequestContextUtils.getUserId());
-        role.setLastModifyDate(new Date());
-        sqlSession.update(NameSpace.ROLE_NAMESPACE+".update", role);
+    public void update(Role obj) {
+        obj.setLastModifyBy(RequestContextUtils.getUserId());
+        obj.setLastModifyDate(new Date());
+        sqlSession.update(NameSpace.ROLE_NAMESPACE+".update", obj);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class RoleDao implements I_RoleDao {
 
 
     @Override
-    public List<Role> findRoles() {
+    public List<Role> findAll() {
         return sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".select");
     }
 

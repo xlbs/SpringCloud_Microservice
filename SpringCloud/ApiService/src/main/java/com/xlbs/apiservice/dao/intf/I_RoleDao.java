@@ -11,10 +11,10 @@ public interface I_RoleDao {
 
     /**
      * 分页查找
-     * @param roleQuery 条件
+     * @param query 条件
      * @return 菜单列表
      */
-    public PageInfo<Role> find(RoleQuery roleQuery);
+    public PageInfo<Role> find(RoleQuery query);
 
     /**
      * 通过标识查找
@@ -25,15 +25,15 @@ public interface I_RoleDao {
 
     /**
      * 保存对象
-     * @param role 对象
+     * @param obj 对象
      */
-    public void save(Role role);
+    public void save(Role obj);
 
     /**
-     * 更新角色
-     * @param role 角色
+     * 更新对象
+     * @param obj 对象
      */
-    public void update(Role role);
+    public void update(Role obj);
 
     /**
      * 删除对象
@@ -42,9 +42,9 @@ public interface I_RoleDao {
     public void delete(Long id);
 
     /**
-     *查询角色信息
-     * @return
+     *查询所有角色
+     * @return 角色列表
      */
-    public List<Role> findRoles();
+    public List<Role> findAll();
 
 }

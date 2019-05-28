@@ -20,13 +20,13 @@ public class MenuController extends ResponseResult {
 
     /**
      * 分页查找
-     * @param menuQuery 条件
+     * @param query 条件
      * @return 分页结果对象
      */
     @ApiOperation(value="分页查找")
     @PostMapping(value = "/find")
-    public ResponseResult find(@RequestBody MenuQuery menuQuery){
-        PageInfo<Menu> pageInfo = menuService.find(menuQuery);
+    public ResponseResult find(@RequestBody MenuQuery query){
+        PageInfo<Menu> pageInfo = menuService.find(query);
         return success(pageInfo);
     }
 
@@ -44,14 +44,14 @@ public class MenuController extends ResponseResult {
 
     /**
      * 保存对象
-     * @param menu 对象
+     * @param obj 对象
      * @param isEdit 是否编辑
      * @return 操作结果信息：成功/失败
      */
     @ApiOperation(value="保存")
     @PostMapping(value = "/save")
-    public ResponseResult save(@RequestBody Menu menu, @RequestParam(required = false) Boolean isEdit){
-        menuService.save(menu,isEdit);
+    public ResponseResult save(@RequestBody Menu obj, @RequestParam(required = false) Boolean isEdit){
+        menuService.save(obj,isEdit);
         return success();
     }
 

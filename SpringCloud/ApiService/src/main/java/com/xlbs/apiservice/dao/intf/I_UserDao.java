@@ -10,35 +10,36 @@ import java.util.Map;
 public interface I_UserDao {
 
     /**
-     * 查询用户信息
-     * @return
+     * 分页查找
+     * @param query 条件
+     * @return 菜单列表
      */
-    public PageInfo<User> findUserList(UserQuery userQuery);
+    public PageInfo<User> find(UserQuery query);
 
     /**
-     * 通过用户ID查询用户信息
-     * @param id 用户ID
-     * @return
+     * 通过标识查找
+     * @param id 标识
+     * @return 对象
      */
-    public User findUserInfoById(Long id);
+    public User findById(Long id);
 
     /**
-     * 保存用户
-     * @param user 用户
+     * 保存对象
+     * @param obj 对象
      */
-    public void saveUser(User user);
+    public void save(User obj);
 
     /**
-     * 更新用户
-     * @param user 用户
+     * 更新对象
+     * @param obj 对象
      */
-    public void updateUser(User user);
+    public void update(User obj);
 
     /**
-     * 删除用户
-     * @param id 用户ID
+     * 删除对象
+     * @param id 标识
      */
-    public void deleteUserById(Long id);
+    public void delete(Long id);
 
     /**
      * 导出用户信息

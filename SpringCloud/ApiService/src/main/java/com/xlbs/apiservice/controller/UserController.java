@@ -20,46 +20,51 @@ public class UserController extends ResponseResult {
     private I_UserService userService;
 
     /**
-     * 查找系统中的用户数据
-     * @return
+     * 分页查找
+     * @param query 条件
+     * @return 分页结果对象
      */
-    @ApiOperation(value="查找系统中的用户数据")
-    @PostMapping(value = "/findUserList")
-    public ResponseResult findUserList(@RequestBody UserQuery userQuery){
-        PageInfo<User> pageInfo = userService.findUserList(userQuery);
+    @ApiOperation(value="分页查找")
+    @PostMapping(value = "/find")
+    public ResponseResult findUserList(@RequestBody UserQuery query){
+        PageInfo<User> pageInfo = userService.find(query);
         return success(pageInfo);
     }
 
     /**
-     * 查找某个用户信息
-     * @return
+     * 通过标识查找
+     * @param id 标识
+     * @return 对象
      */
-    @ApiOperation(value="查找某个用户的角色数据")
-    @GetMapping(value = "/{id}")
-    public ResponseResult findUserInfoById(@PathVariable(value = "id") Long id){
-        User user = userService.findUserInfoById(id);
+    @ApiOperation(value="通过标识查找")
+    @GetMapping(value = "/find/{id}")
+    public ResponseResult findById(@PathVariable(value = "id") Long id){
+        User user = userService.findById(id);
         return success(user);
     }
 
     /**
-     * 保存用户信息
-     * @return
+     * 保存对象
+     * @param odj 对象
+     * @param isEdit 是否编辑
+     * @return 操作结果信息：成功/失败
      */
-    @ApiOperation(value="保存用户信息")
-    @PostMapping(value = "/saveUserInfo")
-    public ResponseResult saveUserInfo(@RequestBody User user, @RequestParam(required = false) Boolean isEdit){
-        userService.saveUserInfo(user,isEdit);
+    @ApiOperation(value="保存对象")
+    @PostMapping(value = "/save")
+    public ResponseResult save(@RequestBody User odj, @RequestParam(required = false) Boolean isEdit){
+        userService.save(odj,isEdit);
         return success();
     }
 
     /**
-     * 删除用户信息
+     * 删除对象
+     * @param id 标识
      * @return
      */
-    @ApiOperation(value="删除用户信息")
+    @ApiOperation(value="删除对象")
     @GetMapping(value = "delete/{id}")
-    public ResponseResult deleteUserInfo(@PathVariable(value = "id") Long id){
-        userService.deleteUserInfo(id);
+    public ResponseResult delete(@PathVariable(value = "id") Long id){
+        userService.delete(id);
         return success();
     }
 

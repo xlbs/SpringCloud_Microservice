@@ -22,9 +22,9 @@ public class MenuDao implements I_MenuDao {
     private SqlSession sqlSession;
 
     @Override
-    public PageInfo<Menu> find(MenuQuery menuQuery) {
-        return PageHelper.startPage(menuQuery.getCurrentPage(),menuQuery.getPageSize())
-                .doSelectPageInfo(()->sqlSession.selectList(NameSpace.MENU_NAMESPACE+".find", menuQuery));
+    public PageInfo<Menu> find(MenuQuery query) {
+        return PageHelper.startPage(query.getCurrentPage(),query.getPageSize())
+                .doSelectPageInfo(()->sqlSession.selectList(NameSpace.MENU_NAMESPACE+".find", query));
     }
 
     @Override
@@ -33,10 +33,10 @@ public class MenuDao implements I_MenuDao {
     }
 
     @Override
-    public void save(Menu menu) {
-        menu.setCreatedBy(RequestContextUtils.getUserId());
-        menu.setCreatedDate(new Date());
-        sqlSession.insert(NameSpace.MENU_NAMESPACE+".save", menu);
+    public void save(Menu obj) {
+        obj.setCreatedBy(RequestContextUtils.getUserId());
+        obj.setCreatedDate(new Date());
+        sqlSession.insert(NameSpace.MENU_NAMESPACE+".save", obj);
     }
 
     @Override

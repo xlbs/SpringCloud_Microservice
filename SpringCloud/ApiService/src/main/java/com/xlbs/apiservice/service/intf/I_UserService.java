@@ -10,30 +10,31 @@ import java.util.Map;
 public interface I_UserService {
 
     /**
-     * 查询用户信息
-     * @param userQuery 条件
-     * @return
+     * 分页查找
+     * @param query 条件
+     * @return 分页结果对象
      */
-    public PageInfo<User> findUserList(UserQuery userQuery);
+    public PageInfo<User> find(UserQuery query);
 
     /**
-     * 通过用户ID查询用户信息
-     * @param id 用户ID
-     * @return
+     * 通过标识查找
+     * @param id 标识
+     * @return 对象
      */
-    public User findUserInfoById(Long id);
+    public User findById(Long id);
 
     /**
-     * 保存用户信息
-     * @param user 用户信息
+     * 保存对象
+     * @param obj 对象
+     * @param isEdit 是否编辑
      */
-    public void saveUserInfo(User user, Boolean isEdit);
+    public void save(User obj, Boolean isEdit);
 
     /**
-     * 删除用户信息
-     * @param id 用户ID
+     * 删除对象
+     * @param id 标识
      */
-    public void deleteUserInfo(Long id);
+    public void delete(Long id);
 
     /**
      * 导出用户信息
