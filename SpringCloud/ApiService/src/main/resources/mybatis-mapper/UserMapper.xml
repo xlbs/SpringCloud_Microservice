@@ -50,6 +50,11 @@
           group by
             ur.`user_id`) as t4
         on t1.`id`=t4.userid
+        <where>
+            <if test="createdBy != null">
+                t1.created_by = #{createdBy}
+            </if>
+        </where>
     </select>
 
     <!--查询-->

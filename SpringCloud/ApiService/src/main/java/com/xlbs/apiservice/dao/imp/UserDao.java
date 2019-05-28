@@ -8,6 +8,7 @@ import com.xlbs.apiservice.dao.intf.I_UserDao;
 import com.xlbs.apiservice.entity.User;
 import com.xlbs.apiservice.entity.query.UserQuery;
 import com.xlbs.constantjar.RequestContextUtils;
+import com.xlbs.constantjar.SysConstant;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,9 @@ public class UserDao implements I_UserDao {
 
     @Override
     public PageInfo<User> find(UserQuery query) {
+        if(!RequestContextUtils.getUserType().equals(SysConstant.SUPER_USER)){
+            query.setCreatedBy(RequestContextUtils.getUserId());
+        }
         return PageHelper.startPage(query.getCurrentPage(),query.getPageSize())
                 .doSelectPageInfo(()->sqlSession.selectList(NameSpace.USER_NAMESPACE+".find",query));
     }
