@@ -70,7 +70,7 @@ function remove(id,name) {
     return (dispatch) => {
         showConfirm("确定删除账号为: "+name+" 的用户？",
             ()=>{
-                if(userId===1){
+                if(id===1){
                     showInfo("超级用户无法删除");
                     return;
                 }
@@ -78,7 +78,7 @@ function remove(id,name) {
                 Ajax.get(
                     url,
                     (res) => {
-                        dispatch(findUserList());
+                        dispatch(find());
                         showInfo(res.msg);
                     },
                     dispatch
