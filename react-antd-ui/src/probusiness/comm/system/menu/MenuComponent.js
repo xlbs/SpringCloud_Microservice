@@ -94,12 +94,6 @@ class MenuComponent extends React.Component{
         return `${range[0]}-${range[1]} of ${total}`;
     }
 
-    handleSubmit(e,values){
-        e.preventDefault();
-        this.props.content.find();
-
-    }
-
     //新增
     add(){
         this.props.content.add();
@@ -115,12 +109,17 @@ class MenuComponent extends React.Component{
         this.props.content.remove(id,name);
     }
 
+    handleSubmit(e,values){
+        e.preventDefault();
+        this.props.content.find();
+    }
+
     render() {
         const props = this.props.content;
         let dataSource,total;
-        if(props.menuList){
-            dataSource = props.menuList.list;
-            total = props.menuList.total
+        if(props.list){
+            dataSource = props.list.list;
+            total = props.list.total;
         }
         const rowSelection = {
             onChange: (selectedRowKeys, selectedRows) => {

@@ -20,10 +20,10 @@ class handleRoleManagement extends React.Component{
 
 const mapStateToProps = state =>({
     list: state.role.list,
-    info: state.role.info,
     currentPage: state.role.currentPage,
     pageSize: state.role.pageSize,
     dialog: state.role.dialog,
+    info: state.role.info,
 
     menus: state.role.menus,
 })

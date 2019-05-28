@@ -6,12 +6,12 @@ import {openDialog, closeDialog} from "../../../../commutils/actions/Dialog";
 const BASE_URL = $requestContext.path;
 const API_SERVICE = BASE_URL + "/api_service";
 
-export const MENU_LIST = "MENU_LIST";
-export const PARENT_MENUS = "PARENT_MENUS";
+export const LIST = "LIST";
 export const INFO = "INFO";
+export const PARENT_MENUS = "PARENT_MENUS";
 
 /**
- * 分页查询菜单
+ * 分页查询
  * @returns {Function}
  */
 function find() {
@@ -25,8 +25,8 @@ function find() {
             {url,params},
             (res)=>{
                 dispatch({
-                    type: MENU_LIST,
-                    menuList: res.data
+                    type: LIST,
+                    list: res.data
                 })
             },
             dispatch
@@ -60,8 +60,8 @@ function edit(id) {
 
 /**
  * 删除
- * @param id
- * @param name
+ * @param id 标识
+ * @param name 名称
  * @returns {Function}
  */
 function remove(id,name) {
@@ -90,6 +90,7 @@ function remove(id,name) {
 /**
  * 保存
  * @param values
+ * @returns {Function}
  */
 function save(values) {
     let url = API_SERVICE+"/menu/save";
@@ -163,14 +164,8 @@ function findMenuByRank(rank,onChange){
 
 
 export const actions = {
-    find,
-    add,
-    edit,
-    remove,
-    save,
-    findById,
+    find,add,edit,remove,save,findById,
+    setCurrentPage,setPageSize,closeDialog,
+
     findMenuByRank,
-    setCurrentPage,
-    setPageSize,
-    closeDialog,
 }

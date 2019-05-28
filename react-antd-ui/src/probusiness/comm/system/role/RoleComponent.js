@@ -100,9 +100,10 @@ class RoleComponent extends React.Component{
 
     render() {
         const props = this.props.content;
-        let dataSource;
+        let dataSource,total;
         if(props.list){
             dataSource = props.list.list;
+            total = props.list.total;
         }
         return (
             <div id="role" className="table-div">
@@ -135,7 +136,7 @@ class RoleComponent extends React.Component{
                         onChange={this.onChange}
                         onShowSizeChange={this.onShowSizeChange}
                         showTotal={this.showTotal}
-                        total={props.list?props.list.total:0}
+                        total={total?total:0}
                     />
                 </div>
 
