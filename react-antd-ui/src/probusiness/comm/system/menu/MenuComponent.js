@@ -24,11 +24,13 @@ class MenuComponent extends React.Component{
             {title:'菜单名称', dataIndex:'name', key:'name', width:150},
             {title:'菜单等级', dataIndex:'rank', key:'rank', width:100,
                 render: (row)=>{
-                    return this.state.menuRank.map(item => {
-                        if(row == item.code){
-                            return item.value;
-                        }
-                    });
+                    if(this.state.menuRank){
+                        return this.state.menuRank.map(item => {
+                            if(row == item.code){
+                                return item.value;
+                            }
+                        });
+                    }
                 }
             },
             {title:'URL', dataIndex:'url', key:'url', width:200},

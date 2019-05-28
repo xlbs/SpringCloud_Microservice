@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button, Table, Divider, Pagination } from 'antd';
 import CreateTable from '../../../../commutils/components/utils/CreateTable';
 import '../../../../statics/css/system/user/user.css';
-import {DataDict} from "../../../../commutils/utils/CommUtils"
+import {DataDict, formatDate} from "../../../../commutils/utils/CommUtils"
 import UserModalDialog from "./UserModalDialog";
 
 class UserComponent extends React.Component{
@@ -23,22 +23,49 @@ class UserComponent extends React.Component{
             },
             {title: '账号',dataIndex: 'username',key: 'username',width:200},
             {title: '姓名',dataIndex: 'name',key: 'name',width:150},
-            {title: '类型',dataIndex: 'type',key: 'type',width:100},
+            {title: '类型',dataIndex: 'type',key: 'type',width:100,
+                render: (row)=>{
+                    if(this.state.userType){
+                        return this.state.userType.map(item => {
+                            if(row == item.code){
+                                return item.value;
+                            }
+                        });
+                    }
+                }
+            },
             {title: '所拥有角色',dataIndex: 'roleName',key: 'roleName',width:200},
             {title: '创建人',dataIndex: 'createdByName',key: 'createdByName',width:150},
-            {title: '创建时间',dataIndex: 'createdDate',key: 'createdDate',width:200},
+            {title: '创建时间',dataIndex: 'createdDate',key: 'createdDate',width:200,
+                render: (row)=>{
+                    if(row){
+                        return formatDate(row);
+                    }
+                }
+            },
             {title: '最后修改人',dataIndex: 'lastModifyByName',key: 'lastModifyByName',width:150},
-            {title: '最后修改时间',dataIndex: 'lastModifyDate',key: 'lastModifyDate',width:200},
+            {title: '最后修改时间',dataIndex: 'lastModifyDate',key: 'lastModifyDate',width:200,
+                render: (row)=>{
+                    if(row){
+                        return formatDate(row);
+                    }
+                }
+            },
         ];
         this.state = {
             columns: columns,
         };
-        DataDict("USER_TYPE",this.props.content.dispatch);
         this.onChange = this.onChange.bind(this);
         this.onShowSizeChange = this.onShowSizeChange.bind(this);
     }
 
     componentWillMount() {
+        const dataDict = DataDict("USER_TYPE",this.props.content.dispatch);
+        if(dataDict){
+            this.setState({
+                userType: dataDict["USER_TYPE"],
+            });
+        }
         this.props.content.find();
     }
 
@@ -101,8 +128,8 @@ class UserComponent extends React.Component{
         }
 
         return (
-            <div id="user" className="user">
-                <Form className="user-form" onSubmit={this.handleSubmit.bind(this)}>
+            <div id="user" className="table-div">
+                <Form className="table-form" onSubmit={this.handleSubmit.bind(this)}>
 
                 </Form>
 
@@ -113,23 +140,25 @@ class UserComponent extends React.Component{
                 </div>
 
                 <div>
-                    <CreateTable
-                        className="user-table"
+                    {/*<CreateTable*/}
+                        {/*className="table"*/}
+                        {/*columns={this.state.columns}*/}
+                        {/*dataSource={dataSource}*/}
+                        {/*format={{type:"DATA_DICT.USER_TYPE",createdDate:"DATE",lastModifyDate:"DATE"}}*/}
+                        {/*// pagination={pagination}*/}
+                        {/*pagination={false}*/}
+                        {/*scroll={{x:1500,y:587}}*/}
+                        {/*bordered*/}
+                    {/*/>*/}
+
+                    <Table
+                        className="table"
                         columns={this.state.columns}
                         dataSource={dataSource}
-                        format={{type:"DATA_DICT.USER_TYPE",createdDate:"DATE",lastModifyDate:"DATE"}}
-                        // pagination={pagination}
                         pagination={false}
                         scroll={{x:1500,y:587}}
                         bordered
                     />
-
-                    {/*<Table*/}
-                    {/*columns={this.state.columns}*/}
-                    {/*dataSource={dataSource}*/}
-                    {/*pagination={pagination}*/}
-                    {/*bordered*/}
-                    {/*/>*/}
 
                     <Pagination
                         className="pagination"
