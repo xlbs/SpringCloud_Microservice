@@ -31,6 +31,18 @@ public class MenuController extends ResponseResult {
     }
 
     /**
+     * 通过标识查找
+     * @param id 标识
+     * @return 对象
+     */
+    @ApiOperation(value="通过标识查找")
+    @GetMapping(value = "/find/{id}")
+    public ResponseResult findById(@PathVariable(value = "id") Long id){
+        Menu menu = menuService.findById(id);
+        return success(menu);
+    }
+
+    /**
      * 保存对象
      * @param menu 对象
      * @param isEdit 是否编辑
@@ -41,18 +53,6 @@ public class MenuController extends ResponseResult {
     public ResponseResult save(@RequestBody Menu menu, @RequestParam(required = false) Boolean isEdit){
         menuService.save(menu,isEdit);
         return success();
-    }
-
-    /**
-     * 通过标识查找
-     * @param id 标识
-     * @return 对象
-     */
-    @ApiOperation(value="通过标识查找")
-    @GetMapping(value = "/find/{id}")
-    public ResponseResult findById(@PathVariable(value = "id") Long id){
-        Menu menu = menuService.findById(id);
-        return success(menu);
     }
 
     /**
@@ -75,16 +75,14 @@ public class MenuController extends ResponseResult {
         return super.success();
     }
 
-
-
     /**
      * 查询所有的菜单
      * @return 菜单列表
      */
     @ApiOperation(value="查询所有的菜单")
     @GetMapping(value = "/all")
-    public ResponseResult findAllMenu(){
-        List<Menu> list = menuService.findAllMenu();
+    public ResponseResult findAll(){
+        List<Menu> list = menuService.findAll();
         if(!list.isEmpty()){
             return super.success(list);
         }

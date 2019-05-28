@@ -19,30 +19,34 @@ public class RoleController extends ResponseResult {
     private I_RoleService roleService;
 
     /**
-     * 查找系统中的角色列表
-     * @return
+     * 分页查找
+     * @param roleQuery 条件
+     * @return 分页结果对象
      */
-    @ApiOperation(value="查找系统中的角色列表")
+    @ApiOperation(value="分页查找")
     @PostMapping(value = "/find")
-    public ResponseResult findList(@RequestBody RoleQuery roleQuery){
-        PageInfo<Role> pageInfo = roleService.findList(roleQuery);
+    public ResponseResult find(@RequestBody RoleQuery roleQuery){
+        PageInfo<Role> pageInfo = roleService.find(roleQuery);
         return success(pageInfo);
     }
 
     /**
-     * 查找某个角色信息
-     * @return
+     * 通过标识查找
+     * @param id 标识
+     * @return 对象
      */
     @ApiOperation(value="查找某个角色信息")
     @GetMapping(value = "/find/{id}")
-    public ResponseResult findRoleById(@PathVariable(value = "id") Long id){
-        Role role = roleService.findRoleById(id);
+    public ResponseResult findById(@PathVariable(value = "id") Long id){
+        Role role = roleService.findById(id);
         return success(role);
     }
 
     /**
-     * 保存角色信息
-     * @return
+     * 保存对象
+     * @param role 对象
+     * @param isEdit 是否编辑
+     * @return 操作结果信息：成功/失败
      */
     @ApiOperation(value="保存角色信息")
     @PostMapping(value = "/save")
@@ -52,10 +56,11 @@ public class RoleController extends ResponseResult {
     }
 
     /**
-     * 删除角色信息
+     * 删除对象
+     * @param id 标识
      * @return
      */
-    @ApiOperation(value="删除角色信息")
+    @ApiOperation(value="删除对象")
     @GetMapping(value = "delete/{id}")
     public ResponseResult delete(@PathVariable(value = "id") Long id){
         roleService.delete(id);

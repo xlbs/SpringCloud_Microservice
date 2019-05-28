@@ -16,18 +16,18 @@ public interface I_MenuService {
     public PageInfo<Menu> find(MenuQuery menuQuery);
 
     /**
-     * 保存对象
-     * @param menu 对象
-     * @param isEdit 是否编辑
-     */
-    public void save(Menu menu, Boolean isEdit);
-
-    /**
      * 通过标识查找
      * @param id 标识
      * @return 对象
      */
     public Menu findById(Long id);
+
+    /**
+     * 保存对象
+     * @param menu 对象
+     * @param isEdit 是否编辑
+     */
+    public void save(Menu menu, Boolean isEdit);
 
     /**
      * 根据等级查找菜单
@@ -36,13 +36,11 @@ public interface I_MenuService {
      */
     public List<Menu> findMenuByRank(String rank);
 
-
-
     /**
      * 查询所有菜单
      * @return 菜单列表
      */
-    public List<Menu> findAllMenu();
+    public List<Menu> findAll();
 
 
     /**

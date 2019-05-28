@@ -18,8 +18,8 @@
         <include refid="entity"/>
     </sql>
 
-    <!--查询角色列表-->
-    <select id="findList" resultType="com.xlbs.apiservice.entity.Role">
+    <!--分页查询-->
+    <select id="find" resultType="com.xlbs.apiservice.entity.Role">
         select
           t1.id as `key`,
           t1.id,
@@ -48,8 +48,8 @@
         on t1.`id`=t4.roleId
     </select>
 
-    <!--查询角色信息-->
-    <select id="findRole" resultType="com.xlbs.apiservice.entity.Role">
+    <!--查询-->
+    <select id="select" resultType="com.xlbs.apiservice.entity.Role">
         select
           <include refid="roleField"/>
         from
@@ -61,8 +61,8 @@
         </where>
     </select>
 
-    <!--保存角色-->
-    <insert id="saveRole" parameterType="com.xlbs.apiservice.entity.Role">
+    <!--保存-->
+    <insert id="save" parameterType="com.xlbs.apiservice.entity.Role">
         insert into t_role
           (id,`name`,created_by,created_date,last_modify_by,last_modify_date)
         values
@@ -70,8 +70,8 @@
 
     </insert>
 
-    <!--更新角色-->
-    <update id="updateRole" parameterType="com.xlbs.apiservice.entity.Role">
+    <!--更新-->
+    <update id="update" parameterType="com.xlbs.apiservice.entity.Role">
         update t_role
         <set>
             <if test="name != null">
@@ -87,8 +87,8 @@
         where id=#{id}
     </update>
 
-    <!--删除角色-->
-    <delete id="deleteRole" >
+    <!--删除-->
+    <delete id="delete" >
         delete from t_role
         <where>
             <if test="id != null">

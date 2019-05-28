@@ -16,17 +16,17 @@ public interface I_MenuDao {
     public PageInfo<Menu> find(MenuQuery menuQuery);
 
     /**
-     * 保存对象
-     * @param menu 对象
-     */
-    public void save(Menu menu);
-
-    /**
      * 通过标识查找
      * @param id 标识
      * @return 对象
      */
     public Menu findById(Long id);
+
+    /**
+     * 保存对象
+     * @param menu 对象
+     */
+    public void save(Menu menu);
 
     /**
      * 根据等级查找菜单
@@ -36,19 +36,17 @@ public interface I_MenuDao {
     public List<Menu> findMenuByRank(String rank);
 
     /**
-     * 查询所有菜单
-     * @return 菜单列表
-     */
-    public List<Menu>  findAllMenu();
-
-
-
-    /**
      * 通过菜单id集合查询菜单
      * @param ids 菜单id集合
      * @return 菜单列表
      */
     public List<Menu> findMenuByIds(String[] ids);
+
+    /**
+     * 查询所有菜单
+     * @return 菜单列表
+     */
+    public List<Menu>  findAll();
 
     /**
      * 通过用户id查询该用户所拥有的菜单

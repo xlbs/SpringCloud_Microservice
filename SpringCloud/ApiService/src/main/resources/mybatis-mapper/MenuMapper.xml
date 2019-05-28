@@ -34,14 +34,6 @@
         order by id
     </select>
 
-    <!--保存-->
-    <insert id="save" parameterType="com.xlbs.apiservice.entity.Menu">
-        insert into t_menu
-          (`name`,`parent_id`,`rank`,`url`,`is_enable`,created_by,created_date,last_modify_by,last_modify_date)
-        values
-          (#{name},#{parentId},#{rank},#{url},#{isEnable},#{createdBy},#{createdDate},#{lastModifyBy},#{lastModifyDate})
-    </insert>
-
     <!--查询-->
     <select id="select" resultType="com.xlbs.apiservice.entity.Menu">
         select
@@ -65,6 +57,14 @@
         </where>
         order by id
     </select>
+
+    <!--保存-->
+    <insert id="save" parameterType="com.xlbs.apiservice.entity.Menu">
+        insert into t_menu
+          (`name`,`parent_id`,`rank`,`url`,`is_enable`,created_by,created_date,last_modify_by,last_modify_date)
+        values
+          (#{name},#{parentId},#{rank},#{url},#{isEnable},#{createdBy},#{createdDate},#{lastModifyBy},#{lastModifyDate})
+    </insert>
 
     <!--通过用户ID查询该用户拥有的菜单-->
     <select id="findMenuByUserId" resultType="com.xlbs.apiservice.entity.Menu">

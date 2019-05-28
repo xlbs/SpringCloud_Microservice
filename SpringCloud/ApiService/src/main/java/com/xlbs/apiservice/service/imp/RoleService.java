@@ -32,8 +32,8 @@ public class RoleService implements I_RoleService {
     private MenuService menuService;
 
     @Override
-    public PageInfo<Role> findList(RoleQuery roleQuery) {
-        PageInfo<Role> pageInfo = roleDao.findList(roleQuery);
+    public PageInfo<Role> find(RoleQuery roleQuery) {
+        PageInfo<Role> pageInfo = roleDao.find(roleQuery);
         List<Role> roleList = pageInfo.getList();
         for (Role role : roleList){
             List<Menu> res = new ArrayList<>();
@@ -47,8 +47,8 @@ public class RoleService implements I_RoleService {
     }
 
     @Override
-    public Role findRoleById(Long id) {
-        Role role = roleDao.findRoleById(id);
+    public Role findById(Long id) {
+        Role role = roleDao.findById(id);
         List<Menu> menuList = roleMenuDao.findMenusByRoleId(id);
         List<Menu> oneLevelMenuList = new ArrayList<>();
         for (Menu menu : menuList){
@@ -68,11 +68,11 @@ public class RoleService implements I_RoleService {
         if(!Objects.isNull(isEdit) && isEdit){
             id = role.getId();
             roleMenuDao.deleteRoleMenuByRoleId(id);
-            roleDao.updateRole(role);
+            roleDao.update(role);
         }else{
             id = RandomCodeUtils.getRandomId();
             role.setId(id);
-            roleDao.saveRole(role);
+            roleDao.save(role);
         }
         List<Menu> menus = role.getMenus();
         List<RoleMenu> roleMenuList = new ArrayList<>();
@@ -92,7 +92,7 @@ public class RoleService implements I_RoleService {
     @Transactional
     public void delete(Long id) {
         roleMenuDao.deleteRoleMenuByRoleId(id);
-        roleDao.deleteRoleById(id);
+        roleDao.delete(id);
     }
 
     @Override

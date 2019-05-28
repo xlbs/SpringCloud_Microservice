@@ -10,36 +10,36 @@ import java.util.List;
 public interface I_RoleDao {
 
     /**
-     * 查询角色列表信息
-     * @return
+     * 分页查找
+     * @param roleQuery 条件
+     * @return 菜单列表
      */
-    public PageInfo<Role> findList(RoleQuery roleQuery);
+    public PageInfo<Role> find(RoleQuery roleQuery);
 
     /**
-     * 通过角色Id查询角色信息
-     * @param id 角色Id
-     * @return
+     * 通过标识查找
+     * @param id 标识
+     * @return 对象
      */
-    public Role findRoleById(Long id);
-
+    public Role findById(Long id);
 
     /**
-     * 保存角色
-     * @param role 角色
+     * 保存对象
+     * @param role 对象
      */
-    public void saveRole(Role role);
+    public void save(Role role);
 
     /**
      * 更新角色
      * @param role 角色
      */
-    public void updateRole(Role role);
+    public void update(Role role);
 
     /**
-     * 删除角色
-     * @param id 角色Id
+     * 删除对象
+     * @param id 标识
      */
-    public void deleteRoleById(Long id);
+    public void delete(Long id);
 
     /**
      *查询角色信息

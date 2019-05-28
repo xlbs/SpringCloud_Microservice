@@ -9,28 +9,29 @@ import java.util.List;
 public interface I_RoleService {
 
     /**
-     * 查询角色列表信息
+     * 分页查找
      * @param roleQuery 条件
-     * @return
+     * @return 分页结果对象
      */
-    public PageInfo<Role> findList(RoleQuery roleQuery);
+    public PageInfo<Role> find(RoleQuery roleQuery);
 
     /**
-     * 通过角色ID查询角色信息
-     * @param id 角色id
-     * @return
+     * 通过标识查找
+     * @param id 标识
+     * @return 对象
      */
-    public Role findRoleById(Long id);
+    public Role findById(Long id);
 
     /**
-     * 保存角色信息
-     * @param role 角色信息
+     * 保存对象
+     * @param role 对象
+     * @param isEdit 是否编辑
      */
     public void save(Role role, Boolean isEdit);
 
     /**
-     * 删除角色信息
-     * @param id 角色id
+     * 删除对象
+     * @param id 标识
      */
     public void delete(Long id);
 

@@ -35,6 +35,11 @@ public class MenuService implements I_MenuService {
     }
 
     @Override
+    public Menu findById(Long id) {
+        return menuDao.findById(id);
+    }
+
+    @Override
     @Transactional
     public void save(Menu menu, Boolean isEdit) {
         if(!Objects.isNull(isEdit) && isEdit){
@@ -45,20 +50,13 @@ public class MenuService implements I_MenuService {
     }
 
     @Override
-    public Menu findById(Long id) {
-        return menuDao.findById(id);
-    }
-
-    @Override
     public List<Menu> findMenuByRank(String rank) {
         return menuDao.findMenuByRank(rank);
     }
 
-
-
     @Override
-    public List<Menu> findAllMenu() {
-        List<Menu> menuList = menuDao.findAllMenu();
+    public List<Menu> findAll() {
+        List<Menu> menuList = menuDao.findAll();
         List<Menu> oneLevelMenuList = new ArrayList<>();
         for (Menu menu : menuList){
             if(Objects.isNull(menu.getParentId())){
@@ -68,7 +66,6 @@ public class MenuService implements I_MenuService {
         List<Menu> resList = findChildMenu(oneLevelMenuList,menuList);
         return resList;
     }
-
 
     @Override
     public List<Menu> findMenuByUserId(Long userId) {
