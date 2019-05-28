@@ -1,6 +1,6 @@
 import {SET_CURRENT_PAGE, SET_PAGE_SIZE, currentPage, pageSize} from "../../../../commutils/actions/Pagination";
 import {OPEN_DIALOG, CLOSE_DIALOG} from "../../../../commutils/actions/Dialog";
-import {ROLE_LIST,MENUS,ROLE_INFO} from "./RoleAction";
+import {LIST,INFO,MENUS} from "./RoleAction";
 
 const initialState = {
     currentPage,
@@ -8,20 +8,15 @@ const initialState = {
 };
 const roleReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ROLE_LIST:
+        case LIST:
             return{
                 ...state,
-                roleList: action.roleList
+                list: action.list
             }
-        case MENUS:
+        case INFO:
             return{
                 ...state,
-                menus: action.menus
-            }
-        case ROLE_INFO:
-            return{
-                ...state,
-                roleInfo: action.roleInfo
+                info: action.info
             }
         case SET_CURRENT_PAGE:
             return{
@@ -48,6 +43,12 @@ const roleReducer = (state = initialState, action) => {
                 dialog: {
                     open: action.open,
                 }
+            }
+
+        case MENUS:
+            return{
+                ...state,
+                menus: action.menus
             }
         default:
             return state;

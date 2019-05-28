@@ -58,54 +58,51 @@ class RoleComponent extends React.Component{
         this.props.content.find();
     }
 
+
     onChange(page, pageSize){
         this.props.content.setCurrentPage(page);
         this.props.content.setPageSize(pageSize);
         this.props.content.find();
     }
-
     onShowSizeChange(current, size){
         this.props.content.setCurrentPage(current);
         this.props.content.setPageSize(size);
         this.props.content.find();
     }
-
     showTotal(total, range){
         return `${range[0]}-${range[1]} of ${total}`;
     }
 
-    handleSubmit(e,values){
-        e.preventDefault();
-        this.props.content.find();
-
-    }
 
     //新增
     add(){
         this.props.content.add();
     }
-
     //编辑
     edit(id){
         this.props.content.edit(id);
     }
-
     //删除
     remove(id,name){
         this.props.content.remove(id,name);
     }
-
     //导出
-    export(){
-        this.props.content.exportUserInfo();
+    outPut(){
+        this.props.content.outPut();
+    }
+
+
+    handleSubmit(e,values){
+        e.preventDefault();
+        this.props.content.find();
     }
 
 
     render() {
         const props = this.props.content;
         let dataSource;
-        if(props.roleList){
-            dataSource = props.roleList.list;
+        if(props.list){
+            dataSource = props.list.list;
         }
         return (
             <div id="role" className="table-div">
@@ -115,7 +112,7 @@ class RoleComponent extends React.Component{
 
                 <div>
                     <Button type="primary" className="primary-button" onClick={this.add.bind(this)}>新增</Button>
-                    <Button type="primary" className="primary-button" onClick={this.export.bind(this)}>导出</Button>
+                    <Button type="primary" className="primary-button" onClick={this.outPut.bind(this)}>导出</Button>
                     <Button shape="circle" icon="search" className="search-button" />
                 </div>
 
@@ -138,7 +135,7 @@ class RoleComponent extends React.Component{
                         onChange={this.onChange}
                         onShowSizeChange={this.onShowSizeChange}
                         showTotal={this.showTotal}
-                        total={props.roleList?props.roleList.total:0}
+                        total={props.list?props.list.total:0}
                     />
                 </div>
 

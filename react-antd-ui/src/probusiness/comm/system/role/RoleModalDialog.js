@@ -60,7 +60,7 @@ class RoleModalDialog extends React.Component {
                     confirm: 'success',
                 },
             });
-            this.props.modalDialog.findRoleInfo(id);
+            this.props.modalDialog.findById(id);
         }
     }
 
@@ -87,10 +87,10 @@ class RoleModalDialog extends React.Component {
             callback(this.state.help[field]);
         }else{
             let buttonDisabled = true;
-            const roleInfo = this.props.modalDialog.roleInfo;
+            const info = this.props.modalDialog.info;
             const content = this.props.modalDialog.dialog.content;
             if(content){ //编辑
-                if(roleInfo && roleInfo[field] != fieldValue){
+                if(info && info[field] != fieldValue){
                     buttonDisabled = false;
                 }
             }else{ //新增
@@ -142,8 +142,8 @@ class RoleModalDialog extends React.Component {
     renderTree(){
         const menus = this.props.modalDialog.menus;
         let roleMenus ;
-        if(this.props.modalDialog.roleInfo){
-            roleMenus = this.props.modalDialog.roleInfo.menus;
+        if(this.props.modalDialog.info){
+            roleMenus = this.props.modalDialog.info.menus;
         }
         let checkedKeys = [];
         let submitCheckedKeys = [];
@@ -161,7 +161,7 @@ class RoleModalDialog extends React.Component {
 
 
             });
-            if(this.props.modalDialog.roleInfo.render){
+            if(this.props.modalDialog.info.render){
                 this.setState({
                     autoExpandParent: true,
                     checkedKeys: checkedKeys,
@@ -169,7 +169,7 @@ class RoleModalDialog extends React.Component {
                     initCheckedKeys: checkedKeys,
                     submitCheckedKeys: submitCheckedKeys,
                 });
-                this.props.modalDialog.roleInfo.render = false;
+                this.props.modalDialog.info.render = false;
             }
         }
         return(
@@ -216,10 +216,10 @@ class RoleModalDialog extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const title = this.props.modalDialog.dialog.title + '角色';
-        const roleInfo = this.props.modalDialog.roleInfo;
+        const info = this.props.modalDialog.info;
         let {name} = {};
-        if(roleInfo && this.props.modalDialog.dialog.content){
-            name = roleInfo.name;
+        if(info && this.props.modalDialog.dialog.content){
+            name = info.name;
         }
         return (
             <div>

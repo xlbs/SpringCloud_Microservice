@@ -7,12 +7,12 @@ const BASE_URL = $requestContext.path;
 const API_SERVICE = BASE_URL + "/api_service";
 const EXCEL_SERVICE = BASE_URL + "/excel_service";
 
-export const ROLE_LIST = "ROLE_LIST";
+export const LIST = "LIST";
+export const INFO = "INFO";
 export const MENUS = "MENUS";
-export const ROLE_INFO = "ROLE_INFO";
 
 /**
- * 查询角色数据列表
+ * 分页查询
  * @returns {Function}
  */
 function find() {
@@ -26,8 +26,8 @@ function find() {
             {url,params},
             (res)=>{
                 dispatch({
-                    type: ROLE_LIST,
-                    roleList: res.data
+                    type: LIST,
+                    list: res.data
                 })
             },
             dispatch
@@ -36,7 +36,7 @@ function find() {
 }
 
 /**
- * 新增角色
+ * 新增
  * @returns {Function}
  */
 function add() {
@@ -46,8 +46,8 @@ function add() {
 }
 
 /**
- * 编辑角色
- * @param id 角色Id
+ * 编辑
+ * @param id 标识
  * @returns {Function}
  */
 function edit(id) {
@@ -60,9 +60,9 @@ function edit(id) {
 }
 
 /**
- * 删除角色
- * @param id
- * @param name
+ * 删除
+ * @param id 标识
+ * @param name 名称
  * @returns {Function}
  */
 function remove(id,name) {
@@ -89,8 +89,9 @@ function remove(id,name) {
 }
 
 /**
- * 保存角色
+ * 保存
  * @param values
+ * @returns {Function}
  */
 function save(values) {
     let url = API_SERVICE+"/role/save";
@@ -112,7 +113,49 @@ function save(values) {
 }
 
 /**
+ * 通过标识查询信息
+ * @param id 标识
+ * @returns {Function}
+ */
+function findById(id) {
+    const url = API_SERVICE+"/role/find/"+id;
+    return (dispatch) =>{
+        Ajax.get(
+            url,
+            (res) =>{
+                if(res.data){
+                    res.data.render = true;
+                    dispatch({
+                        type: INFO,
+                        info: res.data
+                    })
+                }
+
+            }
+        )
+    }
+}
+
+/**
+ * 导出
+ * @returns {Function}
+ */
+function outPut() {
+    return (dispatch) => {
+        Ajax.get(
+            EXCEL_SERVICE+"/role/export",
+            (res)=>{
+
+            },
+            dispatch
+        )
+    }
+}
+
+
+/**
  * 查询所有菜单
+ * @returns {Function}
  */
 function findAllMenu() {
     let url = API_SERVICE+"/menu/all";
@@ -130,59 +173,10 @@ function findAllMenu() {
     }
 }
 
-/**
- * 查询某个角色信息
- * @param id 角色Id
- * @returns {Function}
- */
-function findRoleInfo(id) {
-    const url = API_SERVICE+"/role/find/"+id;
-    return (dispatch) =>{
-        Ajax.get(
-            url,
-            (res) =>{
-                if(res.data){
-                    res.data.render = true;
-                    dispatch({
-                        type: ROLE_INFO,
-                        roleInfo: res.data
-                    })
-                }
-
-            }
-        )
-    }
-}
-
-
-
-/**
- * 导出
- * @returns {Function}
- */
-function exportUserInfo() {
-    return (dispatch) => {
-        Ajax.get(
-            EXCEL_SERVICE+"/user/export",
-            (res)=>{
-
-            },
-            dispatch
-        )
-    }
-}
-
 
 export const actions = {
-    find,
-    add,
-    edit,
-    remove,
-    save,
+    find,add,edit,remove,save,findById,outPut,
+    setCurrentPage,setPageSize,closeDialog,
+
     findAllMenu,
-    findRoleInfo,
-    exportUserInfo,
-    setCurrentPage,
-    setPageSize,
-    closeDialog,
 }
