@@ -259,7 +259,7 @@ class UserModalDialog extends React.Component {
                             {getFieldDecorator('name',{
                                 rules: [{
                                     required: true,
-                                    validator: this.validateInputField.bind(this,'name','Please input your name!'),
+                                    validator: this.validateInputField.bind(this,'name','请输入姓名！'),
                                 }],
                                 initialValue: name? name : '',
                             })(
@@ -275,7 +275,8 @@ class UserModalDialog extends React.Component {
                         >
                             {getFieldDecorator('type',{
                                 rules: [{
-                                    required: true, message: 'Please select your type!',
+                                    required: true,
+                                    validator: this.validateInputField.bind(this,'type','请选择用户类型！'),
                                 }],
                                 initialValue: type||type==0? type+'' : '2',
                             })(
@@ -295,7 +296,7 @@ class UserModalDialog extends React.Component {
                             {getFieldDecorator('username',{
                                 rules: [{
                                     required: true,
-                                    validator: this.validateInputField.bind(this,'username','Please input your username!'),
+                                    validator: this.validateInputField.bind(this,'username','请输入账号！'),
                                 }],
                                 initialValue: username? username : '',
                             })(
@@ -313,7 +314,7 @@ class UserModalDialog extends React.Component {
                                     {getFieldDecorator('password',{
                                         rules: [{
                                             required: true,
-                                            validator: this.validateInputField.bind(this,'password','Please input your password!'),
+                                            validator: this.validateInputField.bind(this,'password','请输入密码！'),
                                         }],
                                     })(
                                         <Input type='password' placeholder="请输入密码"/>
@@ -329,7 +330,7 @@ class UserModalDialog extends React.Component {
                                     {getFieldDecorator('confirm', {
                                         rules: [{
                                             required: true,
-                                            validator: this.validateInputField.bind(this,'confirm','Please confirm your password!'),
+                                            validator: this.validateInputField.bind(this,'confirm','请确认密码！'),
                                         }],
                                     })(
                                         <Input type='password' placeholder="请确认密码" onBlur={this.handleConfirmBlur.bind(this)}/>
