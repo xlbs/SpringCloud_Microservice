@@ -8,6 +8,7 @@ import com.xlbs.apiservice.dao.intf.I_RoleDao;
 import com.xlbs.apiservice.entity.Role;
 import com.xlbs.apiservice.entity.query.RoleQuery;
 import com.xlbs.constantjar.RequestContextUtils;
+import com.xlbs.constantjar.SysConstant;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,9 @@ public class RoleDao implements I_RoleDao {
 
     @Override
     public PageInfo<Role> find(RoleQuery query) {
+        if(!RequestContextUtils.getUserType().equals(SysConstant.SUPER_USER)){
+            query.setCreatedBy(RequestContextUtils.getUserId());
+        }
         return PageHelper.startPage(query.getCurrentPage(),query.getPageSize())
                 .doSelectPageInfo(()->sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".find",query));
     }
@@ -54,7 +58,11 @@ public class RoleDao implements I_RoleDao {
 
     @Override
     public List<Role> findAll() {
-        return sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".select");
+        if(!RequestContextUtils.getUserType().equals(SysConstant.SUPER_USER)){
+            return sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".select", ImmutableMap.of("createdBy",RequestContextUtils.getUserId()));
+        }else{
+            return sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".select");
+        }
     }
 
 }

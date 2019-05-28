@@ -46,6 +46,11 @@
           group by
             rm.`role_id`) as t4
         on t1.`id`=t4.roleId
+        <where>
+            <if test="createdBy != null">
+                t1.created_by = #{createdBy}
+            </if>
+        </where>
     </select>
 
     <!--查询-->
@@ -57,6 +62,11 @@
         <where>
             <if test="id != null">
                 id = #{id}
+            </if>
+        </where>
+        <where>
+            <if test="createdBy != null">
+                created_by = #{createdBy}
             </if>
         </where>
     </select>
