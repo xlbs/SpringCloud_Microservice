@@ -1,3 +1,4 @@
+import React from 'react';
 import { Modal } from 'antd';
 
 export function showConfirm(msg, onOk, onCancel) {

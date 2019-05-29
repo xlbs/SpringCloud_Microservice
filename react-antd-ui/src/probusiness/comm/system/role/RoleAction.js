@@ -1,3 +1,4 @@
+import React from 'react';
 import {Ajax} from "../../../../commutils/utils/Ajax";
 import {showConfirm, showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 import {currentPage, pageSize, setCurrentPage, setPageSize} from "../../../../commutils/actions/Pagination";
@@ -67,10 +68,10 @@ function edit(id) {
  */
 function remove(id,name) {
     return (dispatch) => {
-        showConfirm("确定删除角色: "+name,
+        showConfirm(<span>确定删除<span style={{color:"red"}}>{name}</span>角色？</span>,
             ()=>{
                 if(id === 1){
-                    showInfo("超级管理员无法删除");
+                    showInfo(<span> <span style={{color:"red"}}>{name}</span> 无法删除！</span>);
                     return;
                 }
                 const url = API_SERVICE+"/role/delete/"+id;

@@ -16,7 +16,7 @@ class UserComponent extends React.Component{
                         <span>
                             <Button type="primary" size="small" onClick={this.edit.bind(this,row.id)} ghost>编辑</Button>
                             <Divider type="vertical" />
-                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.username)} ghost>删除</Button>
+                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.username,row.name)} ghost>删除</Button>
                         </span>
                     )
                 }
@@ -92,8 +92,8 @@ class UserComponent extends React.Component{
         this.props.content.edit(id);
     }
     //删除
-    remove(id,name){
-        this.props.content.remove(id,name);
+    remove(id,username,name){
+        this.props.content.remove(id,username,name);
     }
     //导出
     outPut(){
