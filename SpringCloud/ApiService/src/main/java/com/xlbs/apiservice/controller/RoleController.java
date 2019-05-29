@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.entity.Role;
 import com.xlbs.apiservice.entity.query.RoleQuery;
 import com.xlbs.apiservice.service.intf.I_RoleService;
+import com.xlbs.constantjar.RepStateCode;
 import com.xlbs.constantjar.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,10 @@ public class RoleController extends ResponseResult {
     @ApiOperation(value="删除对象")
     @GetMapping(value = "delete/{id}")
     public ResponseResult delete(@PathVariable(value = "id") Long id){
-        roleService.delete(id);
+        Boolean result = roleService.delete(id);
+        if (!result){
+            return custom(RepStateCode.ROLE_DELETE);
+        }
         return success();
     }
 

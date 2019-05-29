@@ -17,15 +17,21 @@
         <include refid="entity"/>
     </sql>
 
-    <!--通过userId查询用户信息-->
-    <select id="findRolesByUserId" resultType="com.xlbs.apiservice.entity.Role">
+    <!--查询用户角色-->
+    <select id="findUserRole" resultType="com.xlbs.apiservice.entity.Role">
         select
           role_id AS id,
           <include refid="entity"/>
         from
           t_user_role
-        where
-          user_id = #{userId}
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId}
+            </if>
+        </where>
     </select>
 
     <!--批量保存用户角色信息-->

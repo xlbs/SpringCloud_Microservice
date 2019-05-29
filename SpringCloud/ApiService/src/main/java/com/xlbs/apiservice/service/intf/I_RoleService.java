@@ -33,7 +33,7 @@ public interface I_RoleService {
      * 删除对象
      * @param id 标识
      */
-    public void delete(Long id);
+    public Boolean delete(Long id);
 
     /**
      * 查询所有菜角色
