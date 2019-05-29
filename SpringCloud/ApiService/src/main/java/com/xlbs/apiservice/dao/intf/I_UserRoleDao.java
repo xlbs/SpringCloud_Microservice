@@ -9,14 +9,14 @@ public interface I_UserRoleDao {
 
     /**
      * 通过userId查询用户的角色信息
-     * @param userId 用户ID
+     * @param userId 用户id
      * @return
      */
     public List<Role> findRolesByUserId(Long userId);
 
     /**
      * 通过userId查询用户的角色信息
-     * @param roleId 角色ID
+     * @param roleId 角色id
      * @return
      */
     public List<Role> findRolesByRoleId(Long roleId);
@@ -30,7 +30,7 @@ public interface I_UserRoleDao {
 
     /**
      * 删除用户角色信息
-     * @param userId 用户ID
+     * @param userId 用户id
      */
     public void deleteUserRolesByUserId(Long userId);
 

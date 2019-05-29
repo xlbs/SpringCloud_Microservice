@@ -14,6 +14,13 @@ public interface I_RoleMenuDao {
      */
     public List<Menu> findMenusByRoleId(Long roleId);
 
+    /**
+     * 通过menuId查询角色的菜单信息
+     * @param menuId 菜单id
+     * @return
+     */
+    public List<Menu> findMenusByMenuId(Long menuId);
+
 
     /**
      * 删除角色菜单信息

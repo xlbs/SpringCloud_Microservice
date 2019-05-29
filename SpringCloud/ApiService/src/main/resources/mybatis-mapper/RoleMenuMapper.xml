@@ -31,6 +31,9 @@
             <if test="roleId != null ">
                 role_id = #{roleId}
             </if>
+            <if test="menuId != null ">
+                menu_id = #{menuId}
+            </if>
         </where>
     </select>
 

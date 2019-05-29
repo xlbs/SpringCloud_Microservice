@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.entity.query.MenuQuery;
 import com.xlbs.apiservice.service.intf.I_MenuService;
+import com.xlbs.constantjar.RepStateCode;
 import com.xlbs.constantjar.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,21 @@ public class MenuController extends ResponseResult {
     @PostMapping(value = "/save")
     public ResponseResult save(@RequestBody Menu obj, @RequestParam(required = false) Boolean isEdit){
         menuService.save(obj,isEdit);
+        return success();
+    }
+
+    /**
+     * 删除对象
+     * @param id 标识
+     * @return
+     */
+    @ApiOperation(value="删除对象")
+    @GetMapping(value = "delete/{id}")
+    public ResponseResult delete(@PathVariable(value = "id") Long id){
+        Boolean result = menuService.delete(id);
+        if (!result){
+            return custom(RepStateCode.MENU_DELETE);
+        }
         return success();
     }
 

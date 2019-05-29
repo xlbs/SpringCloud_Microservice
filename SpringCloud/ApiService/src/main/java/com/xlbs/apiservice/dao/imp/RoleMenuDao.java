@@ -22,6 +22,11 @@ public class RoleMenuDao implements I_RoleMenuDao {
     }
 
     @Override
+    public List<Menu> findMenusByMenuId(Long menuId) {
+        return sqlSession.selectList("findRoleMenu",ImmutableMap.of("menuId",menuId));
+    }
+
+    @Override
     public void deleteRoleMenuByRoleId(Long roleId) {
         sqlSession.delete("deleteRoleMenu",ImmutableMap.of("roleId",roleId));
     }

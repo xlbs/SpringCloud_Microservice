@@ -71,6 +71,11 @@
           (#{name},#{parentId},#{rank},#{url},#{isEnable},#{createdBy},#{createdDate},#{lastModifyBy},#{lastModifyDate})
     </insert>
 
+    <!--删除-->
+    <delete id="delete" >
+        delete from t_menu where id=#{id} or parent_id=#{id}
+    </delete>
+
     <!--通过用户ID查询该用户拥有的菜单-->
     <select id="findMenuByUserId" resultType="com.xlbs.apiservice.entity.Menu">
         select

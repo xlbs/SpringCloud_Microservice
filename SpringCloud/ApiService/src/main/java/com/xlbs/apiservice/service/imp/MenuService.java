@@ -2,6 +2,7 @@ package com.xlbs.apiservice.service.imp;
 
 import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.dao.intf.I_MenuDao;
+import com.xlbs.apiservice.dao.intf.I_RoleMenuDao;
 import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.entity.query.MenuQuery;
 import com.xlbs.apiservice.service.intf.I_MenuService;
@@ -18,6 +19,9 @@ public class MenuService implements I_MenuService {
 
     @Autowired
     private I_MenuDao menuDao;
+
+    @Autowired
+    private I_RoleMenuDao roleMenuDao;
 
     @Override
     public PageInfo<Menu> find(MenuQuery menuQuery) {
@@ -47,6 +51,16 @@ public class MenuService implements I_MenuService {
         }else{
             menuDao.save(menu);
         }
+    }
+
+    @Override
+    public Boolean delete(Long id) {
+        List<Menu> list = roleMenuDao.findMenusByMenuId(id);
+        if(!list.isEmpty()){
+            return false;
+        }
+        menuDao.delete(id);
+        return true;
     }
 
     @Override

@@ -41,6 +41,11 @@ public class MenuDao implements I_MenuDao {
     }
 
     @Override
+    public void delete(Long id) {
+        sqlSession.delete(NameSpace.ROLE_NAMESPACE+".delete",ImmutableMap.of("id",id));
+    }
+
+    @Override
     public List<Menu> findMenuByRank(String rank) {
         return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select", ImmutableMap.of("rank",rank));
     }
