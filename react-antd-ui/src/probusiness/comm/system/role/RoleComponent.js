@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../../statics/css/system/role/role.css';
 import {Form, Table, Button, Divider, Pagination, Tree} from 'antd';
 import {formatDate} from '../../../../commutils/utils/CommUtils';
 import RoleModalDialog from "./RoleModalDialog";
