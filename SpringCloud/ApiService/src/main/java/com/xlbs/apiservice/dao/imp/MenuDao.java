@@ -58,9 +58,9 @@ public class MenuDao implements I_MenuDao {
     @Override
     public List<Menu> findAll() {
         if(!RequestContextUtils.getUserType().equals(SysConstant.SUPER_USER)){
-            return sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".select", ImmutableMap.of("createdBy",RequestContextUtils.getUserId()));
+            return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select", ImmutableMap.of("createdBy",RequestContextUtils.getUserId()));
         }else{
-            return sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".select");
+            return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select");
         }
     }
 
