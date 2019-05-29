@@ -42,7 +42,7 @@ public class MenuDao implements I_MenuDao {
 
     @Override
     public void delete(Long id) {
-        sqlSession.delete(NameSpace.ROLE_NAMESPACE+".delete",ImmutableMap.of("id",id));
+        sqlSession.delete(NameSpace.MENU_NAMESPACE+".delete",ImmutableMap.of("id",id));
     }
 
     @Override
