@@ -83,10 +83,7 @@ public class MenuController extends ResponseResult {
     @GetMapping(value = "/all")
     public ResponseResult findAll(){
         List<Menu> list = menuService.findAll();
-        if(!list.isEmpty()){
-            return super.success(list);
-        }
-        return super.success();
+        return super.success(list);
     }
 
 

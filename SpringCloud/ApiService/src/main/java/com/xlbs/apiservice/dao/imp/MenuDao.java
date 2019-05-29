@@ -8,6 +8,7 @@ import com.xlbs.apiservice.dao.intf.I_MenuDao;
 import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.entity.query.MenuQuery;
 import com.xlbs.constantjar.RequestContextUtils;
+import com.xlbs.constantjar.SysConstant;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -51,7 +52,11 @@ public class MenuDao implements I_MenuDao {
 
     @Override
     public List<Menu> findAll() {
-        return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select");
+        if(!RequestContextUtils.getUserType().equals(SysConstant.SUPER_USER)){
+            return sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".select", ImmutableMap.of("createdBy",RequestContextUtils.getUserId()));
+        }else{
+            return sqlSession.selectList(NameSpace.ROLE_NAMESPACE+".select");
+        }
     }
 
     @Override
