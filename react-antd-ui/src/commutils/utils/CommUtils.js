@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {Ajax,syncAjax} from "./Ajax";
 import {CurrentSessionCache} from "./CurrentCache";
 
@@ -138,6 +139,49 @@ export function DataDict(category,dispatch) {
         );
     }
     return result;
+}
+
+/**
+ * 同步查找字典表数据
+ * @param category
+ * @param dispatch
+ * @returns {Promise<any>} 返回Promise
+ * @constructor
+ */
+export function DataDictPromise(category,dispatch) {
+    let result = {};
+    let arr = [];
+    if(category instanceof Array){
+        category.map(item => {
+            let dataDict = CurrentSessionCache.get("D_"+item);
+            if(dataDict){
+                result[item] = dataDict;
+            }else{
+                arr.push(item);
+            }
+        })
+    }else{
+        let dataDict = CurrentSessionCache.get("D_"+category);
+        if(dataDict){
+            result[category] = dataDict;
+        }else{
+            arr.push(category);
+        }
+    }
+    return new Promise((resolve)=>{
+        if(arr.length>0){
+            let url = API_SERVICE + "/dataDict/find?category="+arr;
+            axios({url: url}).then(function(res){
+                if(res && res.data && res.data.data){
+                    res.data.data.map(item => {
+                        CurrentSessionCache.set("D_"+item.category, item.list);
+                        result[item.category] = item.list;
+                    });
+                    resolve(result);
+                }
+            })
+        }
+    })
 }
 
 /**
