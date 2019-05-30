@@ -177,10 +177,10 @@ export function DataDictPromise(category,dispatch) {
                         CurrentSessionCache.set("D_"+item.category, item.list);
                         result[item.category] = item.list;
                     });
-                    resolve(result);
                 }
             })
         }
+        resolve(result);
     })
 }
 
