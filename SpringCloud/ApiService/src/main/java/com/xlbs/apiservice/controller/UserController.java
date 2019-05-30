@@ -25,8 +25,8 @@ public class UserController extends ResponseResult {
      * @return 分页结果对象
      */
     @ApiOperation(value="分页查找")
-    @PostMapping(value = "/find")
-    public ResponseResult findUserList(@RequestBody UserQuery query){
+    @GetMapping(value = "/find")
+    public ResponseResult findUserList(@ModelAttribute UserQuery query){
         PageInfo<User> pageInfo = userService.find(query);
         return success(pageInfo);
     }
