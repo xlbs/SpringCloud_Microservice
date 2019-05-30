@@ -1,5 +1,5 @@
 import React from 'react';
-import {Ajax} from "../../../../commutils/utils/Ajax";
+import {Ajax, AjaxPromise} from "../../../../commutils/utils/Ajax";
 import {showConfirm, showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 import {currentPage, pageSize, setCurrentPage, setPageSize} from "../../../../commutils/actions/Pagination";
 import {openDialog, closeDialog} from "../../../../commutils/actions/Dialog";
@@ -23,18 +23,15 @@ function find() {
         currentPage: currentPage,
         pageSize: pageSize
     };
-    return (dispatch) => {
-        Ajax.post(
-            {url,params},
-            (res)=>{
-                dispatch({
-                    type: LIST,
-                    list: res.data
-                })
-            },
-            dispatch
-        )
-    }
+    const config = {};
+    config.method = "GET";
+    config.params = params;
+    return (dispatch) => AjaxPromise(url,config,dispatch).then(res => {
+        dispatch({
+            type: LIST,
+            list: res.data
+        })
+    })
 }
 
 /**
