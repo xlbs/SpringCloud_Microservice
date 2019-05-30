@@ -74,11 +74,9 @@
                     #{id}
                 </foreach >
             </if>
-            <where>
-                <if test="createdBy != null">
-                    created_by = #{createdBy}
-                </if>
-            </where>
+            <if test="createdBy != null">
+                created_by = #{createdBy}
+            </if>
         </where>
         order by id
     </select>
