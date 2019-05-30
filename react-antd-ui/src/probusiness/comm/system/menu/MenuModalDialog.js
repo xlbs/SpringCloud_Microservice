@@ -81,7 +81,7 @@ class MenuModalDialog extends React.Component {
             if(info.isEnable){
                 isEnable = "1";
             }else{
-                isEnable = "1";
+                isEnable = "0";
             }
             this.setState({
                 id: info.id,
