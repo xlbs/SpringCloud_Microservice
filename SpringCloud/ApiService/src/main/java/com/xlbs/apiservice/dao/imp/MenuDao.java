@@ -24,6 +24,9 @@ public class MenuDao implements I_MenuDao {
 
     @Override
     public PageInfo<Menu> find(MenuQuery query) {
+        if(!RequestContextUtils.getUserType().equals(SysConstant.SUPER_USER)){
+            query.setCreatedBy(RequestContextUtils.getUserId());
+        }
         return PageHelper.startPage(query.getCurrentPage(),query.getPageSize())
                 .doSelectPageInfo(()->sqlSession.selectList(NameSpace.MENU_NAMESPACE+".find", query));
     }

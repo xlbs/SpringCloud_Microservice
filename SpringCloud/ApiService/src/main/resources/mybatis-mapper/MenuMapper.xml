@@ -27,11 +27,31 @@
     <!--分页查询-->
     <select id="find" resultType="com.xlbs.apiservice.entity.Menu">
         select
-          `name` as `title`,
-          <include refid="menuField"/>
+          t1.id as id,
+          t1.id as `key`,
+          t1.`name` as `name`,
+          t1.`name` as `title`,
+          t1.parent_id as parentId,
+          t1.`rank` as `rank`,
+          t1.url as url,
+          t1.is_enable as isEnable,
+          t1.icon as icon,
+          t1.`index` as `index`,
+          t1.created_by as createdBy,
+          t1.created_date as createdDate,
+          t1.last_modify_by as lastModifyBy,
+          t1.last_modify_date as lastModifyDate,
+          t2.`name` as createdByName,
+          t3.`name` as lastModifyByName
         from
-          t_menu
-        order by id
+          t_menu t1
+        left join t_user t2 on t1.created_by = t2.id
+        left join t_user t3 on t1.last_modify_by = t3.id
+        <where>
+            <if test="createdBy != null">
+                t1.created_by = #{createdBy}
+            </if>
+        </where>
     </select>
 
     <!--查询-->
