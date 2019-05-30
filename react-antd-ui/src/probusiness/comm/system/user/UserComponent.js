@@ -1,8 +1,7 @@
 import React from 'react';
 import '../../../../statics/css/system/user/user.css';
 import { Form, Button, Table, Divider, Pagination } from 'antd';
-import CreateTable from '../../../../commutils/components/utils/CreateTable';
-import {DataDict, DataDictPromise,formatDate} from "../../../../commutils/utils/CommUtils"
+import {DataDictPromise,formatDate} from "../../../../commutils/utils/CommUtils"
 import UserModalDialog from "./UserModalDialog";
 
 class UserComponent extends React.Component{
@@ -64,8 +63,8 @@ class UserComponent extends React.Component{
             this.setState({
                 userType: json["USER_TYPE"],
             });
-            this.props.content.find();
         });
+        this.props.content.find();
     }
 
     onChange(page, pageSize){
