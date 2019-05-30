@@ -1,5 +1,7 @@
 import axios from 'axios';
 import {Ajax,syncAjax} from "./Ajax";
+import { showInfo } from '../components/dialog/MessageDialog';
+import {setErrorMsg, showLoginBox} from "../actions/Login";
 import {CurrentSessionCache} from "./CurrentCache";
 
 const BASE_URL = $requestContext.path;
@@ -171,16 +173,31 @@ export function DataDictPromise(category,dispatch) {
     return new Promise((resolve)=>{
         if(arr.length>0){
             let url = API_SERVICE + "/dataDict/find?category="+arr;
-            axios({url: url}).then(function(res){
-                if(res && res.data && res.data.data){
-                    res.data.data.map(item => {
-                        CurrentSessionCache.set("D_"+item.category, item.list);
-                        result[item.category] = item.list;
-                    });
+            axios({url: url}).then(function(response){
+                if(response && response.data && response.data.code===1){
+                    if(response.data.data){
+                        response.data.data.map(item => {
+                            CurrentSessionCache.set("D_"+item.category, item.list);
+                            result[item.category] = item.list;
+                        });
+                        resolve(result);
+                    }
+                }else if(response.data.code===20001 || response.data.code===20002){
+                    dispatch(setErrorMsg(response.data.msg));
+                }else{
+                    showInfo(response.data.msg);
+                }
+            }).catch(function(error){
+                if(error.response.data.status===10000){
+                    dispatch(showLoginBox());
+                }else{
+                    showInfo("未知错误,请求支援");
                 }
             })
+        }else{
+            resolve(result);
         }
-        resolve(result);
+
     })
 }
 
