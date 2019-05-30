@@ -9,6 +9,17 @@ class MenuComponent extends React.Component{
         super(props);
         const columns = [
             {title:'菜单标识', dataIndex:'id', key:'id', width:100},
+            {title:'操作', key:'action', width:150,
+                render: (row)=>{
+                    return(
+                        <span>
+                            <Button type="primary" size="small" onClick={this.edit.bind(this,row.id)} ghost>编辑</Button>
+                            <Divider type="vertical" />
+                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.name)} ghost>删除</Button>
+                        </span>
+                    )
+                }
+            },
             {title:'菜单名称', dataIndex:'name', key:'name', width:150},
             // {title:'', key:'number', width:80},
             {title:'菜单等级', dataIndex:'rank', key:'rank', width:100,
@@ -48,17 +59,7 @@ class MenuComponent extends React.Component{
                     }
                 }
             },
-            {title:'操作', key:'action', width:150,
-                render: (row)=>{
-                    return(
-                        <span>
-                            <Button type="primary" size="small" onClick={this.edit.bind(this,row.id)} ghost>编辑</Button>
-                            <Divider type="vertical" />
-                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.name)} ghost>删除</Button>
-                        </span>
-                    )
-                }
-            },
+
         ];
         this.state = {
             columns: columns,
