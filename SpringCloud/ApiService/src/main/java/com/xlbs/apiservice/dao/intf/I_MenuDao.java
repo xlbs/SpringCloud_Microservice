@@ -29,6 +29,12 @@ public interface I_MenuDao {
     public void save(Menu obj);
 
     /**
+     * 更新对象
+     * @param obj 对象
+     */
+    public void update(Menu obj);
+
+    /**
      * 删除对象
      * @param id 标识
      */

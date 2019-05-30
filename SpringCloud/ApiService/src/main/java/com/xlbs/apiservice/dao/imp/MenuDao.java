@@ -44,13 +44,25 @@ public class MenuDao implements I_MenuDao {
     }
 
     @Override
+    public void update(Menu obj) {
+        obj.setLastModifyBy(RequestContextUtils.getUserId());
+        obj.setLastModifyDate(new Date());
+        sqlSession.update(NameSpace.MENU_NAMESPACE+".update", obj);
+    }
+
+    @Override
     public void delete(Long id) {
         sqlSession.delete(NameSpace.MENU_NAMESPACE+".delete",ImmutableMap.of("id",id));
     }
 
     @Override
     public List<Menu> findMenuByRank(String rank) {
-        return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select", ImmutableMap.of("rank",rank));
+        if(!RequestContextUtils.getUserType().equals(SysConstant.SUPER_USER)){
+            return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select", ImmutableMap.of("rank",rank,"createdBy",RequestContextUtils.getUserId()));
+        }else{
+            return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select", ImmutableMap.of("rank",rank));
+        }
+
     }
 
     @Override

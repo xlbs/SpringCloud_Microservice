@@ -52,7 +52,7 @@
         on t1.`id`=t4.userid
         <where>
             <if test="createdBy != null">
-                t1.created_by = #{createdBy}
+                and t1.created_by = #{createdBy}
             </if>
         </where>
     </select>
@@ -65,7 +65,7 @@
           t_user
         <where>
             <if test="id != null">
-                id = #{id}
+                and id = #{id}
             </if>
         </where>
     </select>

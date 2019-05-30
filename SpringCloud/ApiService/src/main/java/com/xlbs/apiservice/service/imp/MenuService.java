@@ -47,7 +47,7 @@ public class MenuService implements I_MenuService {
     @Transactional
     public void save(Menu menu, Boolean isEdit) {
         if(!Objects.isNull(isEdit) && isEdit){
-
+            menuDao.update(menu);
         }else{
             menuDao.save(menu);
         }

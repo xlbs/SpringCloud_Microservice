@@ -49,7 +49,7 @@
         left join t_user t3 on t1.last_modify_by = t3.id
         <where>
             <if test="createdBy != null">
-                t1.created_by = #{createdBy}
+                and t1.created_by = #{createdBy}
             </if>
         </where>
     </select>
@@ -63,19 +63,19 @@
           t_menu
         <where>
             <if test="id != null">
-                `id` = #{id}
+                and `id` = #{id}
             </if>
             <if test="rank != null">
-                `rank` = #{rank}
+                and `rank` = #{rank}
             </if>
             <if test="ids != null">
-                id in
+                and id in
                 <foreach collection ="ids" item="id" open="(" separator="," close=")">
                     #{id}
                 </foreach >
             </if>
             <if test="createdBy != null">
-                created_by = #{createdBy}
+                and created_by = #{createdBy}
             </if>
         </where>
         order by id
@@ -88,6 +88,35 @@
         values
           (#{name},#{parentId},#{rank},#{url},#{isEnable},#{createdBy},#{createdDate},#{lastModifyBy},#{lastModifyDate})
     </insert>
+
+    <!--更新-->
+    <update id="update" parameterType="com.xlbs.apiservice.entity.Menu">
+        update t_menu
+        <set>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="parentId != null">
+                `parent_id` = #{parentId},
+            </if>
+            <if test="rank != null">
+                `rank` = #{rank},
+            </if>
+            <if test="url != null">
+                `url` = #{url},
+            </if>
+            <if test="isEnable != null">
+                `is_enable` = #{isEnable},
+            </if>
+            <if test="lastModifyBy != null">
+                last_modify_by = #{lastModifyBy},
+            </if>
+            <if test="lastModifyDate != null">
+                last_modify_date = #{lastModifyDate}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
 
     <!--删除-->
     <delete id="delete" >
