@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Table, Divider, Button, Pagination } from 'antd';
-import {DataDict, formatDate} from "../../../../commutils/utils/CommUtils";
+import {DataDictPromise, formatDate} from "../../../../commutils/utils/CommUtils";
 import MenuModalDialog from "./MenuModalDialog";
 
 class MenuComponent extends React.Component{
@@ -8,20 +8,9 @@ class MenuComponent extends React.Component{
     constructor(props){
         super(props);
         const columns = [
-            {title:'', key:'number', width:80},
-            {title:'操作', key:'action', width:150,
-                render: (row)=>{
-                    return(
-                        <span>
-                            <Button type="primary" size="small" onClick={this.edit.bind(this,row.id)} ghost>编辑</Button>
-                            <Divider type="vertical" />
-                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.name)} ghost>删除</Button>
-                        </span>
-                    )
-                }
-            },
             {title:'菜单标识', dataIndex:'id', key:'id', width:100},
             {title:'菜单名称', dataIndex:'name', key:'name', width:150},
+            // {title:'', key:'number', width:80},
             {title:'菜单等级', dataIndex:'rank', key:'rank', width:100,
                 render: (row)=>{
                     if(this.state.menuRank){
@@ -59,7 +48,17 @@ class MenuComponent extends React.Component{
                     }
                 }
             },
-
+            {title:'操作', key:'action', width:150,
+                render: (row)=>{
+                    return(
+                        <span>
+                            <Button type="primary" size="small" onClick={this.edit.bind(this,row.id)} ghost>编辑</Button>
+                            <Divider type="vertical" />
+                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.name)} ghost>删除</Button>
+                        </span>
+                    )
+                }
+            },
         ];
         this.state = {
             columns: columns,
@@ -70,13 +69,12 @@ class MenuComponent extends React.Component{
 
     componentWillMount() {
         const category = ["ACTION","MENU_RANK"];
-        const dataDict = DataDict(category,this.props.content.dispatch);
-        if(dataDict){
+        DataDictPromise(category,this.props.content.dispatch).then(json => {
             this.setState({
-                action: dataDict["ACTION"],
-                menuRank: dataDict["MENU_RANK"],
+                action: json["ACTION"],
+                menuRank: json["MENU_RANK"],
             });
-        }
+        });
         this.props.content.find();
     }
 
