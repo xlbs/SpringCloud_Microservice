@@ -169,7 +169,8 @@ class MenuModalDialog extends React.Component {
             <div>
                 <Modal
                     title={title}
-                    centered
+                    centered={true}
+                    maskClosable={false}
                     visible={true}
                     okText="保存"
                     cancelText="取消"
