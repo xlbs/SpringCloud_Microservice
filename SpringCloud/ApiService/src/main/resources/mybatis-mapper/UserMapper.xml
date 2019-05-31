@@ -55,6 +55,7 @@
                 and t1.created_by = #{createdBy}
             </if>
         </where>
+        order by t1.`type` asc
     </select>
 
     <!--查询-->
