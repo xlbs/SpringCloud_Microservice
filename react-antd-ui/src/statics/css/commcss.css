@@ -88,3 +88,20 @@
     font-size: 16px;
 }
 
+.div-404{
+    background: #ececec;
+    height: 100%;
+    display: flex;           /*设置为flex布局*/
+    justify-content: center; /*水平居中*/
+    align-items: center;     /*垂直居中*/
+}
+.div-img{
+    display: flex;           /*设置为flex布局*/
+    justify-content: center; /*水平居中*/
+    align-items: center;     /*垂直居中*/
+}
+.div-text{
+    display: flex;           /*设置为flex布局*/
+    justify-content: center; /*水平居中*/
+    align-items: center;     /*垂直居中*/
+}
