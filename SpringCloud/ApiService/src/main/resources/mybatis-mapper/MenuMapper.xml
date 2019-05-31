@@ -52,6 +52,7 @@
                 and t1.created_by = #{createdBy}
             </if>
         </where>
+        order by t1.is_home desc, t1.`rank` asc
     </select>
 
     <!--查询-->
@@ -78,7 +79,7 @@
                 and created_by = #{createdBy}
             </if>
         </where>
-        order by id
+        order by is_home desc, `rank` asc
     </select>
 
     <!--保存-->
