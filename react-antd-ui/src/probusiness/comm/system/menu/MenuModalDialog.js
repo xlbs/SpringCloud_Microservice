@@ -1,6 +1,5 @@
 import React from 'react';
-import {Modal, Form, Input, Button, Tree} from 'antd';
-import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
+import {Modal, Form, Input, Button} from 'antd';
 import {DictSelect,CommSelect} from '../../../../commutils/components/utils/Select';
 
 class MenuModalDialog extends React.Component {
@@ -62,8 +61,6 @@ class MenuModalDialog extends React.Component {
                 },
             });
             this.props.modalDialog.findById(id);
-
-
         }
     }
 
@@ -81,7 +78,7 @@ class MenuModalDialog extends React.Component {
             if(info.isEnable){
                 isEnable = "1";
             }else{
-                isEnable = "1";
+                isEnable = "0";
             }
             this.setState({
                 id: info.id,
@@ -165,7 +162,6 @@ class MenuModalDialog extends React.Component {
     }
 
     render() {
-        debugger;
         const { getFieldDecorator } = this.props.form;
         const title = this.props.modalDialog.dialog.title + '菜单';
         const parentMenus = this.props.modalDialog.parentMenus;
@@ -173,7 +169,8 @@ class MenuModalDialog extends React.Component {
             <div>
                 <Modal
                     title={title}
-                    centered
+                    centered={true}
+                    maskClosable={false}
                     visible={true}
                     okText="保存"
                     cancelText="取消"

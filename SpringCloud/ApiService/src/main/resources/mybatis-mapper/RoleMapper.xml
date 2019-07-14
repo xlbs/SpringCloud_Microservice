@@ -26,10 +26,10 @@
           t1.`name` as `name`,
           t4.menuIds,
           t4.menuName,
-          t2.name AS createdByName,
-          t1.created_date AS createdDate,
-          t3.name AS lastModifyByName,
-          t1.last_modify_date AS lastModifyDate
+          t2.name as createdByName,
+          t1.created_date as createdDate,
+          t3.name as lastModifyByName,
+          t1.last_modify_date as lastModifyDate
         from
           t_role t1
         left join t_user t2 on t1.created_by = t2.id
@@ -48,7 +48,7 @@
         on t1.`id`=t4.roleId
         <where>
             <if test="createdBy != null">
-                t1.created_by = #{createdBy}
+                and t1.created_by = #{createdBy}
             </if>
         </where>
     </select>
@@ -61,12 +61,10 @@
           t_role
         <where>
             <if test="id != null">
-                id = #{id}
+                and id = #{id}
             </if>
-        </where>
-        <where>
             <if test="createdBy != null">
-                created_by = #{createdBy}
+                and created_by = #{createdBy}
             </if>
         </where>
     </select>

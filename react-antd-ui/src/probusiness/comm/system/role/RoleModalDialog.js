@@ -140,18 +140,25 @@ class RoleModalDialog extends React.Component {
         }
         return(
             <div id="menu">
-                <Tree
-                    checkable={true}
+                <div style={{lineHeight:'39px'}}>
+                    <label><span style={{color:'red',marginRight:'4px',fontSize:'14px',fontFamily:'SimSun'}}>*</span>菜单:</label>
+                </div>
+                {menus.length!=0?
+                    <Tree
+                        checkable={true}
 
-                    autoExpandParent={this.state.autoExpandParent}
-                    expandedKeys={this.state.expandedKeys}
-                    onExpand={this.onExpand.bind(this)}
+                        autoExpandParent={this.state.autoExpandParent}
+                        expandedKeys={this.state.expandedKeys}
+                        onExpand={this.onExpand.bind(this)}
 
-                    checkedKeys={this.state.checkedKeys}
-                    onCheck={this.onCheck.bind(this)}
+                        checkedKeys={this.state.checkedKeys}
+                        onCheck={this.onCheck.bind(this)}
 
-                    treeData={menus}
-                />
+                        treeData={menus}
+                    />
+                    :
+                    <div className="menu-div-text">您还未创建菜单，请先在菜单管理中创建菜单</div>
+                }
             </div>
 
         )
@@ -223,7 +230,8 @@ class RoleModalDialog extends React.Component {
             <div>
                 <Modal
                     title={title}
-                    centered
+                    centered={true}
+                    maskClosable={false}
                     visible={true}
                     okText="保存"
                     cancelText="取消"

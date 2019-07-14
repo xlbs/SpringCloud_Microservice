@@ -1,3 +1,4 @@
+import React from 'react';
 import {Ajax} from "../../../../commutils/utils/Ajax";
 import {showConfirm, showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 import {currentPage, pageSize, setCurrentPage, setPageSize} from "../../../../commutils/actions/Pagination";
@@ -66,13 +67,9 @@ function edit(id) {
  */
 function remove(id,name) {
     return (dispatch) => {
-        showConfirm("确定删除角色: "+name,
+        showConfirm(<span>该操作将删除该菜单下的所有子菜单，确定删除<span style={{color:"red"}}>{name}</span>菜单？</span>,
             ()=>{
-                if(id === 1){
-                    showInfo("超级管理员无法删除");
-                    return;
-                }
-                const url = API_SERVICE+"/role/delete/"+id;
+                const url = API_SERVICE+"/menu/delete/"+id;
                 Ajax.get(
                     url,
                     (res) => {

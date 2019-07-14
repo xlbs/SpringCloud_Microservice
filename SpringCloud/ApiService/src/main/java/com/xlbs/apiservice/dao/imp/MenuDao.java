@@ -8,6 +8,7 @@ import com.xlbs.apiservice.dao.intf.I_MenuDao;
 import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.entity.query.MenuQuery;
 import com.xlbs.constantjar.RequestContextUtils;
+import com.xlbs.constantjar.SysConstant;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,9 @@ public class MenuDao implements I_MenuDao {
 
     @Override
     public PageInfo<Menu> find(MenuQuery query) {
+        if(!RequestContextUtils.getUserType().equals(SysConstant.SUPER_USER)){
+            query.setCreatedBy(RequestContextUtils.getUserId());
+        }
         return PageHelper.startPage(query.getCurrentPage(),query.getPageSize())
                 .doSelectPageInfo(()->sqlSession.selectList(NameSpace.MENU_NAMESPACE+".find", query));
     }
@@ -40,8 +44,25 @@ public class MenuDao implements I_MenuDao {
     }
 
     @Override
+    public void update(Menu obj) {
+        obj.setLastModifyBy(RequestContextUtils.getUserId());
+        obj.setLastModifyDate(new Date());
+        sqlSession.update(NameSpace.MENU_NAMESPACE+".update", obj);
+    }
+
+    @Override
+    public void delete(Long id) {
+        sqlSession.delete(NameSpace.MENU_NAMESPACE+".delete",ImmutableMap.of("id",id));
+    }
+
+    @Override
     public List<Menu> findMenuByRank(String rank) {
-        return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select", ImmutableMap.of("rank",rank));
+        if(!RequestContextUtils.getUserType().equals(SysConstant.SUPER_USER)){
+            return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select", ImmutableMap.of("rank",rank,"createdBy",RequestContextUtils.getUserId()));
+        }else{
+            return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select", ImmutableMap.of("rank",rank));
+        }
+
     }
 
     @Override
@@ -51,7 +72,11 @@ public class MenuDao implements I_MenuDao {
 
     @Override
     public List<Menu> findAll() {
-        return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select");
+        if(!RequestContextUtils.getUserType().equals(SysConstant.SUPER_USER)){
+            return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select", ImmutableMap.of("createdBy",RequestContextUtils.getUserId()));
+        }else{
+            return sqlSession.selectList(NameSpace.MENU_NAMESPACE+".select");
+        }
     }
 
     @Override

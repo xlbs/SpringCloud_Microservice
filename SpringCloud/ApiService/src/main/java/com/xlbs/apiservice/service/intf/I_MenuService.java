@@ -30,6 +30,12 @@ public interface I_MenuService {
     public void save(Menu obj, Boolean isEdit);
 
     /**
+     * 删除对象
+     * @param id 标识
+     */
+    public Boolean delete(Long id);
+
+    /**
      * 根据等级查找菜单
      * @param rank 等级
      * @return 菜单列表

@@ -1,4 +1,5 @@
-import {Ajax} from "../../../../commutils/utils/Ajax";
+import React from 'react';
+import {Ajax, AjaxPromise} from "../../../../commutils/utils/Ajax";
 import {showConfirm, showInfo} from "../../../../commutils/components/dialog/MessageDialog";
 import {currentPage, pageSize, setCurrentPage, setPageSize} from "../../../../commutils/actions/Pagination";
 import {openDialog, closeDialog} from "../../../../commutils/actions/Dialog";
@@ -22,18 +23,15 @@ function find() {
         currentPage: currentPage,
         pageSize: pageSize
     };
-    return (dispatch) => {
-        Ajax.post(
-            {url,params},
-            (res)=>{
-                dispatch({
-                    type: LIST,
-                    list: res.data
-                })
-            },
-            dispatch
-        )
-    }
+    const config = {};
+    config.method = "GET";
+    config.params = params;
+    return (dispatch) => AjaxPromise(url,config,dispatch).then(res => {
+        dispatch({
+            type: LIST,
+            list: res.data
+        })
+    })
 }
 
 /**
@@ -66,12 +64,12 @@ function edit(id) {
  * @param name 名称
  * @returns {Function}
  */
-function remove(id,name) {
+function remove(id,username,name) {
     return (dispatch) => {
-        showConfirm("确定删除账号为: "+name+" 的用户？",
+        showConfirm(<span>确定删除账号：<span style={{color:"red"}}>{username}({name})</span> 的用户？</span>,
             ()=>{
                 if(id===1){
-                    showInfo("超级用户无法删除");
+                    showInfo(<span> <span style={{color:"red"}}>{name}</span> 无法删除！</span>);
                     return;
                 }
                 const url = API_SERVICE+"/user/delete/"+id;

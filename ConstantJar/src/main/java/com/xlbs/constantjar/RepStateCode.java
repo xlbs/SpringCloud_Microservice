@@ -21,7 +21,8 @@ public enum RepStateCode {
     USER_NOT_EXISTED(20005, false, "用户未登录"),
 
     /* 业务错误：30001-39999 */
-    SPECIFIED_QUESTIONED_USER_NOT_EXIST(30001, false, "某业务出现问题"),
+    ROLE_DELETE(30001, false, "此角色已关联用户，不能删除"),
+    MENU_DELETE(30002, false, "此菜单已关联角色，不能删除"),
 
     /* 数据错误：50001-599999 */
     RESULE_DATA_NONE(50001, false, "数据未找到"),

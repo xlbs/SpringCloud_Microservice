@@ -1,8 +1,7 @@
 import React from 'react';
-import { Form, Button, Table, Divider, Pagination } from 'antd';
-import CreateTable from '../../../../commutils/components/utils/CreateTable';
 import '../../../../statics/css/system/user/user.css';
-import {DataDict, formatDate} from "../../../../commutils/utils/CommUtils"
+import { Form, Button, Table, Divider, Pagination } from 'antd';
+import {DataDictPromise,formatDate} from "../../../../commutils/utils/CommUtils"
 import UserModalDialog from "./UserModalDialog";
 
 class UserComponent extends React.Component{
@@ -16,7 +15,7 @@ class UserComponent extends React.Component{
                         <span>
                             <Button type="primary" size="small" onClick={this.edit.bind(this,row.id)} ghost>编辑</Button>
                             <Divider type="vertical" />
-                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.username)} ghost>删除</Button>
+                            <Button type="primary" size="small" onClick={this.remove.bind(this,row.id,row.username,row.name)} ghost>删除</Button>
                         </span>
                     )
                 }
@@ -60,12 +59,11 @@ class UserComponent extends React.Component{
     }
 
     componentWillMount() {
-        const dataDict = DataDict("USER_TYPE",this.props.content.dispatch);
-        if(dataDict){
+        DataDictPromise("USER_TYPE",this.props.content.dispatch).then((json)=>{
             this.setState({
-                userType: dataDict["USER_TYPE"],
+                userType: json["USER_TYPE"],
             });
-        }
+        });
         this.props.content.find();
     }
 
@@ -92,8 +90,8 @@ class UserComponent extends React.Component{
         this.props.content.edit(id);
     }
     //删除
-    remove(id,name){
-        this.props.content.remove(id,name);
+    remove(id,username,name){
+        this.props.content.remove(id,username,name);
     }
     //导出
     outPut(){

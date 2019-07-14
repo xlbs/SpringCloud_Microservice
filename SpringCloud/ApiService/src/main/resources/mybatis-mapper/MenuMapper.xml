@@ -27,11 +27,32 @@
     <!--分页查询-->
     <select id="find" resultType="com.xlbs.apiservice.entity.Menu">
         select
-          `name` as `title`,
-          <include refid="menuField"/>
+          t1.id as id,
+          t1.id as `key`,
+          t1.`name` as `name`,
+          t1.`name` as `title`,
+          t1.parent_id as parentId,
+          t1.`rank` as `rank`,
+          t1.url as url,
+          t1.is_enable as isEnable,
+          t1.icon as icon,
+          t1.`index` as `index`,
+          t1.created_by as createdBy,
+          t1.created_date as createdDate,
+          t1.last_modify_by as lastModifyBy,
+          t1.last_modify_date as lastModifyDate,
+          t2.`name` as createdByName,
+          t3.`name` as lastModifyByName
         from
-          t_menu
-        order by id
+          t_menu t1
+        left join t_user t2 on t1.created_by = t2.id
+        left join t_user t3 on t1.last_modify_by = t3.id
+        <where>
+            <if test="createdBy != null">
+                and t1.created_by = #{createdBy}
+            </if>
+        </where>
+        order by t1.is_home desc, t1.`rank` asc
     </select>
 
     <!--查询-->
@@ -43,19 +64,22 @@
           t_menu
         <where>
             <if test="id != null">
-                `id` = #{id}
+                and `id` = #{id}
             </if>
             <if test="rank != null">
-                `rank` = #{rank}
+                and `rank` = #{rank}
             </if>
             <if test="ids != null">
-                id in
+                and id in
                 <foreach collection ="ids" item="id" open="(" separator="," close=")">
                     #{id}
                 </foreach >
             </if>
+            <if test="createdBy != null">
+                and created_by = #{createdBy}
+            </if>
         </where>
-        order by id
+        order by is_home desc, `rank` asc
     </select>
 
     <!--保存-->
@@ -65,6 +89,40 @@
         values
           (#{name},#{parentId},#{rank},#{url},#{isEnable},#{createdBy},#{createdDate},#{lastModifyBy},#{lastModifyDate})
     </insert>
+
+    <!--更新-->
+    <update id="update" parameterType="com.xlbs.apiservice.entity.Menu">
+        update t_menu
+        <set>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="parentId != null">
+                `parent_id` = #{parentId},
+            </if>
+            <if test="rank != null">
+                `rank` = #{rank},
+            </if>
+            <if test="url != null">
+                `url` = #{url},
+            </if>
+            <if test="isEnable != null">
+                `is_enable` = #{isEnable},
+            </if>
+            <if test="lastModifyBy != null">
+                last_modify_by = #{lastModifyBy},
+            </if>
+            <if test="lastModifyDate != null">
+                last_modify_date = #{lastModifyDate}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--删除-->
+    <delete id="delete" >
+        delete from t_menu where id=#{id} or parent_id=#{id}
+    </delete>
 
     <!--通过用户ID查询该用户拥有的菜单-->
     <select id="findMenuByUserId" resultType="com.xlbs.apiservice.entity.Menu">

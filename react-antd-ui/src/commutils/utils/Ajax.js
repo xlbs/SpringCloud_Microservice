@@ -170,20 +170,23 @@ export function AjaxPromise(url, config, dispatch) {
         if(config.data){
             request.data = config.data;
         }
-
         return new Promise((resolve, reject) => {
             axios(request).then(
                 function (response) {
-                    resolve(response.data);
+                    if(response && response.data && response.data.code===1){
+                        resolve && resolve(response.data);
+                    }else if(response.data.code===20001 || response.data.code===20002){
+                        dispatch(setErrorMsg(response.data.msg));
+                    }else{
+                        showInfo(response.data.msg);
+                    }
                 }
             ).catch(
                 function (error) {
-                    if(error.response && error.response.status==403 && error.response.data.message=='session_timeout'){//会话超时，请重新登入
+                    if(error.response.data.status===10000){
                         dispatch(showLoginBox());
-                    }else if(error.response.status == 500){
-                        showInfo("服务器异常,请稍后重试");
                     }else{
-                        reject(error)
+                        showInfo("未知错误,请求支援");
                     }
                 }
             )

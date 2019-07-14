@@ -3,6 +3,7 @@ package com.xlbs.apiservice.service.imp;
 import com.github.pagehelper.PageInfo;
 import com.xlbs.apiservice.dao.intf.I_RoleDao;
 import com.xlbs.apiservice.dao.intf.I_RoleMenuDao;
+import com.xlbs.apiservice.dao.intf.I_UserRoleDao;
 import com.xlbs.apiservice.entity.Menu;
 import com.xlbs.apiservice.entity.Role;
 import com.xlbs.apiservice.entity.RoleMenu;
@@ -24,6 +25,9 @@ public class RoleService implements I_RoleService {
 
     @Autowired
     private I_RoleDao roleDao;
+
+    @Autowired
+    private I_UserRoleDao userRoleDao;
 
     @Autowired
     private I_RoleMenuDao roleMenuDao;
@@ -90,9 +94,14 @@ public class RoleService implements I_RoleService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public Boolean delete(Long id) {
+        List<Role> list = userRoleDao.findRolesByRoleId(id);
+        if(!list.isEmpty()){
+            return false;
+        }
         roleMenuDao.deleteRoleMenuByRoleId(id);
         roleDao.delete(id);
+        return true;
     }
 
     @Override

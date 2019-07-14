@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import {CurrentSessionCache} from "../commutils/utils/CurrentCache";
 
+import NotFound from "../commutils/components/NotFound"
 import handleHome from "../probusiness/comm/home/index";
 import handleUserManagement from "../probusiness/comm/system/user/index";
 import handleRoleManagement from "../probusiness/comm/system/role/index";
@@ -26,7 +27,7 @@ class MenuRoute extends React.Component{
                 {
                    menu.map(item => {
                        const route = r => {
-                           const Component = menuComponent[r.id];
+                           const Component = menuComponent[r.id] ? menuComponent[r.id] : NotFound;
                            const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
                            return (
                                <Route
@@ -40,7 +41,7 @@ class MenuRoute extends React.Component{
                        const routeSub = rSub => {
                            return(
                                rSub.children.map( r => {
-                                   const Component = menuComponent[r.id];
+                                   const Component = menuComponent[r.id] ? menuComponent[r.id] : NotFound;
                                    const LOGIN_STATUS = CurrentSessionCache.get("LOGIN_STATUS");
                                    return (
                                        <Route

@@ -2,7 +2,6 @@ import React from 'react';
 import {Modal, Form, Input, Checkbox, Row, Col, Button,} from 'antd';
 import {DictSelect} from '../../../../commutils/components/utils/Select';
 import {showInfo} from "../../../../commutils/components/dialog/MessageDialog";
-import {DataDict} from "../../../../commutils/utils/CommUtils";
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -10,7 +9,6 @@ class UserModalDialog extends React.Component {
 
     constructor(props){
         super(props);
-        DataDict("USER_TYPE",props.modalDialog.dispatch);
         this.state = {
             hasFeedback: {
                 name: false,
@@ -138,28 +136,34 @@ class UserModalDialog extends React.Component {
                 <div style={{lineHeight:'39px'}}>
                     <label><span style={{color:'red',marginRight:'4px',fontSize:'14px',fontFamily:'SimSun'}}>*</span>角色:</label>
                 </div>
-                <Checkbox
-                    indeterminate={this.state.indeterminate}
-                    onChange={this.onCheckAllChange.bind(this,options)}
-                    checked={this.state.checkAll}
-                >
-                    全选
-                </Checkbox>
-                <CheckboxGroup
-                    // options={options}
-                    value={this.state.checkedList}
-                    onChange={this.onChange.bind(this,options)}
-                >
-                    <Row>
-                        {roles.map(role =>{
-                            return(
-                                <Col span={8}>
-                                    <Checkbox value={role.id}>{role.name}</Checkbox>
-                                </Col>
-                            )
-                        })}
-                    </Row>
-                </CheckboxGroup>
+                {roles.length!=0?
+                    <div id="checkbox">
+                        <Checkbox
+                            indeterminate={this.state.indeterminate}
+                            onChange={this.onCheckAllChange.bind(this,options)}
+                            checked={this.state.checkAll}
+                        >
+                            全选
+                        </Checkbox>
+                        <CheckboxGroup
+                            // options={options}
+                            value={this.state.checkedList}
+                            onChange={this.onChange.bind(this,options)}
+                        >
+                            <Row>
+                                {roles.map(role =>{
+                                    return(
+                                        <Col span={8}>
+                                            <Checkbox value={role.id}>{role.name}</Checkbox>
+                                        </Col>
+                                    )
+                                })}
+                            </Row>
+                        </CheckboxGroup>
+                    </div>
+                    :
+                    <div className="role-div-text">您还未创建角色，请先在角色管理中创建角色</div>
+                }
             </div>
 
         )
@@ -230,7 +234,8 @@ class UserModalDialog extends React.Component {
             <div>
                 <Modal
                     title={title}
-                    centered
+                    centered={true}
+                    maskClosable={false}
                     visible={true}
                     okText="保存"
                     cancelText="取消"

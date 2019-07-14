@@ -1,8 +1,12 @@
 import React from 'react';
+import axios from 'axios';
 import { Select } from 'antd';
 import {CurrentSessionCache} from "../../utils/CurrentCache";
 
 const Option = Select.Option;
+
+const BASE_URL = $requestContext.path;
+const API_SERVICE = BASE_URL + "/api_service";
 
 /**
  * 普通下拉框
@@ -48,10 +52,21 @@ export const DictSelect = ({ category, ...props }) => {
     const dataDict = CurrentSessionCache.get("D_"+category);
     if(dataDict){
         items = dataDict;
+    }else{
+        let url = API_SERVICE + "/dataDict/"+category;
+        axios({url: url}).then(function(response){
+            if(response && response.data && response.data.code===1){
+                if(response.data.data){
+                    CurrentSessionCache.set("D_"+response.data.data.category, response.data.data.list);
+                    items = response.data.data.list;
+                }
+            }
+        })
     }
     return(
         select({ items, ...props })
     )
+
 }
 
 const select = ({ items, ...props }) => {
