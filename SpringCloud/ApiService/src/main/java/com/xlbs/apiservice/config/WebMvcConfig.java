@@ -1,4 +1,4 @@
-package com.xlbs.apiservice.interceptor;
+package com.xlbs.apiservice.config;
 
 import com.xlbs.constantjar.RequestContextUtils;
 import com.xlbs.constantjar.SessionConstant;
