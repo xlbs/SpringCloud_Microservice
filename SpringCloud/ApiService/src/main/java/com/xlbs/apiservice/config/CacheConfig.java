@@ -3,6 +3,7 @@ package com.xlbs.apiservice.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xlbs.constantjar.CacheConstant;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class CacheConfig extends CachingConfigurerSupport {
@@ -45,12 +49,12 @@ public class CacheConfig extends CachingConfigurerSupport {
     @Bean
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager rcm = new RedisCacheManager(redisTemplate);
-       /* //设置缓存过期时间
-        // rcm.setDefaultExpiration(60);//秒
-        //设置value的过期时间
+        //设置缓存过期时间
+         rcm.setDefaultExpiration(60*60*24); //1天
+        //设置缓存容器的过期时间
         Map<String,Long> map=new HashMap();
-        map.put("test",60L);
-        rcm.setExpires(map);*/
+        map.put(CacheConstant.DATA_DICT,60L);
+        rcm.setExpires(map);
         return rcm;
     }
     /**
@@ -73,6 +77,7 @@ public class CacheConfig extends CachingConfigurerSupport {
         jackson2JsonRedisSerializer.setObjectMapper(om);
 
         template.setKeySerializer(redisSerializer);
+        template.setHashKeySerializer(redisSerializer);
         template.setValueSerializer(jackson2JsonRedisSerializer);
         template.setHashValueSerializer(jackson2JsonRedisSerializer);
         template.afterPropertiesSet();
